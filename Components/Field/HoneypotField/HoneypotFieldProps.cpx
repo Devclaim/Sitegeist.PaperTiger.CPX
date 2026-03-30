@@ -1,0 +1,9 @@
+export struct HoneypotFieldProps {
+  name: string
+  firstInputName: string
+  secondInputName: string
+  thirdInputName: string
+  scriptTargetId: string
+  timestampWithHmac: string
+  style: ?string
+}

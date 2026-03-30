@@ -1,0 +1,16 @@
+from "./SelectFieldProps.cpx" import { SelectFieldProps }
+
+export component SelectField {
+  field: SelectFieldProps
+  content: slot
+
+  render <select
+    id={field.fieldContainer.inputId}
+    name={field.name}
+    class="papertiger-field__control papertiger-field__control--select"
+    multiple={field.isMultiple}
+    required={field.isRequired}
+  >
+    {content}
+  </select>
+}

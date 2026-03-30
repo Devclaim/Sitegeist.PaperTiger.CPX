@@ -1,0 +1,12 @@
+from "../../FieldContainer/FieldContainerProps.cpx" import { FieldContainerProps }
+
+export struct SelectFieldProps {
+  fieldContainer: FieldContainerProps
+  name: string
+  isMultiple: ?boolean
+  isRequired: ?boolean
+  emptyOptionEnabled: ?boolean
+  emptyLabel: ?string
+  customErrorMessageEnabled: ?boolean
+  customErrorMessage: ?string
+}

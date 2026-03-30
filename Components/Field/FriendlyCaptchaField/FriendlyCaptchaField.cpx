@@ -1,0 +1,10 @@
+from "./FriendlyCaptchaFieldProps.cpx" import { FriendlyCaptchaFieldProps }
+
+export component FriendlyCaptchaField {
+  field: FriendlyCaptchaFieldProps
+
+  render <div
+    class="papertiger-field__control papertiger-field__control--friendly-captcha friendly-captcha"
+    data-friendly-captcha-field={field.name}
+  />
+}

@@ -1,0 +1,9 @@
+export component FieldNameToken {
+  token: string
+  buttonTitle: string
+
+  render <span class="papertiger-fieldnames__item">
+    <span class="papertiger-fieldnames__text">{token}</span>
+    <button type="button" class="papertiger-fieldnames__button" title={buttonTitle}>{token}</button>
+  </span>
+}

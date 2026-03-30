@@ -1,0 +1,10 @@
+from "./RadioGroupFieldProps.cpx" import { RadioGroupFieldProps }
+
+export component RadioGroupField {
+  field: RadioGroupFieldProps
+  content: slot
+
+  render <div class="papertiger-field__options papertiger-field__options--radios">
+    {content}
+  </div>
+}

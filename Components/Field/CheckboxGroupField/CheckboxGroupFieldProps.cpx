@@ -1,0 +1,9 @@
+from "../../FieldContainer/FieldContainerProps.cpx" import { FieldContainerProps }
+
+export struct CheckboxGroupFieldProps {
+  fieldContainer: FieldContainerProps
+  name: string
+  isRequired: ?boolean
+  customErrorMessageEnabled: ?boolean
+  customErrorMessage: ?string
+}

@@ -1,0 +1,4 @@
+export struct FieldsetProps {
+  id: ?string
+  label: ?string
+}

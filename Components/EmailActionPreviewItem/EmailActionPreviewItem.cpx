@@ -1,0 +1,9 @@
+export component EmailActionPreviewItem {
+  label: string
+  value: string
+
+  render <>
+    <dt class="papertiger-action-email__term">{label}</dt>
+    <dd class="papertiger-action-email__description">{value}</dd>
+  </>
+}

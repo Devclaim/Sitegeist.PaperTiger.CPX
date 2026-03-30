@@ -1,0 +1,7 @@
+export component EmailActionPreviewError {
+  message: string
+
+  render <p class="papertiger-action-email__error">
+    <strong class="papertiger-action-email__error-text">{message}</strong>
+  </p>
+}

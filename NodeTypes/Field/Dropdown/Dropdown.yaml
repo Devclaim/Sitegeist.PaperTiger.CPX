@@ -1,0 +1,35 @@
+Sitegeist.PaperTiger.CPX:Field.Dropdown:
+  ui:
+    label: i18n
+    icon: icon-list-ol
+    group: form.elements
+    position: 600
+  superTypes:
+    'Sitegeist.PaperTiger.CPX:Field': true
+    'Sitegeist.PaperTiger.CPX:Mixin.Label': true
+    'Sitegeist.PaperTiger.CPX:Mixin.IsMultiple': true
+    'Sitegeist.PaperTiger.CPX:Mixin.IsRequired': true
+    'Sitegeist.PaperTiger.CPX:Mixin.Options': true
+    'Sitegeist.PaperTiger.CPX:Mixin.CustomErrorMessage': true
+  properties:
+    emptyOptionEnabled:
+      type: boolean
+      defaultValue: true
+      ui:
+        label: i18n
+        reloadIfChanged: true
+        inspector:
+          position: 'before options'
+          group: form
+    emptyLabel:
+      type: string
+      defaultValue: ""
+      ui:
+        label: i18n
+        reloadIfChanged: true
+        inspector:
+          position: 'after emptyOptionEnabled'
+          group: form
+          hidden: 'ClientEval:node.properties.emptyOptionEnabled ? false : true'
+
+

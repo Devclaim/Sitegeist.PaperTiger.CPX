@@ -1,0 +1,11 @@
+Sitegeist.PaperTiger.CPX:Fieldset:
+  ui:
+    label: i18n
+    icon: window-maximize
+    group: form.elements
+    position: 1200
+  superTypes:
+    'Neos.Neos:Content': true
+    'Sitegeist.PaperTiger.CPX:Mixin.Label': true
+    'Sitegeist.PaperTiger.CPX:Field.Collection': true
+    'Sitegeist.PaperTiger.CPX:Field.Constraint': true

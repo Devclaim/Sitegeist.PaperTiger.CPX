@@ -1,0 +1,14 @@
+from "./FieldsetProps.cpx" import { FieldsetProps }
+
+export component Fieldset {
+  fieldset: FieldsetProps
+  content: slot
+
+  render <fieldset
+    id={fieldset.id}
+    class="papertiger-fieldset"
+  >
+    <legend class="papertiger-fieldset__legend">{fieldset.label}</legend>
+    {content}
+  </fieldset>
+}

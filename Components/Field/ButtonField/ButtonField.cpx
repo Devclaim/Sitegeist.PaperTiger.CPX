@@ -1,0 +1,12 @@
+from "./ButtonFieldProps.cpx" import { ButtonFieldProps }
+
+export component ButtonField {
+  field: ButtonFieldProps
+
+  render <button
+    type="submit"
+    class="papertiger-field__button papertiger-field__button--submit"
+  >
+    {field.label}
+  </button>
+}

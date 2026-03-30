@@ -1,0 +1,22 @@
+Sitegeist.PaperTiger.CPX:Field:
+  abstract: true
+  label: "${(q(node).property('isRequired') ? '*' : '') + Neos.Node.labelForNode(node).properties('label', 'name')}"
+  superTypes:
+    'Neos.Neos:Content': true
+    'Sitegeist.PaperTiger.CPX:Field.Constraint': true
+    'Sitegeist.PaperTiger.CPX:Mixin.Name': true
+  ui:
+    inspector:
+      groups:
+        'form':
+          label: i18n
+          position: 30
+          icon: 'icon-list-alt'
+        'form-validation':
+          label: i18n
+          position: 30
+          icon: 'check-double'
+        'form-error':
+          label: i18n
+          position: 30
+          icon: 'icon-exclamation-triangle'

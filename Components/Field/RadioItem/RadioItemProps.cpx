@@ -1,0 +1,6 @@
+export struct RadioItemProps {
+  name: string
+  value: string
+  label: string
+  isRequired: ?boolean
+}

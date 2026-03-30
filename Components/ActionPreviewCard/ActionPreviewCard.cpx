@@ -1,0 +1,9 @@
+export component ActionPreviewCard {
+  label: string
+  content: slot
+
+  render <div class="papertiger-actioncollection">
+    <h2 class="papertiger-actioncollection__label">{label}</h2>
+    <div class="papertiger-actioncollection__preview">{content}</div>
+  </div>
+}

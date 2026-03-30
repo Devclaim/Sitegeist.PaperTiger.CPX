@@ -1,0 +1,20 @@
+Sitegeist.PaperTiger.CPX:Mixin.CustomErrorMessage:
+  abstract: true
+  properties:
+    customErrorMessageEnabled:
+      type: boolean
+      defaultValue: false
+      ui:
+        label: i18n
+        inspector:
+          group: form-error
+    customErrorMessage:
+      type: string
+      ui:
+        label: i18n
+        inspector:
+          group: form-error
+          editor: 'Neos.Neos/Inspector/Editors/TextAreaEditor'
+          hidden: 'ClientEval:node.properties.customErrorMessageEnabled ? false : true'
+          editorOptions:
+            rows: 7

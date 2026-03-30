@@ -1,0 +1,16 @@
+{
+    "name": "@sitegeist/papertiger-cpx-plugin",
+    "license": "MIT",
+    "version": "",
+    "scripts": {
+        "build": "node esbuild.js",
+        "watch": "node esbuild.js --watch"
+    },
+    "dependencies": {
+        "@neos-project/neos-ui-extensibility": "^9.1",
+        "@sitegeist/papertiger-cpx-option-editor": "workspace:*"
+    },
+    "devDependencies": {
+        "esbuild": "~0.25.0"
+    }
+}

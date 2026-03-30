@@ -1,0 +1,16 @@
+from "./RadioItemProps.cpx" import { RadioItemProps }
+
+export component RadioItem {
+  option: RadioItemProps
+
+  render <label class="papertiger-radio-item">
+    <input
+      type="radio"
+      name={option.name}
+      value={option.value}
+      required={option.isRequired}
+      class="papertiger-radio-item__input"
+    />
+    <span class="papertiger-radio-item__label">{option.label}</span>
+  </label>
+}

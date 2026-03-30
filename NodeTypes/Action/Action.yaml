@@ -1,0 +1,13 @@
+Sitegeist.PaperTiger.CPX:Action:
+  abstract: true
+  superTypes:
+    'Neos.Neos:Content': true
+    'Sitegeist.PaperTiger.CPX:Action.Constraint': true
+  ui:
+    inspector:
+      groups:
+        'form':
+          label: i18n
+          position: 30
+          icon: 'icon-list-alt'
+

@@ -1,0 +1,8 @@
+Sitegeist.PaperTiger.CPX:Field.Honeypot:
+  ui:
+    label: i18n
+    icon: resource://Sitegeist.PaperTiger.CPX/Icons/honey.svg
+    group: form.special
+  superTypes:
+    'Sitegeist.PaperTiger.CPX:Field': true
+    'Sitegeist.PaperTiger.CPX:Mixin.Name': false

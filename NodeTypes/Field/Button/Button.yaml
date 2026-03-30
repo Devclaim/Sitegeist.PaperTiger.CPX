@@ -1,0 +1,17 @@
+Sitegeist.PaperTiger.CPX:Field.Button:
+  ui:
+    label: i18n
+    icon: square
+    group: form.elements
+    position: 1100
+  superTypes:
+    'Sitegeist.PaperTiger.CPX:Field': true
+    'Sitegeist.PaperTiger.CPX:Mixin.Label': true
+  properties:
+    value:
+      type: string
+      ui:
+        label: i18n
+        showInCreationDialog: false
+        inspector:
+          group: form

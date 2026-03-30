@@ -1,0 +1,12 @@
+from "../../FieldContainer/FieldContainerProps.cpx" import { FieldContainerProps }
+
+export struct UploadFieldProps {
+  fieldContainer: FieldContainerProps
+  name: string
+  isMultiple: ?boolean
+  isRequired: ?boolean
+  allowedExtensions: ?string
+  allowedFilesize: ?number
+  customErrorMessageEnabled: ?boolean
+  customErrorMessage: ?string
+}

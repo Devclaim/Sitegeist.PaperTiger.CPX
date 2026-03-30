@@ -1,0 +1,4 @@
+export struct HiddenFieldProps {
+  name: string
+  value: ?string
+}

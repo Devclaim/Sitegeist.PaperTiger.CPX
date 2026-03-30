@@ -1,0 +1,9 @@
+export component EmailActionPreview {
+  error: slot
+  items: slot
+
+  render <div class="papertiger-action-email">
+    {error}
+    <dl class="papertiger-action-email__list">{items}</dl>
+  </div>
+}

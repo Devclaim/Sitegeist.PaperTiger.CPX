@@ -1,0 +1,17 @@
+from "../../FieldContainer/FieldContainerProps.cpx" import { FieldContainerProps }
+
+export struct InputFieldProps {
+  fieldContainer: FieldContainerProps
+  type: string
+  name: string
+  placeholder: ?string
+  isRequired: ?boolean
+  minimumLength: ?number
+  maximumLength: ?number
+  regularExpression: ?string
+  minimum: ?string
+  maximum: ?string
+  step: ?string
+  customErrorMessageEnabled: ?boolean
+  customErrorMessage: ?string
+}

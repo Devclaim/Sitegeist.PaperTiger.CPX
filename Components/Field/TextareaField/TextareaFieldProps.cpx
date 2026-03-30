@@ -1,0 +1,15 @@
+from "../../FieldContainer/FieldContainerProps.cpx" import { FieldContainerProps }
+
+export struct TextareaFieldProps {
+  fieldContainer: FieldContainerProps
+  name: string
+  value: ?string
+  placeholder: ?string
+  isRequired: ?boolean
+  lineNumber: ?number
+  minimumLength: ?number
+  maximumLength: ?number
+  regularExpression: ?string
+  customErrorMessageEnabled: ?boolean
+  customErrorMessage: ?string
+}

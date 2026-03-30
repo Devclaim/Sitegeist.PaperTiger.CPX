@@ -1,0 +1,9 @@
+export component FieldNames {
+  description: string
+  content: slot
+
+  render <div class="papertiger-fieldnames">
+    <span class="papertiger-fieldnames__describtion">{description}</span>
+    <div class="papertiger-fieldnames__content">{content}</div>
+  </div>
+}

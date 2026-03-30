@@ -1,0 +1,10 @@
+from "./CheckboxGroupFieldProps.cpx" import { CheckboxGroupFieldProps }
+
+export component CheckboxGroupField {
+  field: CheckboxGroupFieldProps
+  content: slot
+
+  render <div class="papertiger-field__options papertiger-field__options--checkboxes">
+    {content}
+  </div>
+}

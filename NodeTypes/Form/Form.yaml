@@ -1,0 +1,20 @@
+Sitegeist.PaperTiger.CPX:Form:
+  ui:
+    label: i18n
+    icon: 'icon-list-alt'
+    group: form.elements
+    position: 10
+    inlineEditable: true
+    inspector:
+      groups:
+        'form':
+          label: i18n
+          position: 30
+          icon: 'icon-list-alt'
+  superTypes:
+    Neos.Neos:Content: true
+  childNodes:
+    fields:
+      type: Sitegeist.PaperTiger.CPX:Field.Collection
+    actions:
+      type: Sitegeist.PaperTiger.CPX:Action.Collection

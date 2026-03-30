@@ -1,0 +1,7 @@
+Sitegeist.PaperTiger.CPX:Field.Collection:
+  superTypes:
+    Neos.Neos:ContentCollection: true
+  constraints:
+    nodeTypes:
+      '*': false
+      'Sitegeist.PaperTiger.CPX:Field.Constraint': true

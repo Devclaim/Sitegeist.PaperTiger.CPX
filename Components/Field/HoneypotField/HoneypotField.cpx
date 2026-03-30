@@ -1,0 +1,38 @@
+from "./HoneypotFieldProps.cpx" import { HoneypotFieldProps }
+
+export component HoneypotField {
+  field: HoneypotFieldProps
+  script: slot
+
+  render <div
+    class="papertiger-field__control papertiger-field__control--honeypot"
+    style={field.style}
+  >
+    <input
+      type="text"
+      name={field.firstInputName}
+      value=""
+      autocomplete="off"
+      tabindex="-1"
+      class="papertiger-field__input papertiger-field__input--honeypot papertiger-field__input--honeypot-first"
+    />
+    <input
+      type="text"
+      name={field.secondInputName}
+      value={field.timestampWithHmac}
+      autocomplete="off"
+      tabindex="-1"
+      class="papertiger-field__input papertiger-field__input--honeypot papertiger-field__input--honeypot-second"
+    />
+    <input
+      type="text"
+      id={field.scriptTargetId}
+      name={field.thirdInputName}
+      value=""
+      autocomplete="off"
+      tabindex="-1"
+      class="papertiger-field__input papertiger-field__input--honeypot papertiger-field__input--honeypot-third"
+    />
+    {script}
+  </div>
+}

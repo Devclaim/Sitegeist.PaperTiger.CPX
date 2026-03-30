@@ -1,0 +1,5 @@
+export component MessageActionPreview {
+  message: string
+
+  render <div class="papertiger-action-message">{message}</div>
+}

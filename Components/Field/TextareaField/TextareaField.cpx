@@ -1,0 +1,16 @@
+from "./TextareaFieldProps.cpx" import { TextareaFieldProps }
+
+export component TextareaField {
+  field: TextareaFieldProps
+
+  render <textarea
+    id={field.fieldContainer.inputId}
+    name={field.name}
+    class="papertiger-field__control papertiger-field__control--textarea"
+    placeholder={field.placeholder}
+    required={field.isRequired}
+    rows={field.lineNumber}
+    minlength={field.minimumLength}
+    maxlength={field.maximumLength}
+  >{field.value ? field.value : ""}</textarea>
+}

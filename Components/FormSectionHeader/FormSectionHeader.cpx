@@ -1,0 +1,9 @@
+export component FormSectionHeader {
+  number: string
+  title: string
+
+  render <div class="papertiger-form__header">
+    <span class="paper-tiger-form__header-number">{number}</span>
+    <span class="paper-tiger-form__header-title">{title}</span>
+  </div>
+}

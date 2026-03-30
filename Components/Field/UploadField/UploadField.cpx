@@ -1,0 +1,14 @@
+from "./UploadFieldProps.cpx" import { UploadFieldProps }
+
+export component UploadField {
+  field: UploadFieldProps
+
+  render <input
+    type="file"
+    id={field.fieldContainer.inputId}
+    name={field.name}
+    class="papertiger-field__control papertiger-field__control--upload"
+    required={field.isRequired}
+    multiple={field.isMultiple}
+  />
+}

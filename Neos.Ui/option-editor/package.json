@@ -1,0 +1,11 @@
+{
+    "name": "@sitegeist/papertiger-cpx-option-editor",
+    "license": "MIT",
+    "version": "",
+    "main": "./src/index.tsx",
+    "dependencies": {
+        "@neos-project/react-ui-components": "^9.1",
+        "react": "^17.0.2",
+        "react-dom": "^17.0.2"
+    }
+}

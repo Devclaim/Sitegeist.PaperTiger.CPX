@@ -1,0 +1,30 @@
+<?php
+
+declare(strict_types=1);
+
+namespace Sitegeist\PaperTiger\CPX\Components\Field\CheckboxItem;
+
+use PackageFactory\ComponentEngine as _;
+use Sitegeist\PaperTiger\CPX\Components\Field\CheckboxItem\CheckboxItemProps;
+
+#[\Neos\Flow\Annotations\Proxy(false)]
+final readonly class CheckboxItem implements _\ComponentInterface
+{
+    private function __construct(
+        private CheckboxItemProps $option,
+    ) {
+    }
+
+    public static function create(
+        CheckboxItemProps $option,
+    ): self {
+        return new self(
+            option: $option,
+        );
+    }
+
+    public function render(): string
+    {
+        return '<label class="papertiger-checkbox-item"><input type="checkbox" name="' . _\Util::escapeAttributeValue($this->option->name) . '" value="' . _\Util::escapeAttributeValue($this->option->value) . '"' . (($temp = $this->option->isRequired) === null ? '' : ($temp ? ' required' : '')) . ' class="papertiger-checkbox-item__input" /><span class="papertiger-checkbox-item__label">' . _\Util::escapeRenderValue($this->option->label) . '</span></label>';
+    }
+}

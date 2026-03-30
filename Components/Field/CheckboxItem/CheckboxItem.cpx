@@ -1,0 +1,16 @@
+from "./CheckboxItemProps.cpx" import { CheckboxItemProps }
+
+export component CheckboxItem {
+  option: CheckboxItemProps
+
+  render <label class="papertiger-checkbox-item">
+    <input
+      type="checkbox"
+      name={option.name}
+      value={option.value}
+      required={option.isRequired}
+      class="papertiger-checkbox-item__input"
+    />
+    <span class="papertiger-checkbox-item__label">{option.label}</span>
+  </label>
+}

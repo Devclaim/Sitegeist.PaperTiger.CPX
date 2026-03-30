@@ -1,0 +1,28 @@
+Neos:
+  Flow:
+    object:
+      includeClasses:
+        'Sitegeist.PaperTiger.CPX':
+          - '^Sitegeist\\PaperTiger\\CPX\\NodeTypes\\'
+  Neos:
+    nodeTypes:
+      groups:
+        'form.elements':
+          label: 'Sitegeist.PaperTiger.CPX:Main:nodeTypes.groups.form.elements'
+          collapsed: false
+        'form.special':
+          label: 'Sitegeist.PaperTiger.CPX:Main:nodeTypes.groups.form.special'
+          collapsed: false
+
+    userInterface:
+      translation:
+        autoInclude:
+          Sitegeist.PaperTiger.CPX:
+            - Main
+            - 'NodeTypes/*'
+
+    Ui:
+      resources:
+        javascript:
+          '@sitegeist/papertiger-editors':
+            resource: 'resource://Sitegeist.PaperTiger.CPX/Public/Neos.Ui/Plugin.js'

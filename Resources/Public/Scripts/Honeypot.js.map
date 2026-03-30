@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["../../Private/Assets/Honeypot.ts"],
+  "sourcesContent": ["const events = [\"touchstart\", \"keydown\", \"mousemove\", \"touchmove\"];\n// @ts-ignore\nconst doc = document;\nconst dataset: { name?: string; value?: string } =\n    doc.currentScript?.dataset || {};\n\nfunction insertSpamProtectionValue() {\n    const field = doc.getElementById(dataset.name || \"\");\n    const value = dataset.value || \"\";\n    if (field && value) {\n        field.setAttribute(\"value\", value);\n    }\n    removeEventListeners();\n}\n\nfunction addEventListeners() {\n    events.forEach((event) => {\n        doc.addEventListener(event, insertSpamProtectionValue, true);\n    });\n}\n\nfunction removeEventListeners() {\n    events.forEach((event) => {\n        doc.removeEventListener(event, insertSpamProtectionValue, true);\n    });\n}\n\naddEventListeners();\n"],
+  "mappings": "mBAAA,IAAMA,EAAS,CAAC,aAAc,UAAW,YAAa,WAAW,EAE3DC,EAAM,SACNC,EACFD,EAAI,eAAe,SAAW,CAAC,EAEnC,SAASE,GAA4B,CACjC,IAAMC,EAAQH,EAAI,eAAeC,EAAQ,MAAQ,EAAE,EAC7CG,EAAQH,EAAQ,OAAS,GAC3BE,GAASC,GACTD,EAAM,aAAa,QAASC,CAAK,EAErCC,EAAqB,CACzB,CAEA,SAASC,GAAoB,CACzBP,EAAO,QAASQ,GAAU,CACtBP,EAAI,iBAAiBO,EAAOL,EAA2B,EAAI,CAC/D,CAAC,CACL,CAEA,SAASG,GAAuB,CAC5BN,EAAO,QAASQ,GAAU,CACtBP,EAAI,oBAAoBO,EAAOL,EAA2B,EAAI,CAClE,CAAC,CACL,CAEAI,EAAkB",
+  "names": ["events", "doc", "dataset", "insertSpamProtectionValue", "field", "value", "removeEventListeners", "addEventListeners", "event"]
+}

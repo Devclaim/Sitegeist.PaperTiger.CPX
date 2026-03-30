@@ -1,0 +1,15 @@
+export struct EmailActionProps {
+  subject: ?string
+  format: ?string
+  plaintext: ?string
+  html: ?string
+  recipientAddress: ?string
+  recipientName: ?string
+  senderAddress: ?string
+  senderName: ?string
+  replyToAddress: ?string
+  carbonCopyAddress: ?string
+  blindCarbonCopyAddress: ?string
+  attachUploads: ?boolean
+  testMode: ?boolean
+}

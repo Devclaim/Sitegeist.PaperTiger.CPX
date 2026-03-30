@@ -1,0 +1,11 @@
+export component FormEditor {
+  assets: slot
+  fields: slot
+  actions: slot
+
+  render <div class="papertiger-form">
+    {assets}
+    {fields}
+    {actions}
+  </div>
+}
