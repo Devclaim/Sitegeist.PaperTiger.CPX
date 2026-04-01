@@ -29,20 +29,16 @@ final class FormFactory
 {
     public function __construct(
         private readonly ContentRenderer $contentRenderer,
-        private readonly FormComponentRegistry $formComponentRegistry,
         private readonly Translator $translator,
         private readonly ResourceFactory $resourceFactory,
     ) {
     }
 
-    public function create(NeosContext $context, ?FormComponents $components = null): ComponentInterface
+    public function create(NeosContext $context): ComponentInterface
     {
-        return $this->formComponentRegistry->with(
-            $components,
-            fn (): ComponentInterface => $context->renderingMode->isEdit
-                ? $this->createEditor($context)
-                : $this->createForm($context),
-        );
+        return $context->renderingMode->isEdit
+            ? $this->createEditor($context)
+            : $this->createForm($context);
     }
 
     private function createForm(NeosContext $context): Form
@@ -138,17 +134,24 @@ final class FormFactory
 
     private function renderFieldNames(NeosContext $context): ?ComponentInterface
     {
-        $fieldNodes = $this->collectionChildNodes($context, 'fields');
+        $fieldsCollectionNode = $this->findCollectionNode($context, 'fields');
+        if (!$fieldsCollectionNode instanceof Node) {
+            return null;
+        }
+
         $tokens = [];
 
-        foreach ($fieldNodes as $fieldNode) {
-            $name = $fieldNode->getProperty('name');
-            if (!is_scalar($name) || (string)$name === '') {
+        foreach ($context->subgraph->findChildNodes(
+            $fieldsCollectionNode->aggregateId,
+            FindChildNodesFilter::create(),
+        ) as $fieldNode) {
+            $name = $context->nodes->getStringValue($fieldNode, 'name');
+            if ($name === null || $name === '') {
                 continue;
             }
 
             $tokens[] = FieldNameToken::create(
-                token: '{' . (string)$name . '}',
+                token: '{' . $name . '}',
                 buttonTitle: $this->translate('actionCollection.fieldNames.copyToClipboard', 'Copy to clipboard'),
             );
         }
@@ -163,24 +166,14 @@ final class FormFactory
         );
     }
 
-    /**
-     * @return list<Node>
-     */
-    private function collectionChildNodes(NeosContext $context, string $collectionName): array
+    private function findCollectionNode(NeosContext $context, string $collectionName): ?Node
     {
         $collectionNode = $context->subgraph->findNodeByPath(
             NodeName::fromString($collectionName),
             $context->node->aggregateId,
         );
 
-        if (!$collectionNode instanceof Node) {
-            return [];
-        }
-
-        return iterator_to_array($context->subgraph->findChildNodes(
-            $collectionNode->aggregateId,
-            FindChildNodesFilter::create(),
-        ));
+        return $collectionNode instanceof Node ? $collectionNode : null;
     }
 
     private function createCollectionEditor(
@@ -189,25 +182,15 @@ final class FormFactory
         array $additionalClasses,
         \Closure $content,
     ): ?ComponentInterface {
-        $collectionNode = $context->subgraph->findNodeByPath(
-            NodeName::fromString($collectionName),
-            $context->node->aggregateId,
-        );
-
+        $collectionNode = $this->findCollectionNode($context, $collectionName);
         if (!$collectionNode instanceof Node) {
             return null;
         }
 
-        $items = ComponentCollection::list(...array_map(
-            fn (Node $childNode) => $this->contentRenderer->render(
-                $context->with(node: $childNode),
-                RenderingUseCase::CONTENT,
-            ),
-            iterator_to_array($context->subgraph->findChildNodes(
-                $collectionNode->aggregateId,
-                FindChildNodesFilter::create(),
-            )),
-        ));
+        $items = $this->contentRenderer->renderContentChildren(
+            $context->with(node: $collectionNode),
+            RenderingUseCase::CONTENT,
+        );
 
         return ContentElementCollection::create(
             editable: $context->renderingMode->isEdit,

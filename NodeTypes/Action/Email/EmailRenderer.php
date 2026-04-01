@@ -6,28 +6,28 @@ namespace Sitegeist\PaperTiger\CPX\NodeTypes\Action\Email;
 
 use PackageFactory\ComponentEngine\ComponentInterface;
 use PackageFactory\ComponentEngine\SlotComponent;
+use PackageFactory\Neos\ComponentEngine\Integration\ContentNodeRendererInterface;
 use PackageFactory\Neos\ComponentEngine\NeosContext;
 use Sitegeist\PaperTiger\CPX\Components\ActionPreviewCard\ActionPreviewCard;
 use Sitegeist\PaperTiger\CPX\Components\EmailActionPreview\EmailActionPreview;
 use Sitegeist\PaperTiger\CPX\Components\EmailActionPreviewError\EmailActionPreviewError;
 use Sitegeist\PaperTiger\CPX\Components\EmailActionPreviewItem\EmailActionPreviewItem;
-use Sitegeist\PaperTiger\CPX\NodeTypes\Action\AbstractActionRenderer;
 
-final class EmailRenderer extends AbstractActionRenderer
+final class EmailRenderer implements ContentNodeRendererInterface
 {
     public function renderAsContent(NeosContext $context): ComponentInterface
     {
-        $subject = $this->stringProperty($context->node, 'subject');
-        $format = $this->stringProperty($context->node, 'format');
-        $plaintext = $this->stringProperty($context->node, 'plaintext');
-        $html = $this->stringProperty($context->node, 'html');
-        $recipientAddress = $this->stringProperty($context->node, 'recipientAddress');
-        $recipientName = $this->stringProperty($context->node, 'recipientName');
-        $senderAddress = $this->stringProperty($context->node, 'senderAddress');
-        $senderName = $this->stringProperty($context->node, 'senderName');
-        $replyToAddress = $this->stringProperty($context->node, 'replyToAddress');
-        $carbonCopyAddress = $this->stringProperty($context->node, 'carbonCopyAddress');
-        $blindCarbonCopyAddress = $this->stringProperty($context->node, 'blindCarbonCopyAddress');
+        $subject = $context->nodes->getStringValue($context->node, 'subject');
+        $format = $context->nodes->getStringValue($context->node, 'format');
+        $plaintext = $context->nodes->getStringValue($context->node, 'plaintext');
+        $html = $context->nodes->getStringValue($context->node, 'html');
+        $recipientAddress = $context->nodes->getStringValue($context->node, 'recipientAddress');
+        $recipientName = $context->nodes->getStringValue($context->node, 'recipientName');
+        $senderAddress = $context->nodes->getStringValue($context->node, 'senderAddress');
+        $senderName = $context->nodes->getStringValue($context->node, 'senderName');
+        $replyToAddress = $context->nodes->getStringValue($context->node, 'replyToAddress');
+        $carbonCopyAddress = $context->nodes->getStringValue($context->node, 'carbonCopyAddress');
+        $blindCarbonCopyAddress = $context->nodes->getStringValue($context->node, 'blindCarbonCopyAddress');
 
         $requiredFields = [];
         if ($recipientAddress === null) {
@@ -76,5 +76,16 @@ final class EmailRenderer extends AbstractActionRenderer
             label: $label,
             value: $value,
         );
+    }
+
+    private function joinParts(?string ...$parts): ?string
+    {
+        $parts = array_values(array_filter($parts, static fn (?string $part) => $part !== null && $part !== ''));
+
+        if ($parts === []) {
+            return null;
+        }
+
+        return implode(' ', $parts);
     }
 }
