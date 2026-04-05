@@ -86,6 +86,7 @@ final class FormFactory
             node: $context->node,
             collectionName: NodeName::fromString('fields'),
             context: $context,
+            additionalClasses: ['papertiger-form__fields']
         );
     }
 

@@ -1,11 +1,17 @@
 /* Sitegeist.PaperTiger:Form */
+.papertiger-form {
+    display: flex;
+    flex-direction: column;
+    gap: 2em;
+}
+
 .papertiger-form__header {
     display: flex;
+    flex-direction: row;
     justify-content: flex-start;
     align-items: center;
     gap: 1em;
     border-bottom: 1px solid currentColor;
-    margin-top: 2em;
     margin-bottom: 1em;
     padding-bottom: 1em;
     line-height: 2em;

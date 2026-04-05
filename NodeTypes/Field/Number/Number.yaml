@@ -1,26 +1,3 @@
 Sitegeist.PaperTiger.CPX:Field.Number:
-  ui:
-    label: i18n
-    icon: icon-sort-numeric-up-alt
-    group: form.elements
-    position: 1100
   superTypes:
-    'Sitegeist.PaperTiger.CPX:Field': true
-    'Sitegeist.PaperTiger.CPX:Mixin.Label': true
-    'Sitegeist.PaperTiger.CPX:Mixin.Placeholder': true
-    'Sitegeist.PaperTiger.CPX:Mixin.IsRequired': true
-    'Sitegeist.PaperTiger.CPX:Mixin.CustomErrorMessage': true
-  properties:
-    minimumValue:
-      type: integer
-      ui:
-        label: i18n
-        inspector:
-          group: form
-
-    maximumValue:
-      type: integer
-      ui:
-        label: i18n
-        inspector:
-          group: form
+    'Sitegeist.PaperTiger.CPX:Mixin.Field.Number': true

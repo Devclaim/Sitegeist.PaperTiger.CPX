@@ -1,31 +1,3 @@
 Sitegeist.PaperTiger.CPX:Field.Date:
-  ui:
-    label: i18n
-    icon: icon-calendar
-    group: form.elements
-    position: 500
   superTypes:
-    'Sitegeist.PaperTiger.CPX:Field': true
-    'Sitegeist.PaperTiger.CPX:Mixin.Label': true
-    'Sitegeist.PaperTiger.CPX:Mixin.Placeholder': true
-    'Sitegeist.PaperTiger.CPX:Mixin.IsRequired': true
-    'Sitegeist.PaperTiger.CPX:Mixin.CustomErrorMessage': true
-  properties:
-    earliestDate:
-      type: DateTime
-      defaultValue: null
-      ui:
-        label: i18n
-        inspector:
-          group: form
-          editorOptions:
-            format: 'd.m.Y'
-    latestDate:
-      type: DateTime
-      defaultValue: null
-      ui:
-        label: i18n
-        inspector:
-          group: form
-          editorOptions:
-            format: 'd.m.Y'
+    'Sitegeist.PaperTiger.CPX:Mixin.Field.Date': true
