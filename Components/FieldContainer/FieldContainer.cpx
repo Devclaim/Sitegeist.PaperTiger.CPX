@@ -8,6 +8,7 @@ export component FieldContainer {
   render <div
     id={fieldContainer.id}
     class="papertiger-field"
+    data-form-field
   >
     {label}
     {content}

@@ -7,13 +7,19 @@ namespace Sitegeist\PaperTiger\CPX\NodeTypes\Field\Text\SingleLine;
 use PackageFactory\ComponentEngine\ComponentInterface;
 use PackageFactory\Neos\ComponentEngine\Integration\ContentNodeRendererInterface;
 use PackageFactory\Neos\ComponentEngine\NeosContext;
-use Sitegeist\PaperTiger\CPX\Components\Field\InputField\InputField;
 use Sitegeist\PaperTiger\CPX\Components\Field\InputField\InputFieldProps;
 use Sitegeist\PaperTiger\CPX\Components\FieldContainer\FieldContainerProps;
+use Sitegeist\PaperTiger\CPX\NodeTypes\Field\FieldComponentFactory;
 use Sitegeist\PaperTiger\CPX\NodeTypes\Field\FieldContainerFactory;
 
 final class SingleLineRenderer implements ContentNodeRendererInterface
 {
+    public function __construct(
+        private readonly FieldContainerFactory $fieldContainerFactory,
+        private readonly FieldComponentFactory $fieldComponentFactory,
+    ) {
+    }
+
     public function renderAsContent(NeosContext $context): ComponentInterface
     {
         $name = $context->nodes->getStringValue($context->node, 'name') ?? $context->node->aggregateId->value;
@@ -26,20 +32,18 @@ final class SingleLineRenderer implements ContentNodeRendererInterface
             isRequired: $context->nodes->getBoolValue($context->node, 'isRequired'),
         );
 
-        return FieldContainerFactory::create(
+        return $this->fieldContainerFactory->create(
             $context,
-            InputField::create(
+            $this->fieldComponentFactory->createInput(
                 field: InputFieldProps::create(
                     fieldContainer: $fieldContainer,
                     type: 'text',
                     name: $name,
                     placeholder: $context->nodes->getStringValue($context->node, 'placeholder'),
                     isRequired: $context->nodes->getBoolValue($context->node, 'isRequired'),
-                    minimumLength: $minimumLength,
-                    maximumLength: $maximumLength,
+                    minimumLength: $minimumLength !== null ? (string)$minimumLength : null,
+                    maximumLength: $maximumLength !== null ? (string)$maximumLength : null,
                     regularExpression: $context->nodes->getStringValue($context->node, 'regularExpression'),
-                    minimum: null,
-                    maximum: null,
                     step: null,
                     customErrorMessageEnabled: $context->nodes->getBoolValue($context->node, 'customErrorMessageEnabled'),
                     customErrorMessage: $context->nodes->getStringValue($context->node, 'customErrorMessage'),

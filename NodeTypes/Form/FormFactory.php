@@ -92,18 +92,18 @@ final class FormFactory
 
     private function renderFieldsEditor(NeosContext $context): ComponentInterface|string|null
     {
-        return $this->createCollectionEditor(
-            context: $context,
-            collectionName: 'fields',
-            additionalClasses: ['papertiger-form__fields'],
-            content: fn (?ComponentInterface $items) => ComponentCollection::list(
-                FormSectionHeader::create(
-                    number: '1',
-                    title: $this->translate('form.formFields.header', 'Form fields'),
-                ),
-                Form::create(
-                    form: $this->createFormProps($context, true),
-                    content: $items,
+        return Form::create(
+            form: $this->createFormProps($context, true),
+            content: $this->createCollectionEditor(
+                context: $context,
+                collectionName: 'fields',
+                additionalClasses: ['papertiger-form__fields'],
+                content: fn (?ComponentInterface $items) => ComponentCollection::list(
+                    FormSectionHeader::create(
+                        number: '1',
+                        title: $this->translate('form.formFields.header', 'Form fields'),
+                    ),
+                    ...($items ? [$items] : []),
                 ),
             ),
         );

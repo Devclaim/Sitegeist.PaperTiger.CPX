@@ -3,4 +3,6 @@ export struct CheckboxItemProps {
   value: string
   label: string
   isRequired: ?boolean
+  customErrorMessageEnabled: ?boolean
+  customErrorMessage: ?string
 }

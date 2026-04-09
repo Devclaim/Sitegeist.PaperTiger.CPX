@@ -6,11 +6,9 @@ export struct InputFieldProps {
   name: string
   placeholder: ?string
   isRequired: ?boolean
-  minimumLength: ?number
-  maximumLength: ?number
+  minimumLength: ?string
+  maximumLength: ?string
   regularExpression: ?string
-  minimum: ?string
-  maximum: ?string
   step: ?string
   customErrorMessageEnabled: ?boolean
   customErrorMessage: ?string

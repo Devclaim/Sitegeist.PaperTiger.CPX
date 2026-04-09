@@ -7,13 +7,19 @@ namespace Sitegeist\PaperTiger\CPX\NodeTypes\Field\Text\MultiLine;
 use PackageFactory\ComponentEngine\ComponentInterface;
 use PackageFactory\Neos\ComponentEngine\Integration\ContentNodeRendererInterface;
 use PackageFactory\Neos\ComponentEngine\NeosContext;
-use Sitegeist\PaperTiger\CPX\Components\Field\TextareaField\TextareaField;
 use Sitegeist\PaperTiger\CPX\Components\Field\TextareaField\TextareaFieldProps;
 use Sitegeist\PaperTiger\CPX\Components\FieldContainer\FieldContainerProps;
+use Sitegeist\PaperTiger\CPX\NodeTypes\Field\FieldComponentFactory;
 use Sitegeist\PaperTiger\CPX\NodeTypes\Field\FieldContainerFactory;
 
 final class MultiLineRenderer implements ContentNodeRendererInterface
 {
+    public function __construct(
+        private readonly FieldContainerFactory $fieldContainerFactory,
+        private readonly FieldComponentFactory $fieldComponentFactory,
+    ) {
+    }
+
     public function renderAsContent(NeosContext $context): ComponentInterface
     {
         $name = $context->nodes->getStringValue($context->node, 'name') ?? $context->node->aggregateId->value;
@@ -27,9 +33,9 @@ final class MultiLineRenderer implements ContentNodeRendererInterface
             isRequired: $context->nodes->getBoolValue($context->node, 'isRequired'),
         );
 
-        return FieldContainerFactory::create(
+        return $this->fieldContainerFactory->create(
             $context,
-            TextareaField::create(
+            $this->fieldComponentFactory->createTextarea(
                 field: TextareaFieldProps::create(
                     fieldContainer: $fieldContainer,
                     name: $name,

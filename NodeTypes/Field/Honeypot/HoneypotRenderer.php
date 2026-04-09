@@ -19,6 +19,7 @@ final class HoneypotRenderer implements ContentNodeRendererInterface
     public function __construct(
         private readonly HashService $hashService,
         private readonly ResourceFactory $resourceFactory,
+        private readonly FieldContainerFactory $fieldContainerFactory,
     ) {
     }
 
@@ -34,7 +35,7 @@ final class HoneypotRenderer implements ContentNodeRendererInterface
                 isRequired: false,
             );
 
-            return FieldContainerFactory::create(
+            return $this->fieldContainerFactory->create(
                 $context,
                 null,
                 label: $fieldContainer->label,

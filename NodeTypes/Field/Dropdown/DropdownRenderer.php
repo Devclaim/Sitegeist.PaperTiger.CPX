@@ -9,13 +9,19 @@ use PackageFactory\ComponentEngine\ComponentInterface;
 use PackageFactory\ComponentEngine\Util;
 use PackageFactory\Neos\ComponentEngine\Integration\ContentNodeRendererInterface;
 use PackageFactory\Neos\ComponentEngine\NeosContext;
-use Sitegeist\PaperTiger\CPX\Components\Field\SelectField\SelectField;
 use Sitegeist\PaperTiger\CPX\Components\Field\SelectField\SelectFieldProps;
 use Sitegeist\PaperTiger\CPX\Components\FieldContainer\FieldContainerProps;
+use Sitegeist\PaperTiger\CPX\NodeTypes\Field\FieldComponentFactory;
 use Sitegeist\PaperTiger\CPX\NodeTypes\Field\FieldContainerFactory;
 
 final class DropdownRenderer implements ContentNodeRendererInterface
 {
+    public function __construct(
+        private readonly FieldContainerFactory $fieldContainerFactory,
+        private readonly FieldComponentFactory $fieldComponentFactory,
+    ) {
+    }
+
     public function renderAsContent(NeosContext $context): ComponentInterface
     {
         $name = $context->nodes->getStringValue($context->node, 'name') ?? $context->node->aggregateId->value;
@@ -26,9 +32,9 @@ final class DropdownRenderer implements ContentNodeRendererInterface
             isRequired: $context->nodes->getBoolValue($context->node, 'isRequired'),
         );
 
-        return FieldContainerFactory::create(
+        return $this->fieldContainerFactory->create(
             $context,
-            SelectField::create(
+            $this->fieldComponentFactory->createSelect(
                 field: SelectFieldProps::create(
                     fieldContainer: $fieldContainer,
                     name: $name,
@@ -41,7 +47,7 @@ final class DropdownRenderer implements ContentNodeRendererInterface
                 ),
                 content: $this->renderDropdownOptions(
                     options: $this->normalizeOptions(
-                        $context->nodes->getArrayValue($context->node, 'options'),
+                        $context->node->getProperty('options'),
                     ),
                     includeEmptyOption: $context->nodes->getBoolValue($context->node, 'emptyOptionEnabled') ?? false,
                     emptyLabel: $context->nodes->getStringValue($context->node, 'emptyLabel'),

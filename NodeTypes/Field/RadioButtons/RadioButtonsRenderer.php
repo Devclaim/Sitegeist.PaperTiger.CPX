@@ -10,17 +10,25 @@ use PackageFactory\Neos\ComponentEngine\Integration\ContentNodeRendererInterface
 use PackageFactory\Neos\ComponentEngine\NeosContext;
 use Sitegeist\PaperTiger\CPX\Components\Field\RadioGroupField\RadioGroupField;
 use Sitegeist\PaperTiger\CPX\Components\Field\RadioGroupField\RadioGroupFieldProps;
-use Sitegeist\PaperTiger\CPX\Components\Field\RadioItem\RadioItem;
 use Sitegeist\PaperTiger\CPX\Components\Field\RadioItem\RadioItemProps;
 use Sitegeist\PaperTiger\CPX\Components\FieldContainer\FieldContainerProps;
+use Sitegeist\PaperTiger\CPX\NodeTypes\Field\FieldComponentFactory;
 use Sitegeist\PaperTiger\CPX\NodeTypes\Field\FieldContainerFactory;
 
 final class RadioButtonsRenderer implements ContentNodeRendererInterface
 {
+    public function __construct(
+        private readonly FieldContainerFactory $fieldContainerFactory,
+        private readonly FieldComponentFactory $fieldComponentFactory,
+    ) {
+    }
+
     public function renderAsContent(NeosContext $context): ComponentInterface
     {
         $name = $context->nodes->getStringValue($context->node, 'name') ?? $context->node->aggregateId->value;
         $isRequired = $context->nodes->getBoolValue($context->node, 'isRequired');
+        $customErrorMessageEnabled = $context->nodes->getBoolValue($context->node, 'customErrorMessageEnabled');
+        $customErrorMessage = $context->nodes->getStringValue($context->node, 'customErrorMessage');
         $fieldContainer = FieldContainerProps::create(
             id: 'fieldcontainer_' . $name,
             label: $context->nodes->getStringValue($context->node, 'label'),
@@ -28,22 +36,24 @@ final class RadioButtonsRenderer implements ContentNodeRendererInterface
             isRequired: $isRequired,
         );
 
-        return FieldContainerFactory::create(
+        return $this->fieldContainerFactory->create(
             $context,
             RadioGroupField::create(
                 field: RadioGroupFieldProps::create(
                     fieldContainer: $fieldContainer,
                     name: $name,
                     isRequired: $isRequired,
-                    customErrorMessageEnabled: $context->nodes->getBoolValue($context->node, 'customErrorMessageEnabled'),
-                    customErrorMessage: $context->nodes->getStringValue($context->node, 'customErrorMessage'),
+                    customErrorMessageEnabled: $customErrorMessageEnabled,
+                    customErrorMessage: $customErrorMessage,
                 ),
                 content: $this->renderRadioOptions(
                     $this->normalizeOptions(
-                        $context->nodes->getArrayValue($context->node, 'options'),
+                        $context->node->getProperty('options'),
                     ),
                     $name,
                     $isRequired,
+                    $customErrorMessageEnabled,
+                    $customErrorMessage,
                 ),
             ),
         );
@@ -66,17 +76,25 @@ final class RadioButtonsRenderer implements ContentNodeRendererInterface
         );
     }
 
-    private function renderRadioOptions(array $options, string $name, ?bool $isRequired = null): ComponentInterface|string|null
+    private function renderRadioOptions(
+        array $options,
+        string $name,
+        ?bool $isRequired = null,
+        ?bool $customErrorMessageEnabled = null,
+        ?string $customErrorMessage = null,
+    ): ComponentInterface|string|null
     {
         $parts = [];
 
         foreach ($options as $option) {
-            $parts[] = RadioItem::create(
+            $parts[] = $this->fieldComponentFactory->createRadio(
                 option: RadioItemProps::create(
                     name: $name,
                     value: $option['value'],
                     label: $option['label'],
                     isRequired: $isRequired,
+                    customErrorMessageEnabled: $customErrorMessageEnabled,
+                    customErrorMessage: $customErrorMessage,
                 ),
             );
         }

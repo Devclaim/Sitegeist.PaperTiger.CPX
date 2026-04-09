@@ -9,13 +9,15 @@ export component InputField {
     name={field.name}
     class="papertiger-field__control"
     data-papertiger-field-type={field.type}
+    data-fieldtype="input"
+    data-custom-error-message={field.customErrorMessageEnabled ? field.customErrorMessage : null}
+    oninvalid="this.setCustomValidity(this.dataset.customErrorMessage || '')"
+    oninput="this.setCustomValidity('')"
     placeholder={field.placeholder}
     required={field.isRequired}
-    minlength={field.minimumLength}
-    maxlength={field.maximumLength}
     pattern={field.regularExpression}
-    min={field.minimum}
-    max={field.maximum}
+    min={field.minimumLength}
+    max={field.maximumLength}
     step={field.step}
   />
 }

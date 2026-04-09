@@ -10,6 +10,10 @@ export component RadioItem {
       value={option.value}
       required={option.isRequired}
       class="papertiger-radio-item__input"
+      data-fieldtype="input"
+      data-custom-error-message={option.customErrorMessageEnabled ? option.customErrorMessage : null}
+      oninvalid="this.setCustomValidity(this.dataset.customErrorMessage || '')"
+      oninput="this.setCustomValidity('')"
     />
     <span class="papertiger-radio-item__label">{option.label}</span>
   </label>

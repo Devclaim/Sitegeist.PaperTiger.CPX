@@ -3,4 +3,6 @@ export struct RadioItemProps {
   value: string
   label: string
   isRequired: ?boolean
+  customErrorMessageEnabled: ?boolean
+  customErrorMessage: ?string
 }

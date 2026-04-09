@@ -14,6 +14,8 @@ final readonly class CheckboxItemProps
         public string $value,
         public string $label,
         public ?bool $isRequired,
+        public ?bool $customErrorMessageEnabled,
+        public ?string $customErrorMessage,
     ) {
     }
 
@@ -22,12 +24,16 @@ final readonly class CheckboxItemProps
         string $value,
         string $label,
         ?bool $isRequired,
+        ?bool $customErrorMessageEnabled,
+        ?string $customErrorMessage,
     ): self {
         return new self(
             name: $name,
             value: $value,
             label: $label,
             isRequired: $isRequired,
+            customErrorMessageEnabled: $customErrorMessageEnabled,
+            customErrorMessage: $customErrorMessage,
         );
     }
 }

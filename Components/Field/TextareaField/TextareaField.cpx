@@ -7,6 +7,10 @@ export component TextareaField {
     id={field.fieldContainer.inputId}
     name={field.name}
     class="papertiger-field__control papertiger-field__control--textarea"
+    data-fieldtype="textarea"
+    data-custom-error-message={field.customErrorMessageEnabled ? field.customErrorMessage : null}
+    oninvalid="this.setCustomValidity(this.dataset.customErrorMessage || '')"
+    oninput="this.setCustomValidity('')"
     placeholder={field.placeholder}
     required={field.isRequired}
     rows={field.lineNumber}

@@ -7,13 +7,19 @@ namespace Sitegeist\PaperTiger\CPX\NodeTypes\Field\Upload;
 use PackageFactory\ComponentEngine\ComponentInterface;
 use PackageFactory\Neos\ComponentEngine\Integration\ContentNodeRendererInterface;
 use PackageFactory\Neos\ComponentEngine\NeosContext;
-use Sitegeist\PaperTiger\CPX\Components\Field\UploadField\UploadField;
 use Sitegeist\PaperTiger\CPX\Components\Field\UploadField\UploadFieldProps;
 use Sitegeist\PaperTiger\CPX\Components\FieldContainer\FieldContainerProps;
+use Sitegeist\PaperTiger\CPX\NodeTypes\Field\FieldComponentFactory;
 use Sitegeist\PaperTiger\CPX\NodeTypes\Field\FieldContainerFactory;
 
 final class UploadRenderer implements ContentNodeRendererInterface
 {
+    public function __construct(
+        private readonly FieldContainerFactory $fieldContainerFactory,
+        private readonly FieldComponentFactory $fieldComponentFactory,
+    ) {
+    }
+
     public function renderAsContent(NeosContext $context): ComponentInterface
     {
         $name = $context->nodes->getStringValue($context->node, 'name') ?? $context->node->aggregateId->value;
@@ -26,9 +32,9 @@ final class UploadRenderer implements ContentNodeRendererInterface
             isRequired: $context->nodes->getBoolValue($context->node, 'isRequired'),
         );
 
-        return FieldContainerFactory::create(
+        return $this->fieldContainerFactory->create(
             $context,
-            UploadField::create(
+            $this->fieldComponentFactory->createUpload(
                 field: UploadFieldProps::create(
                     fieldContainer: $fieldContainer,
                     name: $name,

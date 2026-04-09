@@ -10,17 +10,25 @@ use PackageFactory\Neos\ComponentEngine\Integration\ContentNodeRendererInterface
 use PackageFactory\Neos\ComponentEngine\NeosContext;
 use Sitegeist\PaperTiger\CPX\Components\Field\CheckboxGroupField\CheckboxGroupField;
 use Sitegeist\PaperTiger\CPX\Components\Field\CheckboxGroupField\CheckboxGroupFieldProps;
-use Sitegeist\PaperTiger\CPX\Components\Field\CheckboxItem\CheckboxItem;
 use Sitegeist\PaperTiger\CPX\Components\Field\CheckboxItem\CheckboxItemProps;
 use Sitegeist\PaperTiger\CPX\Components\FieldContainer\FieldContainerProps;
+use Sitegeist\PaperTiger\CPX\NodeTypes\Field\FieldComponentFactory;
 use Sitegeist\PaperTiger\CPX\NodeTypes\Field\FieldContainerFactory;
 
 final class CheckBoxesRenderer implements ContentNodeRendererInterface
 {
+    public function __construct(
+        private readonly FieldContainerFactory $fieldContainerFactory,
+        private readonly FieldComponentFactory $fieldComponentFactory,
+    ) {
+    }
+
     public function renderAsContent(NeosContext $context): ComponentInterface
     {
         $name = $context->nodes->getStringValue($context->node, 'name') ?? $context->node->aggregateId->value;
         $isRequired = $context->nodes->getBoolValue($context->node, 'isRequired');
+        $customErrorMessageEnabled = $context->nodes->getBoolValue($context->node, 'customErrorMessageEnabled');
+        $customErrorMessage = $context->nodes->getStringValue($context->node, 'customErrorMessage');
         $fieldContainer = FieldContainerProps::create(
             id: 'fieldcontainer_' . $name,
             label: $context->nodes->getStringValue($context->node, 'label'),
@@ -28,22 +36,24 @@ final class CheckBoxesRenderer implements ContentNodeRendererInterface
             isRequired: $isRequired,
         );
 
-        return FieldContainerFactory::create(
+        return $this->fieldContainerFactory->create(
             $context,
             CheckboxGroupField::create(
                 field: CheckboxGroupFieldProps::create(
                     fieldContainer: $fieldContainer,
                     name: $name,
                     isRequired: $isRequired,
-                    customErrorMessageEnabled: $context->nodes->getBoolValue($context->node, 'customErrorMessageEnabled'),
-                    customErrorMessage: $context->nodes->getStringValue($context->node, 'customErrorMessage'),
+                    customErrorMessageEnabled: $customErrorMessageEnabled,
+                    customErrorMessage: $customErrorMessage,
                 ),
                 content: $this->renderCheckboxOptions(
                     $this->normalizeOptions(
-                        $context->nodes->getArrayValue($context->node, 'options'),
+                        $context->node->getProperty('options'),
                     ),
                     $name,
                     $isRequired,
+                    $customErrorMessageEnabled,
+                    $customErrorMessage,
                 ),
             ),
         );
@@ -66,17 +76,25 @@ final class CheckBoxesRenderer implements ContentNodeRendererInterface
         );
     }
 
-    private function renderCheckboxOptions(array $options, string $name, ?bool $isRequired = null): ComponentInterface|string|null
+    private function renderCheckboxOptions(
+        array $options,
+        string $name,
+        ?bool $isRequired = null,
+        ?bool $customErrorMessageEnabled = null,
+        ?string $customErrorMessage = null,
+    ): ComponentInterface|string|null
     {
         $parts = [];
 
         foreach ($options as $option) {
-            $parts[] = CheckboxItem::create(
+            $parts[] = $this->fieldComponentFactory->createCheckbox(
                 option: CheckboxItemProps::create(
                     name: $name . '[]',
                     value: $option['value'],
                     label: $option['label'],
                     isRequired: $isRequired,
+                    customErrorMessageEnabled: $customErrorMessageEnabled,
+                    customErrorMessage: $customErrorMessage,
                 ),
             );
         }

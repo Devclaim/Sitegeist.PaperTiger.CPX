@@ -31,6 +31,6 @@ final readonly class FieldContainer implements _\ComponentInterface
 
     public function render(): string
     {
-        return '<div' . (($temp = $this->fieldContainer->id) === null ? '' : ' id="' . _\Util::escapeAttributeValue($temp) . '"') . ' class="papertiger-field">' . (($temp = $this->label) === null ? '' : $temp->render()) . '' . (($temp = $this->content) === null ? '' : $temp->render()) . '</div>';
+        return '<div' . (($temp = $this->fieldContainer->id) === null ? '' : ' id="' . _\Util::escapeAttributeValue($temp) . '"') . ' class="papertiger-field" data-form-field>' . (($temp = $this->label) === null ? '' : $temp->render()) . '' . (($temp = $this->content) === null ? '' : $temp->render()) . '</div>';
     }
 }

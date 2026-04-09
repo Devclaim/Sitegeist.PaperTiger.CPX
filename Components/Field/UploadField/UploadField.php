@@ -25,6 +25,6 @@ final readonly class UploadField implements _\ComponentInterface
 
     public function render(): string
     {
-        return '<input type="file"' . (($temp = $this->field->fieldContainer->inputId) === null ? '' : ' id="' . _\Util::escapeAttributeValue($temp) . '"') . ' name="' . _\Util::escapeAttributeValue($this->field->name) . '" class="papertiger-field__control papertiger-field__control--upload"' . (($temp = $this->field->isRequired) === null ? '' : ($temp ? ' required' : '')) . '' . (($temp = $this->field->isMultiple) === null ? '' : ($temp ? ' multiple' : '')) . ' />';
+        return '<input type="file"' . (($temp = $this->field->fieldContainer->inputId) === null ? '' : ' id="' . _\Util::escapeAttributeValue($temp) . '"') . ' name="' . _\Util::escapeAttributeValue($this->field->name) . '" class="papertiger-field__control papertiger-field__control--upload" data-fieldtype="input"' . ($this->field->customErrorMessageEnabled ? (($temp = $this->field->customErrorMessage) === null ? '' : ' data-custom-error-message="' . _\Util::escapeAttributeValue($temp) . '"') : '') . ' oninvalid="this.setCustomValidity(this.dataset.customErrorMessage || \'\')" oninput="this.setCustomValidity(\'\')"' . (($temp = $this->field->isRequired) === null ? '' : ($temp ? ' required' : '')) . '' . (($temp = $this->field->isMultiple) === null ? '' : ($temp ? ' multiple' : '')) . ' />';
     }
 }

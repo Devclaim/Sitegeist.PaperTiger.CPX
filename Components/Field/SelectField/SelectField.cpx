@@ -8,6 +8,10 @@ export component SelectField {
     id={field.fieldContainer.inputId}
     name={field.name}
     class="papertiger-field__control papertiger-field__control--select"
+    data-fieldtype="select"
+    data-custom-error-message={field.customErrorMessageEnabled ? field.customErrorMessage : null}
+    oninvalid="this.setCustomValidity(this.dataset.customErrorMessage || '')"
+    oninput="this.setCustomValidity('')"
     multiple={field.isMultiple}
     required={field.isRequired}
   >

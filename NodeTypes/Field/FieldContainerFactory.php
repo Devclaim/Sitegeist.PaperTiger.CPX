@@ -6,20 +6,23 @@ namespace Sitegeist\PaperTiger\CPX\NodeTypes\Field;
 
 use PackageFactory\Neos\ComponentEngine\NeosContext;
 use PackageFactory\ComponentEngine\ComponentInterface;
-use Sitegeist\PaperTiger\CPX\Components\FieldContainer\FieldContainer;
 use Sitegeist\PaperTiger\CPX\Components\FieldContainer\FieldContainerProps;
-use Sitegeist\PaperTiger\CPX\Components\Label\Label;
 use Sitegeist\PaperTiger\CPX\Components\Label\LabelProps;
 
 final class FieldContainerFactory
 {
-    public static function create(
+    public function __construct(
+        private readonly FieldComponentFactory $fieldComponentFactory,
+    ) {
+    }
+
+    public function create(
         NeosContext $context,
         ComponentInterface|string|null $content,
         ?string $label = null,
         ?string $inputId = null,
         ?bool $isRequired = null,
-    ): FieldContainer {
+    ): ComponentInterface {
         $identifier = $context->nodes->getStringValue($context->node, 'name') ?? $context->node->aggregateId->value;
         $fieldContainer = FieldContainerProps::create(
             id: 'fieldcontainer_' . $identifier,
@@ -28,9 +31,9 @@ final class FieldContainerFactory
             isRequired: $isRequired ?? $context->nodes->getBoolValue($context->node, 'isRequired'),
         );
 
-        return FieldContainer::create(
+        return $this->fieldComponentFactory->createFieldContainer(
             fieldContainer: $fieldContainer,
-            label: Label::create(
+            label: $this->fieldComponentFactory->createLabel(
                 label: LabelProps::create(
                     inputId: $fieldContainer->inputId,
                     label: $fieldContainer->label,
