@@ -19,6 +19,8 @@ use PackageFactory\Neos\ComponentEngine\NeosContext;
 use PackageFactory\Neos\ComponentEngine\Presentation\Component\ContentElementCollection;
 use Sitegeist\PaperTiger\CPX\Components\FieldNames\FieldNames;
 use Sitegeist\PaperTiger\CPX\Components\FieldNameToken\FieldNameToken;
+use Sitegeist\PaperTiger\CPX\Components\Field\HiddenField\HiddenField;
+use Sitegeist\PaperTiger\CPX\Components\Field\HiddenField\HiddenFieldProps;
 use Sitegeist\PaperTiger\CPX\Components\Form\Form;
 use Sitegeist\PaperTiger\CPX\Components\Form\FormProps;
 use Sitegeist\PaperTiger\CPX\Components\FormEditor\FormEditor;
@@ -45,7 +47,10 @@ final class FormFactory
     {
         return Form::create(
             form: $this->createFormProps($context),
-            content: $this->renderFields($context),
+            content: ComponentCollection::list(
+                $this->createNodeAggregateIdField($context),
+                ...array_filter([$this->renderFields($context)]),
+            ),
         );
     }
 
@@ -75,7 +80,13 @@ final class FormFactory
 
         return FormProps::create(
             id: $formId,
-            action: null,
+            action: $forEditMode
+                ? null
+                : (string)$context->neos->getActionUri(
+                    package: 'Sitegeist.PaperTiger.CPX',
+                    controller: 'FormSubmission',
+                    action: 'formData',
+                ),
             method: $forEditMode ? null : 'post',
         );
     }
@@ -94,17 +105,22 @@ final class FormFactory
     {
         return Form::create(
             form: $this->createFormProps($context, true),
-            content: $this->createCollectionEditor(
-                context: $context,
-                collectionName: 'fields',
-                additionalClasses: ['papertiger-form__fields'],
-                content: fn (?ComponentInterface $items) => ComponentCollection::list(
-                    FormSectionHeader::create(
-                        number: '1',
-                        title: $this->translate('form.formFields.header', 'Form fields'),
+            content: ComponentCollection::list(
+                $this->createNodeAggregateIdField($context),
+                ...array_filter([
+                    $this->createCollectionEditor(
+                        context: $context,
+                        collectionName: 'fields',
+                        additionalClasses: ['papertiger-form__fields'],
+                        content: fn (?ComponentInterface $items) => ComponentCollection::list(
+                            FormSectionHeader::create(
+                                number: '1',
+                                title: $this->translate('form.formFields.header', 'Form fields'),
+                            ),
+                            ...($items ? [$items] : []),
+                        ),
                     ),
-                    ...($items ? [$items] : []),
-                ),
+                ]),
             ),
         );
     }
@@ -131,6 +147,16 @@ final class FormFactory
     private function formId(NeosContext $context): string
     {
         return 'form_' . $context->node->aggregateId->value;
+    }
+
+    private function createNodeAggregateIdField(NeosContext $context): HiddenField
+    {
+        return HiddenField::create(
+            field: HiddenFieldProps::create(
+                name: 'nodeAggregateId',
+                value: $context->node->aggregateId->value,
+            ),
+        );
     }
 
     private function renderFieldNames(NeosContext $context): ?ComponentInterface

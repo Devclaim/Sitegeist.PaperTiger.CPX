@@ -7,11 +7,13 @@
         "php": ">=8.2",
         "neos/neos": "^9.0",
         "neos/neos-ui": "^9.1",
-        "packagefactory/neos-component-engine": "^1.0",
-        "sitegeist/inspectorgadget": "^3.0"
+        "packagefactory/neos-component-engine": "1.0.0-alpha3",
+        "sitegeist/inspectorgadget": "^3.0",
+        "sitegeist/schemeonyou": "^2.1.0"
     },
     "autoload": {
         "psr-4": {
+            "Sitegeist\\PaperTiger\\CPX\\": "Classes/",
             "Sitegeist\\PaperTiger\\CPX\\Components\\": "Components/",
             "Sitegeist\\PaperTiger\\CPX\\NodeTypes\\": "NodeTypes/"
         }

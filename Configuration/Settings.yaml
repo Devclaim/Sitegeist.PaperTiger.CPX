@@ -1,13 +1,19 @@
 Sitegeist:
   PaperTiger:
     CPX: { }
+  SchemeOnYou:
+    documents:
+      papertiger:
+        name: papertiger
+        classNames:
+          - 'Sitegeist\PaperTiger\CPX\Controller\FormSubmissionController'
 
 Neos:
   Flow:
-    object:
-      includeClasses:
+    mvc:
+      routes:
         'Sitegeist.PaperTiger.CPX':
-          - '^Sitegeist\\PaperTiger\\CPX\\NodeTypes\\'
+          position: 'before Neos.Neos'
   Neos:
     nodeTypes:
       groups:

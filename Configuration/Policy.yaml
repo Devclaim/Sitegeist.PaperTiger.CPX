@@ -1,0 +1,13 @@
+privilegeTargets:
+
+  'Neos\Flow\Security\Authorization\Privilege\Method\MethodPrivilege':
+
+    'Sitegeist.PaperTiger.CPX.FormSubmission:Api':
+      matcher: 'method(Sitegeist\PaperTiger\CPX\Controller\FormSubmissionController->(.*)Action())'
+
+roles:
+  'Neos.Flow:Everybody':
+    privileges:
+      -
+        privilegeTarget: 'Sitegeist.PaperTiger.CPX.FormSubmission:Api'
+        permission: GRANT
