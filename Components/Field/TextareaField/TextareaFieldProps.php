@@ -19,7 +19,6 @@ final readonly class TextareaFieldProps
         public ?int $lineNumber,
         public ?int $minimumLength,
         public ?int $maximumLength,
-        public ?string $regularExpression,
         public ?bool $customErrorMessageEnabled,
         public ?string $customErrorMessage,
     ) {
@@ -34,7 +33,6 @@ final readonly class TextareaFieldProps
         ?int $lineNumber,
         ?int $minimumLength,
         ?int $maximumLength,
-        ?string $regularExpression,
         ?bool $customErrorMessageEnabled,
         ?string $customErrorMessage,
     ): self {
@@ -47,7 +45,6 @@ final readonly class TextareaFieldProps
             lineNumber: $lineNumber,
             minimumLength: $minimumLength,
             maximumLength: $maximumLength,
-            regularExpression: $regularExpression,
             customErrorMessageEnabled: $customErrorMessageEnabled,
             customErrorMessage: $customErrorMessage,
         );

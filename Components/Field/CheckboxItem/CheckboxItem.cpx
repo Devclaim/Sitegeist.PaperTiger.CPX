@@ -8,6 +8,7 @@ export component CheckboxItem {
       type="checkbox"
       name={option.name}
       value={option.value}
+      checked={option.isChecked}
       required={option.isRequired}
       class="papertiger-checkbox-item__input"
       data-fieldtype="input"

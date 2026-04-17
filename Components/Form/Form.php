@@ -12,22 +12,25 @@ final readonly class Form implements _\ComponentInterface
 {
     private function __construct(
         private FormProps $form,
+        private ?_\ComponentInterface $error,
         private ?_\ComponentInterface $content,
     ) {
     }
 
     public static function create(
         FormProps $form,
+        _\ComponentInterface|string|null $error,
         _\ComponentInterface|string|null $content,
     ): self {
         return new self(
             form: $form,
+            error: is_string($error) ? _\StringComponent::fromString($error) : $error,
             content: is_string($content) ? _\StringComponent::fromString($content) : $content,
         );
     }
 
     public function render(): string
     {
-        return '<form id="' . _\Util::escapeAttributeValue($this->form->id) . '" class="papertiger-form__element"' . (($temp = $this->form->action) === null ? '' : ' action="' . _\Util::escapeAttributeValue($temp) . '"') . '' . (($temp = $this->form->method) === null ? '' : ' method="' . _\Util::escapeAttributeValue($temp) . '"') . '>' . (($temp = $this->content) === null ? '' : $temp->render()) . '</form>';
+        return '<form id="' . _\Util::escapeAttributeValue($this->form->id) . '" class="papertiger-form__element"' . (($temp = $this->form->action) === null ? '' : ' action="' . _\Util::escapeAttributeValue($temp) . '"') . '' . (($temp = $this->form->method) === null ? '' : ' method="' . _\Util::escapeAttributeValue($temp) . '"') . ' enctype="multipart/form-data">' . (($temp = $this->error) === null ? '' : $temp->render()) . '' . (($temp = $this->content) === null ? '' : $temp->render()) . '</form>';
     }
 }

@@ -7,6 +7,7 @@ namespace Sitegeist\PaperTiger\CPX\NodeTypes\Field\Text\MultiLine;
 use PackageFactory\ComponentEngine\ComponentInterface;
 use PackageFactory\Neos\ComponentEngine\Integration\ContentNodeRendererInterface;
 use PackageFactory\Neos\ComponentEngine\NeosContext;
+use Sitegeist\PaperTiger\CPX\Domain\PaperTigerFormState;
 use Sitegeist\PaperTiger\CPX\Components\Field\TextareaField\TextareaFieldProps;
 use Sitegeist\PaperTiger\CPX\Components\FieldContainer\FieldContainerProps;
 use Sitegeist\PaperTiger\CPX\NodeTypes\Field\FieldComponentFactory;
@@ -23,6 +24,7 @@ final class MultiLineRenderer implements ContentNodeRendererInterface
     public function renderAsContent(NeosContext $context): ComponentInterface
     {
         $name = $context->nodes->getStringValue($context->node, 'name') ?? $context->node->aggregateId->value;
+        $formState = PaperTigerFormState::fromRequest($context->request);
         $lineNumber = $context->nodes->getIntValue($context->node, 'lineNumber');
         $minimumLength = $context->nodes->getIntValue($context->node, 'minimumLength');
         $maximumLength = $context->nodes->getIntValue($context->node, 'maximumLength');
@@ -31,6 +33,7 @@ final class MultiLineRenderer implements ContentNodeRendererInterface
             label: $context->nodes->getStringValue($context->node, 'label'),
             inputId: 'field_' . $name,
             isRequired: $context->nodes->getBoolValue($context->node, 'isRequired'),
+            hasErrors: $formState?->hasErrorsFor($name),
         );
 
         return $this->fieldContainerFactory->create(
@@ -39,13 +42,12 @@ final class MultiLineRenderer implements ContentNodeRendererInterface
                 field: TextareaFieldProps::create(
                     fieldContainer: $fieldContainer,
                     name: $name,
-                    value: null,
+                    value: $formState?->getStringValue($name),
                     placeholder: $context->nodes->getStringValue($context->node, 'placeholder'),
                     isRequired: $context->nodes->getBoolValue($context->node, 'isRequired'),
                     lineNumber: $lineNumber,
                     minimumLength: $minimumLength,
                     maximumLength: $maximumLength,
-                    regularExpression: $context->nodes->getStringValue($context->node, 'regularExpression'),
                     customErrorMessageEnabled: $context->nodes->getBoolValue($context->node, 'customErrorMessageEnabled'),
                     customErrorMessage: $context->nodes->getStringValue($context->node, 'customErrorMessage'),
                 ),

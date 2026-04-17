@@ -4,13 +4,15 @@ export component FieldContainer {
   fieldContainer: FieldContainerProps
   label: slot
   content: slot
+  error: slot
 
   render <div
     id={fieldContainer.id}
-    class="papertiger-field"
+    class={fieldContainer.hasErrors ? "papertiger-field papertiger-field--invalid showInvalid" : "papertiger-field"}
     data-form-field
   >
     {label}
     {content}
+    {error}
   </div>
 }

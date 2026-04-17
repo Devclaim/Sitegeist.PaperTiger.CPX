@@ -8,6 +8,7 @@ use DateTimeInterface;
 use PackageFactory\ComponentEngine\ComponentInterface;
 use PackageFactory\Neos\ComponentEngine\Integration\ContentNodeRendererInterface;
 use PackageFactory\Neos\ComponentEngine\NeosContext;
+use Sitegeist\PaperTiger\CPX\Domain\PaperTigerFormState;
 use Sitegeist\PaperTiger\CPX\Components\Field\InputField\InputFieldProps;
 use Sitegeist\PaperTiger\CPX\Components\FieldContainer\FieldContainerProps;
 use Sitegeist\PaperTiger\CPX\NodeTypes\Field\FieldComponentFactory;
@@ -24,6 +25,7 @@ final class DateRenderer implements ContentNodeRendererInterface
     public function renderAsContent(NeosContext $context): ComponentInterface
     {
         $name = $context->nodes->getStringValue($context->node, 'name') ?? $context->node->aggregateId->value;
+        $formState = PaperTigerFormState::fromRequest($context->request);
         $earliestDate = $context->nodes->getObjectValue($context->node, 'earliestDate', DateTimeInterface::class);
         $latestDate = $context->nodes->getObjectValue($context->node, 'latestDate', DateTimeInterface::class);
         $fieldContainer = FieldContainerProps::create(
@@ -31,6 +33,7 @@ final class DateRenderer implements ContentNodeRendererInterface
             label: $context->nodes->getStringValue($context->node, 'label'),
             inputId: 'field_' . $name,
             isRequired: $context->nodes->getBoolValue($context->node, 'isRequired'),
+            hasErrors: $formState?->hasErrorsFor($name),
         );
 
         return $this->fieldContainerFactory->create(
@@ -40,6 +43,7 @@ final class DateRenderer implements ContentNodeRendererInterface
                     fieldContainer: $fieldContainer,
                     type: 'date',
                     name: $name,
+                    value: $formState?->getStringValue($name),
                     placeholder: $context->nodes->getStringValue($context->node, 'placeholder'),
                     isRequired: $context->nodes->getBoolValue($context->node, 'isRequired'),
                     minimumLength: $earliestDate?->format('Y-m-d'),

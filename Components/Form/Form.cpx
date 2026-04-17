@@ -2,6 +2,7 @@ from "./FormProps.cpx" import { FormProps }
 
 export component Form {
   form: FormProps
+  error: slot
   content: slot
 
   render <form
@@ -9,7 +10,9 @@ export component Form {
     class="papertiger-form__element"
     action={form.action}
     method={form.method}
+    enctype="multipart/form-data"
   >
+    {error}
     {content}
   </form>
 }

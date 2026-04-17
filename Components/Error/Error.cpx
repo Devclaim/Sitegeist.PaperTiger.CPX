@@ -1,0 +1,7 @@
+from "./ErrorProps.cpx" import { ErrorProps }
+
+export component Error {
+  error: ErrorProps
+
+  render <p class="papertiger-error">{error.message}</p>
+}

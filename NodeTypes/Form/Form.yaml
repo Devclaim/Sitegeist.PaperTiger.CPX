@@ -11,6 +11,24 @@ Sitegeist.PaperTiger.CPX:Form:
           label: i18n
           position: 30
           icon: 'icon-list-alt'
+  properties:
+    formMode:
+      type: Sitegeist\PaperTiger\CPX\Components\Form\FormMode
+      defaultValue: 'standard'
+      ui:
+        label: 'Form mode'
+        reloadIfChanged: true
+        inspector:
+          group: 'form'
+          position: 10
+          editor: 'Neos.Neos/Inspector/Editors/SelectBoxEditor'
+  postprocessors:
+    enumFormMode:
+      postprocessor: Vendor\Shared\Application\EnumProvider
+      postprocessorOptions:
+        enumName: Sitegeist\PaperTiger\CPX\Components\Form\FormMode
+        propertyNames:
+          - formMode
   superTypes:
     Neos.Neos:Content: true
   childNodes:

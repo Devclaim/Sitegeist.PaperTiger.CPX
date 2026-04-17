@@ -8,6 +8,7 @@ export component RadioItem {
       type="radio"
       name={option.name}
       value={option.value}
+      checked={option.isChecked}
       required={option.isRequired}
       class="papertiger-radio-item__input"
       data-fieldtype="input"

@@ -3,4 +3,5 @@ export struct FieldContainerProps {
   label: ?string
   inputId: ?string
   isRequired: ?boolean
+  hasErrors: ?boolean
 }

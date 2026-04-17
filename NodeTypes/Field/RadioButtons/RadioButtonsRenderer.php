@@ -8,6 +8,7 @@ use PackageFactory\ComponentEngine\SlotComponent;
 use PackageFactory\ComponentEngine\ComponentInterface;
 use PackageFactory\Neos\ComponentEngine\Integration\ContentNodeRendererInterface;
 use PackageFactory\Neos\ComponentEngine\NeosContext;
+use Sitegeist\PaperTiger\CPX\Domain\PaperTigerFormState;
 use Sitegeist\PaperTiger\CPX\Components\Field\RadioGroupField\RadioGroupField;
 use Sitegeist\PaperTiger\CPX\Components\Field\RadioGroupField\RadioGroupFieldProps;
 use Sitegeist\PaperTiger\CPX\Components\Field\RadioItem\RadioItemProps;
@@ -26,6 +27,7 @@ final class RadioButtonsRenderer implements ContentNodeRendererInterface
     public function renderAsContent(NeosContext $context): ComponentInterface
     {
         $name = $context->nodes->getStringValue($context->node, 'name') ?? $context->node->aggregateId->value;
+        $formState = PaperTigerFormState::fromRequest($context->request);
         $isRequired = $context->nodes->getBoolValue($context->node, 'isRequired');
         $customErrorMessageEnabled = $context->nodes->getBoolValue($context->node, 'customErrorMessageEnabled');
         $customErrorMessage = $context->nodes->getStringValue($context->node, 'customErrorMessage');
@@ -34,6 +36,7 @@ final class RadioButtonsRenderer implements ContentNodeRendererInterface
             label: $context->nodes->getStringValue($context->node, 'label'),
             inputId: 'field_' . $name,
             isRequired: $isRequired,
+            hasErrors: $formState?->hasErrorsFor($name),
         );
 
         return $this->fieldContainerFactory->create(
@@ -51,6 +54,7 @@ final class RadioButtonsRenderer implements ContentNodeRendererInterface
                         $context->node->getProperty('options'),
                     ),
                     $name,
+                    $formState?->getStringValue($name),
                     $isRequired,
                     $customErrorMessageEnabled,
                     $customErrorMessage,
@@ -79,6 +83,7 @@ final class RadioButtonsRenderer implements ContentNodeRendererInterface
     private function renderRadioOptions(
         array $options,
         string $name,
+        ?string $selectedValue,
         ?bool $isRequired = null,
         ?bool $customErrorMessageEnabled = null,
         ?string $customErrorMessage = null,
@@ -92,6 +97,7 @@ final class RadioButtonsRenderer implements ContentNodeRendererInterface
                     name: $name,
                     value: $option['value'],
                     label: $option['label'],
+                    isChecked: $selectedValue === $option['value'],
                     isRequired: $isRequired,
                     customErrorMessageEnabled: $customErrorMessageEnabled,
                     customErrorMessage: $customErrorMessage,

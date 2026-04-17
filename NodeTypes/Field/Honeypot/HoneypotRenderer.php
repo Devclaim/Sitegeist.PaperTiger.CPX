@@ -33,6 +33,7 @@ final class HoneypotRenderer implements ContentNodeRendererInterface
                 label: 'Honeypot',
                 inputId: null,
                 isRequired: false,
+                hasErrors: null,
             );
 
             return $this->fieldContainerFactory->create(

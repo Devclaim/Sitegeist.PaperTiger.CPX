@@ -54,10 +54,3 @@ Sitegeist.PaperTiger.CPX:Mixin.Field.Text.MultiLine:
         label: i18n
         inspector:
           group: form-validation
-    regularExpression:
-      type: string
-      defaultValue: null
-      ui:
-        label: i18n
-        inspector:
-          group: form-validation

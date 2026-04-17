@@ -4,6 +4,7 @@ export struct InputFieldProps {
   fieldContainer: FieldContainerProps
   type: string
   name: string
+  value: ?string
   placeholder: ?string
   isRequired: ?boolean
   minimumLength: ?string

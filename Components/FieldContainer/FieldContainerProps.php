@@ -14,6 +14,7 @@ final readonly class FieldContainerProps
         public ?string $label,
         public ?string $inputId,
         public ?bool $isRequired,
+        public ?bool $hasErrors,
     ) {
     }
 
@@ -22,12 +23,14 @@ final readonly class FieldContainerProps
         ?string $label,
         ?string $inputId,
         ?bool $isRequired,
+        ?bool $hasErrors,
     ): self {
         return new self(
             id: $id,
             label: $label,
             inputId: $inputId,
             isRequired: $isRequired,
+            hasErrors: $hasErrors,
         );
     }
 }

@@ -1,0 +1,10 @@
+from "./MessageProps.cpx" import { MessageProps }
+
+export component Message {
+  message: MessageProps
+  content: slot
+
+  render <div id={message.id} class="papertiger-message" role="status">
+    {content}
+  </div>
+}

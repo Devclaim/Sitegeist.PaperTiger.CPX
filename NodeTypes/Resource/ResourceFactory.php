@@ -6,7 +6,9 @@ namespace Sitegeist\PaperTiger\CPX\NodeTypes\Resource;
 
 use PackageFactory\ComponentEngine\ComponentInterface;
 use PackageFactory\ComponentEngine\StringComponent;
+use Neos\Flow\Annotations as Flow;
 
+#[Flow\Scope('singleton')]
 final class ResourceFactory
 {
     /**

@@ -9,7 +9,8 @@
         "neos/neos-ui": "^9.1",
         "packagefactory/neos-component-engine": "1.0.0-alpha3",
         "sitegeist/inspectorgadget": "^3.0",
-        "sitegeist/schemeonyou": "^2.1.0"
+        "sitegeist/schemeonyou": "^2.1.0",
+        "neos/symfonymailer": "^1.0.2"
     },
     "autoload": {
         "psr-4": {

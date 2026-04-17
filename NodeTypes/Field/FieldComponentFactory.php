@@ -8,6 +8,8 @@ use Neos\Flow\Annotations as Flow;
 use PackageFactory\ComponentEngine\ComponentInterface;
 use Sitegeist\PaperTiger\CPX\Components\Field\CheckboxItem\CheckboxItem;
 use Sitegeist\PaperTiger\CPX\Components\Field\CheckboxItem\CheckboxItemProps;
+use Sitegeist\PaperTiger\CPX\Components\Error\Error;
+use Sitegeist\PaperTiger\CPX\Components\Error\ErrorProps;
 use Sitegeist\PaperTiger\CPX\Components\Field\InputField\InputField;
 use Sitegeist\PaperTiger\CPX\Components\Field\InputField\InputFieldProps;
 use Sitegeist\PaperTiger\CPX\Components\Field\RadioItem\RadioItem;
@@ -22,6 +24,8 @@ use Sitegeist\PaperTiger\CPX\Components\FieldContainer\FieldContainer;
 use Sitegeist\PaperTiger\CPX\Components\FieldContainer\FieldContainerProps;
 use Sitegeist\PaperTiger\CPX\Components\Label\Label;
 use Sitegeist\PaperTiger\CPX\Components\Label\LabelProps;
+use Sitegeist\PaperTiger\CPX\Components\Message\Message;
+use Sitegeist\PaperTiger\CPX\Components\Message\MessageProps;
 
 #[Flow\Scope('singleton')]
 final class FieldComponentFactory
@@ -30,13 +34,15 @@ final class FieldComponentFactory
      * @param array{
      *   fieldContainer?: class-string<ComponentInterface>,
      *   label?: class-string<ComponentInterface>,
+     *   error?: class-string<ComponentInterface>,
      *   input?: class-string<ComponentInterface>,
      *   textarea?: class-string<ComponentInterface>,
      *   select?: class-string<ComponentInterface>,
      *   date?: class-string<ComponentInterface>,
      *   upload?: class-string<ComponentInterface>,
      *   checkbox?: class-string<ComponentInterface>,
-     *   radio?: class-string<ComponentInterface>
+     *   radio?: class-string<ComponentInterface>,
+     *   message?: class-string<ComponentInterface>
      * } $componentClasses
      */
     #[Flow\InjectConfiguration(path: 'components')]
@@ -46,10 +52,11 @@ final class FieldComponentFactory
         FieldContainerProps $fieldContainer,
         ComponentInterface|string|null $label,
         ComponentInterface|string|null $content,
+        ComponentInterface|string|null $error,
     ): ComponentInterface {
         $className = $this->componentClasses['fieldContainer'] ?? FieldContainer::class;
 
-        return $this->createComponent($className, $fieldContainer, $label, $content);
+        return $this->createComponent($className, $fieldContainer, $label, $content, $error);
     }
 
     public function createLabel(LabelProps $label): ComponentInterface
@@ -57,6 +64,20 @@ final class FieldComponentFactory
         $className = $this->componentClasses['label'] ?? Label::class;
 
         return $this->createComponent($className, $label);
+    }
+
+    public function createError(ErrorProps $error): ComponentInterface
+    {
+        $className = $this->componentClasses['error'] ?? Error::class;
+
+        return $this->createComponent($className, $error);
+    }
+
+    public function createMessage(MessageProps $message, ComponentInterface|string|null $content = null): ComponentInterface
+    {
+        $className = $this->componentClasses['message'] ?? Message::class;
+
+        return $this->createComponent($className, $message, $content);
     }
 
     public function createInput(InputFieldProps $field): ComponentInterface

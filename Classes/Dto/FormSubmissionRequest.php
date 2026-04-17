@@ -12,7 +12,7 @@ use Sitegeist\SchemeOnYou\Domain\Metadata\Schema;
 final readonly class FormSubmissionRequest
 {
     public function __construct(
-        public string $nodeAggregateId,
+        public FormSubmissionArgumentCollection $arguments,
     ) {
     }
 }

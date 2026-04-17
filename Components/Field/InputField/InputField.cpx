@@ -7,6 +7,7 @@ export component InputField {
     type={field.type}
     id={field.fieldContainer.inputId}
     name={field.name}
+    value={field.value}
     class="papertiger-field__control"
     data-papertiger-field-type={field.type}
     data-fieldtype="input"

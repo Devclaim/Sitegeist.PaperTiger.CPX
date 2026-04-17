@@ -6,15 +6,17 @@ namespace Sitegeist\PaperTiger\CPX\Dto;
 
 use Neos\Flow\Annotations as Flow;
 use Sitegeist\SchemeOnYou\Domain\Metadata\Response;
-use Sitegeist\SchemeOnYou\Domain\Metadata\Schema;
 
 #[Flow\Proxy(false)]
-#[Schema(description: '', name: 'PaperTigerFormSubmissionResponse')]
 #[Response(statusCode: 200, description: '')]
-final readonly class FormSubmissionResponse
+final readonly class FormSubmissionJsonResponse
 {
     public function __construct(
-        public string $content,
+        public bool $success,
+        public FormSubmissionValidationErrorCollection $errors,
+        public ?string $redirectUri = null,
+        public ?string $content = null,
+        public ?string $message = null,
     ) {
     }
 }

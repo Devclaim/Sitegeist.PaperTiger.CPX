@@ -1,0 +1,9 @@
+from "./SuccessProps.cpx" import { SuccessProps }
+
+export component Success {
+  success: SuccessProps
+
+  render <div id={success.id} class="papertiger-success" role="status">
+    {success.message}
+  </div>
+}

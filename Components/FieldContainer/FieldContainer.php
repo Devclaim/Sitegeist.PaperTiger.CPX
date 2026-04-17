@@ -14,6 +14,7 @@ final readonly class FieldContainer implements _\ComponentInterface
         private FieldContainerProps $fieldContainer,
         private ?_\ComponentInterface $label,
         private ?_\ComponentInterface $content,
+        private ?_\ComponentInterface $error,
     ) {
     }
 
@@ -21,16 +22,18 @@ final readonly class FieldContainer implements _\ComponentInterface
         FieldContainerProps $fieldContainer,
         _\ComponentInterface|string|null $label,
         _\ComponentInterface|string|null $content,
+        _\ComponentInterface|string|null $error,
     ): self {
         return new self(
             fieldContainer: $fieldContainer,
             label: is_string($label) ? _\StringComponent::fromString($label) : $label,
             content: is_string($content) ? _\StringComponent::fromString($content) : $content,
+            error: is_string($error) ? _\StringComponent::fromString($error) : $error,
         );
     }
 
     public function render(): string
     {
-        return '<div' . (($temp = $this->fieldContainer->id) === null ? '' : ' id="' . _\Util::escapeAttributeValue($temp) . '"') . ' class="papertiger-field" data-form-field>' . (($temp = $this->label) === null ? '' : $temp->render()) . '' . (($temp = $this->content) === null ? '' : $temp->render()) . '</div>';
+        return '<div' . (($temp = $this->fieldContainer->id) === null ? '' : ' id="' . _\Util::escapeAttributeValue($temp) . '"') . '' . ($this->fieldContainer->hasErrors ? ' class="papertiger-field papertiger-field--invalid showInvalid"' : ' class="papertiger-field"') . ' data-form-field>' . (($temp = $this->label) === null ? '' : $temp->render()) . '' . (($temp = $this->content) === null ? '' : $temp->render()) . '' . (($temp = $this->error) === null ? '' : $temp->render()) . '</div>';
     }
 }

@@ -1,0 +1,4 @@
+export struct SuccessProps {
+  id: string
+  message: string
+}

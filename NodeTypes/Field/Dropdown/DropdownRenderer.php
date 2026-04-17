@@ -9,6 +9,7 @@ use PackageFactory\ComponentEngine\ComponentInterface;
 use PackageFactory\ComponentEngine\Util;
 use PackageFactory\Neos\ComponentEngine\Integration\ContentNodeRendererInterface;
 use PackageFactory\Neos\ComponentEngine\NeosContext;
+use Sitegeist\PaperTiger\CPX\Domain\PaperTigerFormState;
 use Sitegeist\PaperTiger\CPX\Components\Field\SelectField\SelectFieldProps;
 use Sitegeist\PaperTiger\CPX\Components\FieldContainer\FieldContainerProps;
 use Sitegeist\PaperTiger\CPX\NodeTypes\Field\FieldComponentFactory;
@@ -25,11 +26,13 @@ final class DropdownRenderer implements ContentNodeRendererInterface
     public function renderAsContent(NeosContext $context): ComponentInterface
     {
         $name = $context->nodes->getStringValue($context->node, 'name') ?? $context->node->aggregateId->value;
+        $formState = PaperTigerFormState::fromRequest($context->request);
         $fieldContainer = FieldContainerProps::create(
             id: 'fieldcontainer_' . $name,
             label: $context->nodes->getStringValue($context->node, 'label'),
             inputId: 'field_' . $name,
             isRequired: $context->nodes->getBoolValue($context->node, 'isRequired'),
+            hasErrors: $formState?->hasErrorsFor($name),
         );
 
         return $this->fieldContainerFactory->create(
@@ -49,6 +52,7 @@ final class DropdownRenderer implements ContentNodeRendererInterface
                     options: $this->normalizeOptions(
                         $context->node->getProperty('options'),
                     ),
+                    selectedValues: $formState?->getStringValues($name) ?? [],
                     includeEmptyOption: $context->nodes->getBoolValue($context->node, 'emptyOptionEnabled') ?? false,
                     emptyLabel: $context->nodes->getStringValue($context->node, 'emptyLabel'),
                 ),
@@ -73,18 +77,18 @@ final class DropdownRenderer implements ContentNodeRendererInterface
         );
     }
 
-    private function renderDropdownOptions(array $options, bool $includeEmptyOption, ?string $emptyLabel): ComponentInterface|string|null
+    private function renderDropdownOptions(array $options, array $selectedValues, bool $includeEmptyOption, ?string $emptyLabel): ComponentInterface|string|null
     {
         $parts = [];
 
         if ($includeEmptyOption) {
-            $parts[] = '<option value="">';
+            $parts[] = '<option value=""' . (in_array('', $selectedValues, true) ? ' selected' : '') . '>';
             $parts[] = $emptyLabel === null ? '' : Util::escapeRenderValue($emptyLabel);
             $parts[] = '</option>';
         }
 
         foreach ($options as $option) {
-            $parts[] = '<option value="' . Util::escapeAttributeValue($option['value']) . '">';
+            $parts[] = '<option value="' . Util::escapeAttributeValue($option['value']) . '"' . (in_array($option['value'], $selectedValues, true) ? ' selected' : '') . '>';
             $parts[] = Util::escapeRenderValue($option['label']);
             $parts[] = '</option>';
         }
