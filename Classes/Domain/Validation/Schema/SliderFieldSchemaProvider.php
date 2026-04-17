@@ -7,7 +7,6 @@ namespace Sitegeist\PaperTiger\CPX\Domain\Validation\Schema;
 use Neos\ContentRepository\Core\Projection\ContentGraph\Node;
 use PackageFactory\Neos\ComponentEngine\NeosContext;
 use Sitegeist\PaperTiger\CPX\Domain\Validation\SchemaInterface;
-use Neos\Flow\Annotations as Flow;
 
 final class SliderFieldSchemaProvider extends AbstractFieldSchemaProvider
 {
