@@ -37,7 +37,9 @@ final class UploadFieldSchemaProvider extends AbstractFieldSchemaProvider
             );
         }
 
-        $useTypeMessage = $context->nodes->getBoolValue($fieldNode, 'useCustomUploadTypeMessage') ?? false;
+        $useTypeMessage = $context->nodes->getBoolValue($fieldNode, 'uploadTypeUseCustomMessage')
+            ?? $context->nodes->getBoolValue($fieldNode, 'useCustomUploadTypeMessage')
+            ?? false;
         if ($useTypeMessage) {
             $message = $context->nodes->getStringValue($fieldNode, 'uploadTypeMessage');
             if (is_string($message) && $message !== '') {
@@ -45,7 +47,9 @@ final class UploadFieldSchemaProvider extends AbstractFieldSchemaProvider
             }
         }
 
-        $useSizeMessage = $context->nodes->getBoolValue($fieldNode, 'useCustomUploadSizeMessage') ?? false;
+        $useSizeMessage = $context->nodes->getBoolValue($fieldNode, 'uploadSizeUseCustomMessage')
+            ?? $context->nodes->getBoolValue($fieldNode, 'useCustomUploadSizeMessage')
+            ?? false;
         if ($useSizeMessage) {
             $message = $context->nodes->getStringValue($fieldNode, 'uploadSizeMessage');
             if (is_string($message) && $message !== '') {

@@ -64,7 +64,9 @@ abstract class AbstractFieldSchemaProvider implements FieldSchemaProviderInterfa
     {
         $this->applyRequired($context, $fieldNode, $schema);
 
-        $useCustom = $context->nodes->getBoolValue($fieldNode, 'useCustomRequiredMessage') ?? false;
+        $useCustom = $context->nodes->getBoolValue($fieldNode, 'requiredUseCustomMessage')
+            ?? $context->nodes->getBoolValue($fieldNode, 'useCustomRequiredMessage')
+            ?? false;
         if (!$useCustom) {
             return;
         }
@@ -86,12 +88,15 @@ abstract class AbstractFieldSchemaProvider implements FieldSchemaProviderInterfa
             $schema->validator('StringLength', $stringLengthOptions);
         }
 
-        $useCustom = $context->nodes->getBoolValue($fieldNode, 'useCustomStringLengthMessage') ?? false;
+        $useCustom = $context->nodes->getBoolValue($fieldNode, 'lengthUseCustomMessage')
+            ?? $context->nodes->getBoolValue($fieldNode, 'useCustomStringLengthMessage')
+            ?? false;
         if (!$useCustom) {
             return;
         }
 
-        $message = $context->nodes->getStringValue($fieldNode, 'stringLengthMessage');
+        $message = $context->nodes->getStringValue($fieldNode, 'lengthMessage')
+            ?? $context->nodes->getStringValue($fieldNode, 'stringLengthMessage');
         if (!is_string($message) || $message === '') {
             return;
         }
@@ -111,7 +116,9 @@ abstract class AbstractFieldSchemaProvider implements FieldSchemaProviderInterfa
             ]);
         }
 
-        $useCustom = $context->nodes->getBoolValue($fieldNode, 'useCustomPatternMessage') ?? false;
+        $useCustom = $context->nodes->getBoolValue($fieldNode, 'patternUseCustomMessage')
+            ?? $context->nodes->getBoolValue($fieldNode, 'useCustomPatternMessage')
+            ?? false;
         if (!$useCustom) {
             return;
         }

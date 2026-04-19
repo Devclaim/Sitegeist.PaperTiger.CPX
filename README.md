@@ -27,7 +27,7 @@ This keeps server validation consistent with browser inputs and avoids errors fr
 
 For text fields you can optionally override the inline validation messages in the inspector under the `Validation` tab.
 
-1. Enable `Use custom message(s)` in the corresponding group (Required, Length, Pattern)
+1. Enable `Use custom message` in the corresponding group (Required, Length, Pattern)
 2. Fill in the message fields
 
 These overrides are applied on the schema level (by Flow error code) so they work the same for `standard` and `async`.

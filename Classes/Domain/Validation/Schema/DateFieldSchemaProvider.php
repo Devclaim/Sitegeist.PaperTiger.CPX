@@ -26,7 +26,9 @@ final class DateFieldSchemaProvider extends AbstractFieldSchemaProvider
             $schema->validator(DateTimeRangeValidator::class, $options);
         }
 
-        $useCustom = $context->nodes->getBoolValue($fieldNode, 'useCustomDateRangeMessage') ?? false;
+        $useCustom = $context->nodes->getBoolValue($fieldNode, 'dateRangeUseCustomMessage')
+            ?? $context->nodes->getBoolValue($fieldNode, 'useCustomDateRangeMessage')
+            ?? false;
         if ($useCustom) {
             $message = $context->nodes->getStringValue($fieldNode, 'dateRangeMessage');
             if (is_string($message) && $message !== '') {

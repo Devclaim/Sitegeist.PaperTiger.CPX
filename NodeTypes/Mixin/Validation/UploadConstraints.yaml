@@ -77,7 +77,7 @@ Sitegeist.PaperTiger.CPX:Mixin.Validation.UploadConstraints:
                 label: '.zip'
                 icon: 'icon-archive'
                 group: 'Other'
-    useCustomUploadTypeMessage:
+    uploadTypeUseCustomMessage:
       type: boolean
       defaultValue: false
       ui:
@@ -94,7 +94,7 @@ Sitegeist.PaperTiger.CPX:Mixin.Validation.UploadConstraints:
           group: form-validation-upload-type
           position: 30
           editor: 'Neos.Neos/Inspector/Editors/TextAreaEditor'
-          hidden: 'ClientEval:node.properties.useCustomUploadTypeMessage ? false : true'
+          hidden: 'ClientEval:node.properties.uploadTypeUseCustomMessage ? false : true'
           editorOptions:
             rows: 3
     allowedFilesize:
@@ -134,7 +134,7 @@ Sitegeist.PaperTiger.CPX:Mixin.Validation.UploadConstraints:
                 label: '8MB'
               10000000:
                 label: '10MB'
-    useCustomUploadSizeMessage:
+    uploadSizeUseCustomMessage:
       type: boolean
       defaultValue: false
       ui:
@@ -151,6 +151,6 @@ Sitegeist.PaperTiger.CPX:Mixin.Validation.UploadConstraints:
           group: form-validation-upload-size
           position: 30
           editor: 'Neos.Neos/Inspector/Editors/TextAreaEditor'
-          hidden: 'ClientEval:node.properties.useCustomUploadSizeMessage ? false : true'
+          hidden: 'ClientEval:node.properties.uploadSizeUseCustomMessage ? false : true'
           editorOptions:
             rows: 3

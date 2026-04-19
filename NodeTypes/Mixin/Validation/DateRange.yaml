@@ -27,7 +27,7 @@ Sitegeist.PaperTiger.CPX:Mixin.Validation.DateRange:
           group: form-validation-date-range
           editorOptions:
             format: 'd.m.Y'
-    useCustomDateRangeMessage:
+    dateRangeUseCustomMessage:
       type: boolean
       defaultValue: false
       ui:
@@ -44,6 +44,6 @@ Sitegeist.PaperTiger.CPX:Mixin.Validation.DateRange:
           group: form-validation-date-range
           position: 40
           editor: 'Neos.Neos/Inspector/Editors/TextAreaEditor'
-          hidden: 'ClientEval:node.properties.useCustomDateRangeMessage ? false : true'
+          hidden: 'ClientEval:node.properties.dateRangeUseCustomMessage ? false : true'
           editorOptions:
             rows: 3
