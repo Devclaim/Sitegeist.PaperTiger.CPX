@@ -8,6 +8,6 @@ Sitegeist.PaperTiger.CPX:Mixin.Field.RadioButtons:
   superTypes:
     'Sitegeist.PaperTiger.CPX:Field': true
     'Sitegeist.PaperTiger.CPX:Mixin.Label': true
-    'Sitegeist.PaperTiger.CPX:Mixin.IsRequired': true
+    'Sitegeist.PaperTiger.CPX:Mixin.Validation.Required': true
     'Sitegeist.PaperTiger.CPX:Mixin.Options': true
     'Sitegeist.PaperTiger.CPX:Mixin.CustomErrorMessage': true

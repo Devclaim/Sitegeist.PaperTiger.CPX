@@ -20,6 +20,81 @@
       <trans-unit id="actionCollection.fieldNames.copyToClipboard" xml:space="preserve">
         <source>Copy to clipboard</source>
       </trans-unit>
+      <trans-unit id="validation.tab" xml:space="preserve">
+        <source>Validation</source>
+      </trans-unit>
+      <trans-unit id="validation.useCustomMessage" xml:space="preserve">
+        <source>Use custom message</source>
+      </trans-unit>
+      <trans-unit id="validation.required.group" xml:space="preserve">
+        <source>Validation - Required</source>
+      </trans-unit>
+      <trans-unit id="validation.required.isRequired" xml:space="preserve">
+        <source>Required</source>
+      </trans-unit>
+      <trans-unit id="validation.required.message" xml:space="preserve">
+        <source>Required message</source>
+      </trans-unit>
+      <trans-unit id="validation.length.group" xml:space="preserve">
+        <source>Validation - Length</source>
+      </trans-unit>
+      <trans-unit id="validation.length.minimum" xml:space="preserve">
+        <source>Minimum length</source>
+      </trans-unit>
+      <trans-unit id="validation.length.maximum" xml:space="preserve">
+        <source>Maximum length</source>
+      </trans-unit>
+      <trans-unit id="validation.length.message" xml:space="preserve">
+        <source>Length error</source>
+      </trans-unit>
+      <trans-unit id="validation.pattern.group" xml:space="preserve">
+        <source>Validation - Pattern</source>
+      </trans-unit>
+      <trans-unit id="validation.pattern.regularExpression" xml:space="preserve">
+        <source>Regular expression</source>
+      </trans-unit>
+      <trans-unit id="validation.pattern.message" xml:space="preserve">
+        <source>Pattern message</source>
+      </trans-unit>
+      <trans-unit id="validation.popup.group" xml:space="preserve">
+        <source>Error popup</source>
+      </trans-unit>
+      <trans-unit id="validation.popup.useCustomMessage" xml:space="preserve">
+        <source>Use custom error popup message</source>
+      </trans-unit>
+      <trans-unit id="validation.popup.message" xml:space="preserve">
+        <source>Error popup message</source>
+      </trans-unit>
+      <trans-unit id="validation.upload.allowedExtensions" xml:space="preserve">
+        <source>Allowed file types</source>
+      </trans-unit>
+      <trans-unit id="validation.upload.allowedFilesize" xml:space="preserve">
+        <source>Maximum file size</source>
+      </trans-unit>
+      <trans-unit id="validation.upload.type.group" xml:space="preserve">
+        <source>Validation - Upload type</source>
+      </trans-unit>
+      <trans-unit id="validation.upload.type.message" xml:space="preserve">
+        <source>Upload type message</source>
+      </trans-unit>
+      <trans-unit id="validation.upload.size.group" xml:space="preserve">
+        <source>Validation - Upload size</source>
+      </trans-unit>
+      <trans-unit id="validation.upload.size.message" xml:space="preserve">
+        <source>Upload size message</source>
+      </trans-unit>
+      <trans-unit id="validation.dateRange.group" xml:space="preserve">
+        <source>Validation - Date range</source>
+      </trans-unit>
+      <trans-unit id="validation.dateRange.earliestDate" xml:space="preserve">
+        <source>Earliest date</source>
+      </trans-unit>
+      <trans-unit id="validation.dateRange.latestDate" xml:space="preserve">
+        <source>Latest date</source>
+      </trans-unit>
+      <trans-unit id="validation.dateRange.message" xml:space="preserve">
+        <source>Date range message</source>
+      </trans-unit>
     </body>
   </file>
 </xliff>

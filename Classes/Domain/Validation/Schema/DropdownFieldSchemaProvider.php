@@ -18,7 +18,7 @@ final class DropdownFieldSchemaProvider extends AbstractFieldSchemaProvider
             ? $this->createArrayOfSchema($this->createSchema('string'))
             : $this->createSchema('string');
 
-        $this->applyRequired($context, $fieldNode, $schema);
+        $this->applyRequiredValidation($context, $fieldNode, $schema);
 
         return $schema;
     }

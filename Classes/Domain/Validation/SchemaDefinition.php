@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Sitegeist\PaperTiger\CPX\Domain\Validation;
 
+use Neos\Error\Messages\Error;
 use Neos\Error\Messages\Result;
 use Neos\Flow\Property\PropertyMapper;
 use Neos\Flow\Property\PropertyMappingConfiguration;
@@ -21,6 +22,13 @@ class SchemaDefinition implements SchemaInterface
      * @var array<int, array{class: string, option: string, value: mixed}>
      */
     protected array $typeConverterOptions = [];
+
+    /**
+     * Override Flow validation messages by error code.
+     *
+     * @var array<int, string>
+     */
+    protected array $errorMessageOverrides = [];
 
     public function __construct(
         protected readonly PropertyMapper $propertyMapper,
@@ -63,9 +71,63 @@ class SchemaDefinition implements SchemaInterface
         return $this->validator(NotEmptyValidator::class);
     }
 
+    /**
+     * Override a Flow validator error message by its error code.
+     */
+    public function overrideErrorMessage(int $code, string $message): static
+    {
+        $message = trim($message);
+        if ($message === '') {
+            return $this;
+        }
+
+        $this->errorMessageOverrides[$code] = $message;
+        return $this;
+    }
+
+    /**
+     * @param array<int> $codes
+     */
+    public function overrideErrorMessages(array $codes, string $message): static
+    {
+        foreach ($codes as $code) {
+            if (is_int($code)) {
+                $this->overrideErrorMessage($code, $message);
+            }
+        }
+        return $this;
+    }
+
     public function validate(mixed $data): Result
     {
         $result = new Result();
+
+        // If nothing was submitted, we only validate "required" and skip all other validators.
+        // This prevents validators like DateTimeRangeValidator from complaining about empty strings.
+        if ($this->isEmptySubmittedValue($data)) {
+            foreach ($this->validators as $validationConfiguration) {
+                if ($validationConfiguration['type'] !== NotEmptyValidator::class) {
+                    continue;
+                }
+
+                $validator = $this->validatorResolver->createValidator(
+                    $validationConfiguration['type'],
+                    $validationConfiguration['options'] ?? []
+                );
+                if ($validator === null) {
+                    throw new \RuntimeException('Validator could not get created.', 1744410020);
+                }
+
+                $validatorResult = $validator->validate($data);
+                $result->merge($validatorResult);
+            }
+
+            return $result;
+        }
+
+        // If a value can be converted we validate the converted value. Otherwise we validate the raw input.
+        $convertedValue = $this->convert($data);
+        $valueToValidate = $convertedValue ?? $data;
 
         foreach ($this->validators as $validationConfiguration) {
             $validator = $this->validatorResolver->createValidator(
@@ -77,10 +139,41 @@ class SchemaDefinition implements SchemaInterface
                 throw new \RuntimeException('Validator could not get created.', 1744410020);
             }
 
-            $result->merge($validator->validate($data));
+            $validatorResult = $validator->validate($valueToValidate);
+
+            if ($this->errorMessageOverrides === []) {
+                $result->merge($validatorResult);
+                continue;
+            }
+
+            foreach ($validatorResult->getErrors() as $error) {
+                $override = $this->errorMessageOverrides[$error->getCode()] ?? null;
+                if (is_string($override) && $override !== '') {
+                    $result->addError(new Error($override, $error->getCode()));
+                } else {
+                    $result->addError($error);
+                }
+            }
         }
 
         return $result;
+    }
+
+    private function isEmptySubmittedValue(mixed $value): bool
+    {
+        if ($value === null || $value === '') {
+            return true;
+        }
+
+        if (is_array($value)) {
+            return $value === [];
+        }
+
+        if ($value instanceof \Psr\Http\Message\UploadedFileInterface) {
+            return $value->getError() === UPLOAD_ERR_NO_FILE;
+        }
+
+        return false;
     }
 
     public function convert(mixed $data): mixed

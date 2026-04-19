@@ -19,7 +19,7 @@ final class NumberFieldSchemaProvider extends AbstractFieldSchemaProvider
     public function build(NeosContext $context, Node $fieldNode): ?SchemaInterface
     {
         $schema = $this->createSchema('integer');
-        $this->applyRequired($context, $fieldNode, $schema);
+        $this->applyRequiredValidation($context, $fieldNode, $schema);
 
         $options = array_filter([
             'minimum' => $context->nodes->getIntValue($fieldNode, 'minimumValue'),

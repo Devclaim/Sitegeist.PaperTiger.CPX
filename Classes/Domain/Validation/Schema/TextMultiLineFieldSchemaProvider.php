@@ -20,16 +20,8 @@ final class TextMultiLineFieldSchemaProvider extends AbstractFieldSchemaProvider
     public function build(NeosContext $context, Node $fieldNode): ?SchemaInterface
     {
         $schema = $this->createSchema('string');
-        $this->applyRequired($context, $fieldNode, $schema);
-
-        $stringLengthOptions = array_filter([
-            'minimum' => $context->nodes->getIntValue($fieldNode, 'minimumLength'),
-            'maximum' => $context->nodes->getIntValue($fieldNode, 'maximumLength'),
-        ], static fn (mixed $value): bool => $value !== null);
-
-        if ($stringLengthOptions !== []) {
-            $schema->validator('StringLength', $stringLengthOptions);
-        }
+        $this->applyRequiredValidation($context, $fieldNode, $schema);
+        $this->applyStringLengthValidation($context, $fieldNode, $schema);
 
         return $schema;
     }

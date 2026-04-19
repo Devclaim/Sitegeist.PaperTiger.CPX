@@ -14,5 +14,6 @@ export component UploadField {
     oninput="this.setCustomValidity('')"
     required={field.isRequired}
     multiple={field.isMultiple}
+    accept={field.accept}
   />
 }

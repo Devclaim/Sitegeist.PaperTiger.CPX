@@ -45,7 +45,7 @@ final class TelephoneNumberRenderer implements ContentNodeRendererInterface
                     isRequired: $context->nodes->getBoolValue($context->node, 'isRequired'),
                     minimumLength: null,
                     maximumLength: null,
-                    regularExpression: null,
+                    regularExpression: $context->nodes->getStringValue($context->node, 'regularExpression'),
                     step: null,
                     customErrorMessageEnabled: $context->nodes->getBoolValue($context->node, 'customErrorMessageEnabled'),
                     customErrorMessage: $context->nodes->getStringValue($context->node, 'customErrorMessage'),

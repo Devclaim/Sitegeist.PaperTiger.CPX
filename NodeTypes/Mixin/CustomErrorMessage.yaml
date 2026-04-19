@@ -1,20 +1,30 @@
 Sitegeist.PaperTiger.CPX:Mixin.CustomErrorMessage:
   abstract: true
+  ui:
+    inspector:
+      groups:
+        form-validation-popup:
+          label: 'Sitegeist.PaperTiger.CPX:Main:validation.popup.group'
+          icon: icon-comment-alt
+          tab: form-validation
+          position: end
   properties:
     customErrorMessageEnabled:
       type: boolean
       defaultValue: false
       ui:
-        label: i18n
+        label: 'Sitegeist.PaperTiger.CPX:Main:validation.popup.useCustomMessage'
         inspector:
-          group: form-error
+          group: form-validation-popup
+          position: 10
     customErrorMessage:
       type: string
       ui:
-        label: i18n
+        label: 'Sitegeist.PaperTiger.CPX:Main:validation.popup.message'
         inspector:
-          group: form-error
+          group: form-validation-popup
           editor: 'Neos.Neos/Inspector/Editors/TextAreaEditor'
           hidden: 'ClientEval:node.properties.customErrorMessageEnabled ? false : true'
           editorOptions:
             rows: 7
+          position: 20

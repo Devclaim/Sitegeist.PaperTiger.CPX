@@ -19,7 +19,8 @@ final class TelephoneNumberFieldSchemaProvider extends AbstractFieldSchemaProvid
     public function build(NeosContext $context, Node $fieldNode): ?SchemaInterface
     {
         $schema = $this->createSchema('string');
-        $this->applyRequired($context, $fieldNode, $schema);
+        $this->applyRequiredValidation($context, $fieldNode, $schema);
+        $this->applyPatternValidation($context, $fieldNode, $schema);
 
         return $schema;
     }

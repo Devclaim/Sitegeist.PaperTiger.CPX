@@ -7,6 +7,11 @@ Sitegeist.PaperTiger.CPX:Field:
     'Sitegeist.PaperTiger.CPX:Mixin.Name': true
   ui:
     inspector:
+      tabs:
+        form-validation:
+          label: 'Sitegeist.PaperTiger.CPX:Main:validation.tab'
+          icon: check-double
+          position: 11
       groups:
         'form':
           label: i18n

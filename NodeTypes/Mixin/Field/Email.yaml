@@ -9,5 +9,5 @@ Sitegeist.PaperTiger.CPX:Mixin.Field.Email:
     'Sitegeist.PaperTiger.CPX:Field': true
     'Sitegeist.PaperTiger.CPX:Mixin.Label': true
     'Sitegeist.PaperTiger.CPX:Mixin.Placeholder': true
-    'Sitegeist.PaperTiger.CPX:Mixin.IsRequired': true
+    'Sitegeist.PaperTiger.CPX:Mixin.Validation.Required': true
     'Sitegeist.PaperTiger.CPX:Mixin.CustomErrorMessage': true

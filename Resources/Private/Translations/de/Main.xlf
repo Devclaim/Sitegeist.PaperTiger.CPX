@@ -26,6 +26,106 @@
         <source>Copy to clipboard</source>
         <target>In die Zwischenablage kopieren</target>
       </trans-unit>
+      <trans-unit id="validation.tab" xml:space="preserve">
+        <source>Validation</source>
+        <target>Validierung</target>
+      </trans-unit>
+      <trans-unit id="validation.useCustomMessage" xml:space="preserve">
+        <source>Use custom message</source>
+        <target>Eigene Fehlermeldung verwenden</target>
+      </trans-unit>
+      <trans-unit id="validation.required.group" xml:space="preserve">
+        <source>Required</source>
+        <target>Validierung - Pflichtfeld</target>
+      </trans-unit>
+      <trans-unit id="validation.required.isRequired" xml:space="preserve">
+        <source>Required</source>
+        <target>Pflichtfeld</target>
+      </trans-unit>
+      <trans-unit id="validation.required.message" xml:space="preserve">
+        <source>Required message</source>
+        <target>Pflichtfeld-Fehlermeldung</target>
+      </trans-unit>
+      <trans-unit id="validation.length.group" xml:space="preserve">
+        <source>Length</source>
+        <target>Validierung - Länge</target>
+      </trans-unit>
+      <trans-unit id="validation.length.minimum" xml:space="preserve">
+        <source>Minimum length</source>
+        <target>Minimale Länge</target>
+      </trans-unit>
+      <trans-unit id="validation.length.maximum" xml:space="preserve">
+        <source>Maximum length</source>
+        <target>Maximale Länge</target>
+      </trans-unit>
+      <trans-unit id="validation.length.message" xml:space="preserve">
+        <source>Length error</source>
+        <target>Längen-Fehlermeldung</target>
+      </trans-unit>
+      <trans-unit id="validation.pattern.group" xml:space="preserve">
+        <source>Pattern</source>
+        <target>Validierung - Muster</target>
+      </trans-unit>
+      <trans-unit id="validation.pattern.regularExpression" xml:space="preserve">
+        <source>Regular expression</source>
+        <target>Regulärer Ausdruck</target>
+      </trans-unit>
+      <trans-unit id="validation.pattern.message" xml:space="preserve">
+        <source>Pattern message</source>
+        <target>Muster-Fehlermeldung</target>
+      </trans-unit>
+      <trans-unit id="validation.popup.group" xml:space="preserve">
+        <source>Validation - Browser popup</source>
+        <target>Natives Error-Popup</target>
+      </trans-unit>
+      <trans-unit id="validation.popup.useCustomMessage" xml:space="preserve">
+        <source>Use custom browser popup message</source>
+        <target>Eigene Fehlermeldung im Popup verwenden</target>
+      </trans-unit>
+      <trans-unit id="validation.popup.message" xml:space="preserve">
+        <source>Browser popup message</source>
+        <target>Fehlermeldung im Popup</target>
+      </trans-unit>
+      <trans-unit id="validation.upload.allowedExtensions" xml:space="preserve">
+        <source>Allowed file types</source>
+        <target>Erlaubte Dateitypen</target>
+      </trans-unit>
+      <trans-unit id="validation.upload.allowedFilesize" xml:space="preserve">
+        <source>Maximum file size</source>
+        <target>Maximale Dateigröße</target>
+      </trans-unit>
+      <trans-unit id="validation.upload.type.group" xml:space="preserve">
+        <source>Validation - Upload type</source>
+        <target>Validierung - Dateityp</target>
+      </trans-unit>
+      <trans-unit id="validation.upload.type.message" xml:space="preserve">
+        <source>Upload type message</source>
+        <target>Dateityp-Fehlermeldung</target>
+      </trans-unit>
+      <trans-unit id="validation.upload.size.group" xml:space="preserve">
+        <source>Validation - Upload size</source>
+        <target>Validierung - Dateigröße</target>
+      </trans-unit>
+      <trans-unit id="validation.upload.size.message" xml:space="preserve">
+        <source>Upload size message</source>
+        <target>Dateigröße-Fehlermeldung</target>
+      </trans-unit>
+      <trans-unit id="validation.dateRange.group" xml:space="preserve">
+        <source>Validation - Date range</source>
+        <target>Validierung - Datumsbereich</target>
+      </trans-unit>
+      <trans-unit id="validation.dateRange.earliestDate" xml:space="preserve">
+        <source>Earliest date</source>
+        <target>Frühestes Datum</target>
+      </trans-unit>
+      <trans-unit id="validation.dateRange.latestDate" xml:space="preserve">
+        <source>Latest date</source>
+        <target>Spätestes Datum</target>
+      </trans-unit>
+      <trans-unit id="validation.dateRange.message" xml:space="preserve">
+        <source>Date range message</source>
+        <target>Datumsbereich-Fehlermeldung</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

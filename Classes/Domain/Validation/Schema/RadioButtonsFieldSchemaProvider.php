@@ -19,7 +19,7 @@ final class RadioButtonsFieldSchemaProvider extends AbstractFieldSchemaProvider
     public function build(NeosContext $context, Node $fieldNode): ?SchemaInterface
     {
         $schema = $this->createSchema('string');
-        $this->applyRequired($context, $fieldNode, $schema);
+        $this->applyRequiredValidation($context, $fieldNode, $schema);
 
         return $schema;
     }

@@ -135,13 +135,17 @@ final class FormFactory
             return null;
         }
 
-        return $formState->getGeneralError() !== null
-            ? $this->fieldComponentFactory->createError(
-                error: ErrorProps::create(
-                    message: $formState->getGeneralError()->message,
-                ),
-            )
-            : null;
+        $generalErrors = $formState->getGeneralErrors();
+        if ($generalErrors === []) {
+            return null;
+        }
+
+        return ComponentCollection::list(...array_map(
+            fn ($error) => $this->fieldComponentFactory->createError(
+                error: ErrorProps::create(message: $error->message),
+            ),
+            $generalErrors
+        ));
     }
 
     private function createFormProps(NeosContext $context, bool $forEditMode = false): FormProps

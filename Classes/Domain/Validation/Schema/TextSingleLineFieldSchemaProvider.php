@@ -19,23 +19,9 @@ final class TextSingleLineFieldSchemaProvider extends AbstractFieldSchemaProvide
     public function build(NeosContext $context, Node $fieldNode): ?SchemaInterface
     {
         $schema = $this->createSchema('string');
-        $this->applyRequired($context, $fieldNode, $schema);
-
-        $stringLengthOptions = array_filter([
-            'minimum' => $context->nodes->getIntValue($fieldNode, 'minimumLength'),
-            'maximum' => $context->nodes->getIntValue($fieldNode, 'maximumLength'),
-        ], static fn (mixed $value): bool => $value !== null);
-
-        if ($stringLengthOptions !== []) {
-            $schema->validator('StringLength', $stringLengthOptions);
-        }
-
-        $regularExpression = $context->nodes->getStringValue($fieldNode, 'regularExpression');
-        if ($regularExpression !== null && $regularExpression !== '') {
-            $schema->validator('RegularExpression', [
-                'regularExpression' => $this->normalizeRegularExpression($regularExpression),
-            ]);
-        }
+        $this->applyRequiredValidation($context, $fieldNode, $schema);
+        $this->applyStringLengthValidation($context, $fieldNode, $schema);
+        $this->applyPatternValidation($context, $fieldNode, $schema);
 
         return $schema;
     }

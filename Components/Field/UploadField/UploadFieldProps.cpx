@@ -5,6 +5,7 @@ export struct UploadFieldProps {
   name: string
   isMultiple: ?boolean
   isRequired: ?boolean
+  accept: ?string
   allowedExtensions: ?string
   allowedFilesize: ?number
   customErrorMessageEnabled: ?boolean

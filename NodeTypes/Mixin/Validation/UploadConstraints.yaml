@@ -1,0 +1,156 @@
+Sitegeist.PaperTiger.CPX:Mixin.Validation.UploadConstraints:
+  abstract: true
+  ui:
+    inspector:
+      groups:
+        form-validation-upload-type:
+          label: 'Sitegeist.PaperTiger.CPX:Main:validation.upload.type.group'
+          icon: icon-upload
+          tab: form-validation
+          position: 50
+        form-validation-upload-size:
+          label: 'Sitegeist.PaperTiger.CPX:Main:validation.upload.size.group'
+          icon: icon-upload
+          tab: form-validation
+          position: 60
+  properties:
+    allowedExtensions:
+      type: array
+      ui:
+        label: 'Sitegeist.PaperTiger.CPX:Main:validation.upload.allowedExtensions'
+        reloadIfChanged: true
+        inspector:
+          group: form-validation-upload-type
+          editor: 'Neos.Neos/Inspector/Editors/SelectBoxEditor'
+          editorOptions:
+            values:
+              'jpeg':
+                label: '.jpeg'
+                icon: 'icon-image'
+                group: 'Image'
+              'jpg':
+                label: '.jpg'
+                icon: 'icon-image'
+                group: 'Image'
+              'png':
+                label: '.png'
+                icon: 'icon-image'
+                group: 'Image'
+              'gif':
+                label: '.gif'
+                icon: 'icon-image'
+                group: 'Image'
+              'tiff':
+                label: '.tiff'
+                icon: 'icon-image'
+                group: 'Image'
+
+              'xls':
+                label: '.xls'
+                icon: 'icon-file-excel-o'
+                group: 'Office'
+              'xlsx':
+                label: '.xlsx'
+                icon: 'icon-file-excel-o'
+                group: 'Office'
+              'doc':
+                label: '.doc'
+                icon: 'icon-file-text'
+                group: 'Office'
+              'docx':
+                label: '.docx'
+                icon: 'icon-file-text'
+                group: 'Office'
+              'odt':
+                label: '.odt'
+                icon: 'icon-file-text'
+                group: 'Office'
+              'pdf':
+                label: '.pdf'
+                icon: 'icon-file-pdf-o'
+                group: 'Other'
+              'csv':
+                label: '.csv'
+                icon: 'icon-file-text'
+                group: 'Other'
+              'zip':
+                label: '.zip'
+                icon: 'icon-archive'
+                group: 'Other'
+    useCustomUploadTypeMessage:
+      type: boolean
+      defaultValue: false
+      ui:
+        label: 'Sitegeist.PaperTiger.CPX:Main:validation.useCustomMessage'
+        inspector:
+          group: form-validation-upload-type
+          position: 20
+    uploadTypeMessage:
+      type: string
+      defaultValue: null
+      ui:
+        label: 'Sitegeist.PaperTiger.CPX:Main:validation.upload.type.message'
+        inspector:
+          group: form-validation-upload-type
+          position: 30
+          editor: 'Neos.Neos/Inspector/Editors/TextAreaEditor'
+          hidden: 'ClientEval:node.properties.useCustomUploadTypeMessage ? false : true'
+          editorOptions:
+            rows: 3
+    allowedFilesize:
+      type: integer
+      ui:
+        label: 'Sitegeist.PaperTiger.CPX:Main:validation.upload.allowedFilesize'
+        reloadIfChanged: true
+        inspector:
+          group: form-validation-upload-size
+          editor: 'Neos.Neos/Inspector/Editors/SelectBoxEditor'
+          editorOptions:
+            allowEmpty: true
+            values:
+              10000:
+                label: '10kb'
+              50000:
+                label: '50kb'
+              100000:
+                label: '100kb'
+              200000:
+                label: '200kb'
+              300000:
+                label: '300kb'
+              400000:
+                label: '500kb'
+              800000:
+                label: '800kb'
+              1000000:
+                label: '1MB'
+              21000000:
+                label: '2MB'
+              3000000:
+                label: '3MB'
+              5000000:
+                label: '5MB'
+              8000000:
+                label: '8MB'
+              10000000:
+                label: '10MB'
+    useCustomUploadSizeMessage:
+      type: boolean
+      defaultValue: false
+      ui:
+        label: 'Sitegeist.PaperTiger.CPX:Main:validation.useCustomMessage'
+        inspector:
+          group: form-validation-upload-size
+          position: 20
+    uploadSizeMessage:
+      type: string
+      defaultValue: null
+      ui:
+        label: 'Sitegeist.PaperTiger.CPX:Main:validation.upload.size.message'
+        inspector:
+          group: form-validation-upload-size
+          position: 30
+          editor: 'Neos.Neos/Inspector/Editors/TextAreaEditor'
+          hidden: 'ClientEval:node.properties.useCustomUploadSizeMessage ? false : true'
+          editorOptions:
+            rows: 3

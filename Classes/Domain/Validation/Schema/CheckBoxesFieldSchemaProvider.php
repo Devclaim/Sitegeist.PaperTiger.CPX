@@ -13,7 +13,7 @@ final class CheckBoxesFieldSchemaProvider extends AbstractFieldSchemaProvider
     public function build(NeosContext $context, Node $fieldNode): ?SchemaInterface
     {
         $schema = $this->createSchema('array');
-        $this->applyRequired($context, $fieldNode, $schema);
+        $this->applyRequiredValidation($context, $fieldNode, $schema);
 
         return $schema;
     }

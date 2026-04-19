@@ -30,12 +30,35 @@ final readonly class PaperTigerFormState
 
     public function hasErrorsFor(string $fieldName): bool
     {
-        return $this->getFirstError($fieldName) instanceof FormSubmissionValidationError;
+        return $this->getErrorsFor($fieldName) !== [];
     }
 
     public function getGeneralError(): ?FormSubmissionValidationError
     {
         return $this->getFirstError('__general');
+    }
+
+    /**
+     * @return array<int, FormSubmissionValidationError>
+     */
+    public function getGeneralErrors(): array
+    {
+        return $this->getErrorsFor('__general');
+    }
+
+    /**
+     * @return array<int, FormSubmissionValidationError>
+     */
+    public function getErrorsFor(string $fieldName): array
+    {
+        $result = [];
+        foreach ($this->errors->items as $error) {
+            if ($error->fieldName === $fieldName) {
+                $result[] = $error;
+            }
+        }
+
+        return $result;
     }
 
     public function getFirstError(string $fieldName): ?FormSubmissionValidationError

@@ -1,0 +1,39 @@
+Sitegeist.PaperTiger.CPX:Mixin.Validation.Pattern:
+  abstract: true
+  ui:
+    inspector:
+      groups:
+        form-validation-pattern:
+          label: 'Sitegeist.PaperTiger.CPX:Main:validation.pattern.group'
+          icon: icon-filter
+          tab: form-validation
+          position: 30
+  properties:
+    regularExpression:
+      type: string
+      defaultValue: null
+      ui:
+        label: 'Sitegeist.PaperTiger.CPX:Main:validation.pattern.regularExpression'
+        inspector:
+          group: form-validation-pattern
+          position: 10
+    useCustomPatternMessage:
+      type: boolean
+      defaultValue: false
+      ui:
+        label: 'Sitegeist.PaperTiger.CPX:Main:validation.useCustomMessage'
+        inspector:
+          group: form-validation-pattern
+          position: 15
+    patternMessage:
+      type: string
+      defaultValue: null
+      ui:
+        label: 'Sitegeist.PaperTiger.CPX:Main:validation.pattern.message'
+        inspector:
+          group: form-validation-pattern
+          position: 20
+          editor: 'Neos.Neos/Inspector/Editors/TextAreaEditor'
+          hidden: 'ClientEval:node.properties.useCustomPatternMessage ? false : true'
+          editorOptions:
+            rows: 3
