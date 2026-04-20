@@ -11,6 +11,7 @@ use Neos\Error\Messages\Error;
 use Neos\Flow\Mvc\ActionRequest;
 use PackageFactory\Neos\ComponentEngine\NeosContext;
 use Sitegeist\PaperTiger\CPX\Domain\Validation\Schema\FieldSchemaProviderResolver;
+use Sitegeist\PaperTiger\CPX\Domain\Validation\ValidationError;
 use Sitegeist\PaperTiger\CPX\Dto\FormSubmissionValidationError;
 use Sitegeist\PaperTiger\CPX\Dto\FormSubmissionValidationErrorCollection;
 
@@ -129,8 +130,9 @@ final class FormSubmissionValidator
         return [
             array_map(
                 static fn (Error $error): FormSubmissionValidationError => new FormSubmissionValidationError(
-                    $fieldName,
-                    $error->render(),
+                    fieldName: $fieldName,
+                    message: $error->render(),
+                    validationId: $error instanceof ValidationError ? $error->validationId : null,
                 ),
                 $result->getErrors(),
             ),

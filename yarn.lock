@@ -313,11 +313,13 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@sitegeist/papertiger-cpx@workspace:."
   dependencies:
+    "@tanstack/query-core": ^5.80.0
     "@types/react": ^17.0.3
     "@types/react-dom": ^17.0.3
     "@types/styled-components": ^5.1.9
     esbuild: ~0.25.0
     typescript: ^4.2.4
+    zustand: ^5.0.5
   languageName: unknown
   linkType: soft
 
@@ -329,6 +331,13 @@ __metadata:
     content-type: ^1.0.4
     tslib: ^2.1.0
   checksum: 03387c5b2ca94141ca58f81319ec89301b76889b6b6491cb5771060d26fa2b4f15ef0d117c2d57b82b31a3e781a81fae62382b300a72055dde862da17e33199f
+  languageName: node
+  linkType: hard
+
+"@tanstack/query-core@npm:^5.80.0":
+  version: 5.99.2
+  resolution: "@tanstack/query-core@npm:5.99.2"
+  checksum: 5cd60e3ccec1b29fa44b47c8db0d6eb28952834cdc2246c43f18e75eb31444df70c6823733cdfff11f727df339a811a0551d6313f5f0770fae5d5df9786070a5
   languageName: node
   linkType: hard
 
@@ -899,5 +908,26 @@ __metadata:
     "@types/react":
       optional: true
   checksum: e1681ffcac542a7536adda84c022652417463eb85eac95243860cba3ae9198aa36a8b8b11eb5d85217979648ecb00fd0e2727789dd023ac00b0cc94e4f76a511
+  languageName: node
+  linkType: hard
+
+"zustand@npm:^5.0.5":
+  version: 5.0.12
+  resolution: "zustand@npm:5.0.12"
+  peerDependencies:
+    "@types/react": ">=18.0.0"
+    immer: ">=9.0.6"
+    react: ">=18.0.0"
+    use-sync-external-store: ">=1.2.0"
+  peerDependenciesMeta:
+    "@types/react":
+      optional: true
+    immer:
+      optional: true
+    react:
+      optional: true
+    use-sync-external-store:
+      optional: true
+  checksum: bf856f2d86912d46439b6e32004b32b77518af49dc23fdc1998457777d860183e0a677498731b61f3d38717b62283e08dd38d1fc3714385e84ba87ef9f5aa4c6
   languageName: node
   linkType: hard

@@ -126,6 +126,34 @@
         <source>Date range message</source>
         <target>Datumsbereich-Fehlermeldung</target>
       </trans-unit>
+      <trans-unit id="validationError.required" xml:space="preserve">
+        <source>This field is required.</source>
+        <target>Dieses Feld ist erforderlich.</target>
+      </trans-unit>
+      <trans-unit id="validationError.minLength" xml:space="preserve">
+        <source>This field must contain at least %d characters.</source>
+        <target>Dieses Feld muss mindestens %d Zeichen enthalten.</target>
+      </trans-unit>
+      <trans-unit id="validationError.maxLength" xml:space="preserve">
+        <source>This field must contain at most %d characters.</source>
+        <target>Dieses Feld darf maximal %d Zeichen enthalten.</target>
+      </trans-unit>
+      <trans-unit id="validationError.pattern" xml:space="preserve">
+        <source>This value does not match the expected format.</source>
+        <target>Dieser Wert entspricht nicht dem erwarteten Format.</target>
+      </trans-unit>
+      <trans-unit id="validationError.dateRange" xml:space="preserve">
+        <source>The selected date is out of range.</source>
+        <target>Das ausgewaehlte Datum liegt ausserhalb des erlaubten Bereichs.</target>
+      </trans-unit>
+      <trans-unit id="validationError.uploadType" xml:space="preserve">
+        <source>The selected file type is not allowed.</source>
+        <target>Der ausgewaehlte Dateityp ist nicht erlaubt.</target>
+      </trans-unit>
+      <trans-unit id="validationError.uploadSize" xml:space="preserve">
+        <source>The selected file is too large.</source>
+        <target>Die ausgewaehlte Datei ist zu gross.</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

@@ -10,12 +10,9 @@ use Sitegeist\PaperTiger\CPX\Domain\FormSubmissionActionExecutor;
 use Sitegeist\PaperTiger\CPX\Domain\FormSubmissionValidator;
 use Sitegeist\PaperTiger\CPX\Dto\FormSubmissionJsonErrorResponse;
 use Sitegeist\PaperTiger\CPX\Dto\FormSubmissionJsonResponse;
-use Sitegeist\PaperTiger\CPX\Dto\FormSubmissionRequest;
 use Sitegeist\SchemeOnYou\Application\OpenApiController;
-use Sitegeist\SchemeOnYou\Domain\Metadata\RequestBody;
-use Sitegeist\SchemeOnYou\Domain\Path\RequestBodyContentType;
 
-final class FormSubmissionJsonController extends OpenApiController
+final class FormController extends OpenApiController
 {
     public function __construct(
         private readonly FormSubmissionValidator $formSubmissionValidator,
@@ -23,17 +20,11 @@ final class FormSubmissionJsonController extends OpenApiController
     ) {
     }
 
-    public function jsonAction(
-        #[RequestBody(contentType: RequestBodyContentType::CONTENT_TYPE_JSON)]
-        FormSubmissionRequest $formSubmissionRequest,
-    ): FormSubmissionJsonResponse|FormSubmissionJsonErrorResponse {
-        $arguments = [];
-        foreach ($formSubmissionRequest->arguments->items as $argument) {
-            $arguments[$argument->name] = $argument->value;
-        }
+    public function submitAction(): FormSubmissionJsonResponse|FormSubmissionJsonErrorResponse
+    {
+        $arguments = $this->extractSubmittedArguments();
 
         $validationResult = $this->formSubmissionValidator->validate($this->request, $arguments);
-
         if ($validationResult->hasErrors()) {
             return new FormSubmissionJsonErrorResponse(
                 success: false,
@@ -41,7 +32,8 @@ final class FormSubmissionJsonController extends OpenApiController
             );
         }
 
-        $actionResponse = $this->formSubmissionActionExecutor->execute($this->request, $arguments);
+        $actionResponse = $this->formSubmissionActionExecutor->execute($this->request, $validationResult->arguments);
+
         $message = $this->request->getInternalArgument(MessageAction::REQUEST_ARGUMENT_MESSAGE);
         $message = is_string($message) && $message !== '' ? $message : null;
 
@@ -64,4 +56,40 @@ final class FormSubmissionJsonController extends OpenApiController
             message: $message,
         );
     }
+
+    /**
+     * @return array<string, mixed>
+     */
+    private function extractSubmittedArguments(): array
+    {
+        $httpRequest = $this->request->getHttpRequest();
+        $parsedBody = $httpRequest->getParsedBody();
+        $bodyArguments = is_array($parsedBody) ? $parsedBody : [];
+
+        return array_replace_recursive(
+            $bodyArguments,
+            $this->normalizeUploadedFiles($httpRequest->getUploadedFiles()),
+        );
+    }
+
+    /**
+     * @param array<string, mixed> $uploadedFiles
+     * @return array<string, mixed>
+     */
+    private function normalizeUploadedFiles(array $uploadedFiles): array
+    {
+        $normalized = [];
+
+        foreach ($uploadedFiles as $key => $value) {
+            if (is_array($value)) {
+                $normalized[$key] = $this->normalizeUploadedFiles($value);
+                continue;
+            }
+
+            $normalized[$key] = $value;
+        }
+
+        return $normalized;
+    }
 }
+

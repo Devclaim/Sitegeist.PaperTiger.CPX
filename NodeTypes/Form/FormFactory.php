@@ -32,6 +32,7 @@ use Sitegeist\PaperTiger\CPX\Components\FormEditor\FormEditor;
 use Sitegeist\PaperTiger\CPX\Components\FormSectionHeader\FormSectionHeader;
 use Sitegeist\PaperTiger\CPX\Components\Message\MessageProps;
 use Sitegeist\PaperTiger\CPX\Domain\Action\MessageAction;
+use Sitegeist\PaperTiger\CPX\Domain\AsyncValidationDescriptorFactory;
 use Sitegeist\PaperTiger\CPX\Domain\FormSubmissionRequestProcessor;
 use Sitegeist\PaperTiger\CPX\Domain\PaperTigerFormState;
 use Sitegeist\PaperTiger\CPX\NodeTypes\Field\FieldComponentFactory;
@@ -45,6 +46,7 @@ final class FormFactory
         private readonly ResourceFactory $resourceFactory,
         private readonly FieldComponentFactory $fieldComponentFactory,
         private readonly FormSubmissionRequestProcessor $formSubmissionRequestProcessor,
+        private readonly AsyncValidationDescriptorFactory $asyncValidationDescriptorFactory,
     ) {
     }
 
@@ -104,6 +106,31 @@ final class FormFactory
                 $this->createContextField($context, 'paperTigerNode', NodeAddress::fromNode($context->node)->toJson()),
                 $this->createContextField($context, 'paperTigerDocument', NodeAddress::fromNode($context->documentNode)->toJson()),
                 ...array_filter([$this->renderFields($context)]),
+                ...($this->formMode($context) === FormMode::FORM_MODE_ASYNC ? [
+                    $this->renderAsyncValidationDescriptor($context),
+                    $this->resourceFactory->publicScriptTag(
+                        'Sitegeist.PaperTiger.CPX',
+                        'Scripts/AsyncForm.js',
+                    ),
+                ] : []),
+            ),
+        );
+    }
+
+    private function renderAsyncValidationDescriptor(NeosContext $context): ComponentInterface
+    {
+        $formId = $this->formId($context);
+
+        $descriptor = [
+            'formId' => $formId,
+            'fields' => $this->asyncValidationDescriptorFactory->forForm($context),
+        ];
+
+        return StringComponent::fromHtmlString(
+            sprintf(
+                '<script type="application/json" data-papertiger-validation data-form-id="%s">%s</script>',
+                htmlspecialchars($formId, ENT_QUOTES),
+                htmlspecialchars(json_encode($descriptor, JSON_THROW_ON_ERROR), ENT_NOQUOTES),
             ),
         );
     }
@@ -151,6 +178,7 @@ final class FormFactory
     private function createFormProps(NeosContext $context, bool $forEditMode = false): FormProps
     {
         $formId = $this->formId($context);
+        $formMode = $this->formMode($context);
 
         return FormProps::create(
             id: $formId,
@@ -158,6 +186,8 @@ final class FormFactory
                 ? null
                 : '#' . $formId,
             method: $forEditMode ? null : 'post',
+            noValidate: $forEditMode ? null : ($formMode === FormMode::FORM_MODE_ASYNC),
+            formMode: $forEditMode ? null : $formMode,
         );
     }
 

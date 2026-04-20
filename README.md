@@ -69,6 +69,33 @@ Example:
 }
 ```
 
+Async mode also toggles `papertiger-field--submitError` on invalid field containers briefly when submit is blocked by validation. You can use this class for custom animations.
+
+Async mode also toggles `papertiger-form--submitLoading` on the `<form>` while a submit request is in-flight.
+
+Example:
+
+```css
+.papertiger-form--submitLoading {
+    opacity: 0.65;
+    pointer-events: none;
+}
+
+.papertiger-field--submitError {
+    animation: papertiger-jiggle 0.32s ease-in-out;
+}
+
+@keyframes papertiger-jiggle {
+    0% { transform: translateX(0); }
+    25% { transform: translateX(-4px); }
+    50% { transform: translateX(4px); }
+    75% { transform: translateX(-2px); }
+    100% { transform: translateX(0); }
+}
+```
+
+Async client-side validation is extendable: you can register additional JS validators (by `validationId`) via `registerAsyncValidator(...)`, and you can add additional PHP async validation rule providers via the `Sitegeist.PaperTiger.CPX.asyncValidation.ruleProviders` setting.
+
 ### 2. Customize the Form Wrapper
 
 If you want your own outer wrapper, use `FormFactory` to build the form and pass it into your project component.
@@ -289,7 +316,7 @@ final class MyCustomFieldSchemaProvider extends AbstractFieldSchemaProvider
 
         $enabled = $context->nodes->getBoolValue($fieldNode, 'myRuleEnabled') ?? false;
         if ($enabled) {
-            $schema->validator(MyRuleValidator::class, [
+            $schema->validatorWithId('myRule', MyRuleValidator::class, [
                 'useCustomMessage' => $context->nodes->getBoolValue($fieldNode, 'useCustomMyRuleMessage') ?? false,
                 'message' => $context->nodes->getStringValue($fieldNode, 'myRuleMessage'),
             ]);
@@ -299,6 +326,23 @@ final class MyCustomFieldSchemaProvider extends AbstractFieldSchemaProvider
     }
 }
 ```
+
+### 3b. Async mode (optional)
+
+Async mode uses a JS validator registry. If you add a custom validator via `validatorWithId('myRule', ...)`, you should also
+register a JS validator with the same id:
+
+```ts
+import { registerAsyncValidator } from "Sitegeist.PaperTiger.CPX/AsyncForm/validatorRegistry";
+
+registerAsyncValidator("myRule", (value, rule) => {
+  // You can read rule.options to access the schema validator options (if needed)
+  // rule.message is already prepared by the backend descriptor
+  return true;
+});
+```
+
+If no JS validator is registered for a `validationId`, that rule is ignored on the client (server-side validation still runs).
 
 ### 4. Validator implements the check (and error codes)
 
@@ -412,3 +456,7 @@ export component MyCustomField {
 
 Use a `SchemaProvider` to map node properties into Flow validators (or your own validators).
 See “Full Flow (Mixin -> Schema -> Validator)” above for a complete example.
+
+If you want async mode to reliably match server errors to a specific rule, always add validators with a stable `validationId`
+using `validatorWithId()`. The server submit response will include that `validationId` (when available), and the async validation
+descriptor is derived from the schema validators as well.

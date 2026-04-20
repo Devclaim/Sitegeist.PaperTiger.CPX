@@ -8,8 +8,10 @@ export component Form {
   render <form
     id={form.id}
     class="papertiger-form__element"
+    data-form-mode={form.formMode}
     action={form.action}
     method={form.method}
+    novalidate={form.noValidate}
     enctype="multipart/form-data"
   >
     {error}

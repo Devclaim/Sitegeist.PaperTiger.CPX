@@ -15,7 +15,7 @@ final class EmailFieldSchemaProvider extends AbstractFieldSchemaProvider
     {
         $schema = $this->createSchema('string');
         $this->applyRequiredValidation($context, $fieldNode, $schema);
-        $schema->validator(EmailAddressValidator::class);
+        $schema->validatorWithId('email', EmailAddressValidator::class);
 
         return $schema;
     }

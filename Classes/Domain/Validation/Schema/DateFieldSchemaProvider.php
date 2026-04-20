@@ -6,6 +6,7 @@ namespace Sitegeist\PaperTiger\CPX\Domain\Validation\Schema;
 
 use Neos\ContentRepository\Core\Projection\ContentGraph\Node;
 use Neos\Flow\Validation\Validator\DateTimeRangeValidator;
+use Neos\Flow\Property\TypeConverter\DateTimeConverter;
 use PackageFactory\Neos\ComponentEngine\NeosContext;
 use Sitegeist\PaperTiger\CPX\Domain\Validation\FlowValidationErrorCodes;
 use Sitegeist\PaperTiger\CPX\Domain\Validation\SchemaInterface;
@@ -15,6 +16,8 @@ final class DateFieldSchemaProvider extends AbstractFieldSchemaProvider
     public function build(NeosContext $context, Node $fieldNode): ?SchemaInterface
     {
         $schema = $this->createSchema(\DateTimeImmutable::class);
+        // HTML `<input type="date">` submits `YYYY-MM-DD`
+        $schema->typeConverterOption(DateTimeConverter::class, DateTimeConverter::CONFIGURATION_DATE_FORMAT, 'Y-m-d');
         $this->applyRequiredValidation($context, $fieldNode, $schema);
 
         $options = array_filter([
@@ -23,7 +26,7 @@ final class DateFieldSchemaProvider extends AbstractFieldSchemaProvider
         ], static fn (mixed $value): bool => $value !== null);
 
         if ($options !== []) {
-            $schema->validator(DateTimeRangeValidator::class, $options);
+            $schema->validatorWithId('dateRange', DateTimeRangeValidator::class, $options);
         }
 
         $useCustom = $context->nodes->getBoolValue($fieldNode, 'dateRangeUseCustomMessage')

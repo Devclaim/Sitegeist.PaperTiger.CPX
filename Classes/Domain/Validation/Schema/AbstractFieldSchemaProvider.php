@@ -56,7 +56,11 @@ abstract class AbstractFieldSchemaProvider implements FieldSchemaProviderInterfa
     protected function applyRequired(NeosContext $context, Node $fieldNode, SchemaDefinition|ArrayOfSchemaDefinition $schema): void
     {
         if (($context->nodes->getBoolValue($fieldNode, 'isRequired') ?? false) === true) {
-            $schema->isRequired();
+            if ($schema instanceof SchemaDefinition) {
+                $schema->isRequiredWithId('required');
+            } else {
+                $schema->isRequired();
+            }
         }
     }
 
@@ -79,13 +83,14 @@ abstract class AbstractFieldSchemaProvider implements FieldSchemaProviderInterfa
 
     protected function applyStringLengthValidation(NeosContext $context, Node $fieldNode, SchemaDefinition $schema): void
     {
-        $stringLengthOptions = array_filter([
-            'minimum' => $context->nodes->getIntValue($fieldNode, 'minimumLength'),
-            'maximum' => $context->nodes->getIntValue($fieldNode, 'maximumLength'),
-        ], static fn (mixed $value): bool => $value !== null);
+        $minimum = $context->nodes->getIntValue($fieldNode, 'minimumLength');
+        if ($minimum !== null) {
+            $schema->validatorWithId('minLength', 'StringLength', ['minimum' => $minimum]);
+        }
 
-        if ($stringLengthOptions !== []) {
-            $schema->validator('StringLength', $stringLengthOptions);
+        $maximum = $context->nodes->getIntValue($fieldNode, 'maximumLength');
+        if ($maximum !== null) {
+            $schema->validatorWithId('maxLength', 'StringLength', ['maximum' => $maximum]);
         }
 
         $useCustom = $context->nodes->getBoolValue($fieldNode, 'lengthUseCustomMessage')
@@ -111,8 +116,8 @@ abstract class AbstractFieldSchemaProvider implements FieldSchemaProviderInterfa
     {
         $regularExpression = $context->nodes->getStringValue($fieldNode, 'regularExpression');
         if (is_string($regularExpression) && $regularExpression !== '') {
-            $schema->validator('RegularExpression', [
-                'regularExpression' => $this->normalizeRegularExpression($regularExpression),
+            $schema->validatorWithId('pattern', 'RegularExpression', [
+                'regularExpression' => '/^' . $regularExpression . '$/',
             ]);
         }
 
@@ -127,10 +132,5 @@ abstract class AbstractFieldSchemaProvider implements FieldSchemaProviderInterfa
         if (is_string($patternMessage) && $patternMessage !== '') {
             $schema->overrideErrorMessage(FlowValidationErrorCodes::REGEX_MISMATCH, $patternMessage);
         }
-    }
-
-    protected function normalizeRegularExpression(string $pattern): string
-    {
-        return '/^' . $pattern . '$/';
     }
 }

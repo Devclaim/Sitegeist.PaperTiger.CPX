@@ -2,6 +2,8 @@ Sitegeist:
   PaperTiger:
     CPX:
       components: { }
+      asyncValidation:
+        ruleProviders: [ ]
       validation:
         schemaProviders:
           'Sitegeist.PaperTiger.CPX:Field.Email': 'Sitegeist\PaperTiger\CPX\Domain\Validation\Schema\EmailFieldSchemaProvider'
@@ -23,7 +25,7 @@ Sitegeist:
       papertiger:
         name: papertiger
         classNames:
-          - 'Sitegeist\PaperTiger\CPX\Controller\FormSubmissionJsonController'
+          - 'Sitegeist\PaperTiger\CPX\Controller\FormController'
 
 Neos:
   Flow:

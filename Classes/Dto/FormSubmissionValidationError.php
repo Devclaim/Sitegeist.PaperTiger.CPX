@@ -12,6 +12,7 @@ final readonly class FormSubmissionValidationError
     public function __construct(
         public string $fieldName,
         public string $message,
+        public ?string $validationId = null,
     ) {
     }
 }

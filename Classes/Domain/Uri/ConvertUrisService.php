@@ -16,12 +16,6 @@ use Neos\Neos\FrontendRouting\NodeUriBuilderFactory;
 use Neos\Neos\FrontendRouting\Options;
 use Psr\Log\LoggerInterface;
 
-/**
- * PHP-side variant of `Neos.Neos:ConvertUris` for PaperTiger actions.
- *
- * We only need this for action execution (redirects, emails, ...), so we keep it
- * independent from Fusion runtime and only copy the essential conversion logic.
- */
 final class ConvertUrisService
 {
     public function __construct(
@@ -32,20 +26,20 @@ final class ConvertUrisService
     ) {
     }
 
-    public function convertUriString(string $uri, Node $contextNode, ?ActionRequest $request = null, bool $absolute = false): string
+    public function convertUriString(string $uri, Node $contextNode, ?ActionRequest $request = null, bool $absolute = false, bool $forceHtml = false): string
     {
         if ($uri === '' || (!str_starts_with($uri, 'node://') && !str_starts_with($uri, 'asset://'))) {
             return $uri;
         }
 
         if (str_starts_with($uri, 'node://')) {
-            return $this->convertNodeUri($uri, $contextNode, $request, $absolute) ?? $uri;
+            return $this->convertNodeUri($uri, $contextNode, $request, $absolute, $forceHtml) ?? $uri;
         }
 
         return $this->convertAssetUri($uri) ?? $uri;
     }
 
-    private function convertNodeUri(string $uri, Node $contextNode, ?ActionRequest $request, bool $absolute): ?string
+    private function convertNodeUri(string $uri, Node $contextNode, ?ActionRequest $request, bool $absolute, bool $forceHtml): ?string
     {
         $aggregateId = substr($uri, strlen('node://'));
         if ($aggregateId === '') {
@@ -61,7 +55,7 @@ final class ConvertUrisService
                 : $this->nodeUriBuilderFactory->forActionRequest(ActionRequest::fromHttpRequest(\GuzzleHttp\Psr7\ServerRequest::fromGlobals()));
 
             $format = $request?->getFormat();
-            if (is_string($format) && $format !== '' && $format !== 'html') {
+            if (!$forceHtml && is_string($format) && $format !== '' && $format !== 'html') {
                 $options = $options->withCustomFormat($format);
             }
 

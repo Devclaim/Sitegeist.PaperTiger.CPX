@@ -25,16 +25,22 @@ final class UploadFieldSchemaProvider extends AbstractFieldSchemaProvider
         $schema = $isMultiple ? $this->createSchema('array') : $this->createSchema('Psr\Http\Message\UploadedFileInterface');
         $this->applyRequiredValidation($context, $fieldNode, $schema);
 
-        $options = array_filter([
-            'allowedExtensions' => $fieldNode->getProperty('allowedExtensions'),
-            'maximumSize' => $context->nodes->getIntValue($fieldNode, 'allowedFilesize'),
-        ], static fn (mixed $value): bool => $value !== null && $value !== []);
+        $validatorClass = $isMultiple ? UploadedFileCollectionValidator::class : UploadedFileValidator::class;
 
-        if ($options !== []) {
-            $schema->validator(
-                $isMultiple ? UploadedFileCollectionValidator::class : UploadedFileValidator::class,
-                $options
-            );
+        $allowedExtensions = $fieldNode->getProperty('allowedExtensions');
+        if (is_array($allowedExtensions) && $allowedExtensions !== []) {
+            $schema->validatorWithId('uploadType', $validatorClass, [
+                'allowedExtensions' => $allowedExtensions,
+                'maximumSize' => null,
+            ]);
+        }
+
+        $maximumSize = $context->nodes->getIntValue($fieldNode, 'allowedFilesize');
+        if ($maximumSize !== null) {
+            $schema->validatorWithId('uploadSize', $validatorClass, [
+                'allowedExtensions' => [],
+                'maximumSize' => $maximumSize,
+            ]);
         }
 
         $useTypeMessage = $context->nodes->getBoolValue($fieldNode, 'uploadTypeUseCustomMessage')

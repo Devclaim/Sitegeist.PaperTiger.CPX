@@ -27,7 +27,7 @@ final class NumberFieldSchemaProvider extends AbstractFieldSchemaProvider
         ], static fn (mixed $value): bool => $value !== null);
 
         if ($options !== []) {
-            $schema->validator('NumberRange', $options);
+            $schema->validatorWithId('numberRange', 'NumberRange', $options);
         }
 
         return $schema;

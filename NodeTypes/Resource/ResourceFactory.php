@@ -47,6 +47,28 @@ final class ResourceFactory
         );
     }
 
+    public function publicScriptTag(
+        string $packageKey,
+        string $relativePathAndFilename,
+        bool $module = false,
+        bool $defer = true,
+    ): ComponentInterface {
+        $uri = sprintf(
+            '/_Resources/Static/Packages/%s/%s',
+            $packageKey,
+            ltrim($relativePathAndFilename, '/'),
+        );
+
+        return StringComponent::fromHtmlString(
+            sprintf(
+                '<script src="%s"%s%s></script>',
+                htmlspecialchars($uri, ENT_QUOTES),
+                $module ? ' type="module"' : '',
+                $defer ? ' defer' : '',
+            )
+        );
+    }
+
     public function publicAssetContents(
         string $packageKey,
         string $relativePathAndFilename,

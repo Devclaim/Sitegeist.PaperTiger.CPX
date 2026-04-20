@@ -1,10 +1,10 @@
 -
-  name: 'PaperTiger FormData Json'
-  uriPattern: 'papertiger/json'
+  name: 'PaperTiger Submit'
+  uriPattern: 'papertiger/submit'
   defaults:
     '@package': 'Sitegeist.PaperTiger.CPX'
     '@subpackage': ''
-    '@controller': 'FormSubmissionJson'
-    '@action': 'json'
+    '@controller': 'Form'
+    '@action': 'submit'
     '@format': 'json'
-  httpMethods: ['GET', 'POST']
+  httpMethods: ['POST']

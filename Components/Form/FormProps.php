@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Sitegeist\PaperTiger\CPX\Components\Form;
 
 use PackageFactory\ComponentEngine as _;
+use Sitegeist\PaperTiger\CPX\Components\Form\FormMode;
 
 #[\Neos\Flow\Annotations\Proxy(false)]
 final readonly class FormProps
@@ -13,6 +14,8 @@ final readonly class FormProps
         public string $id,
         public ?string $action,
         public ?string $method,
+        public ?bool $noValidate,
+        public ?FormMode $formMode,
     ) {
     }
 
@@ -20,11 +23,15 @@ final readonly class FormProps
         string $id,
         ?string $action,
         ?string $method,
+        ?bool $noValidate,
+        ?FormMode $formMode,
     ): self {
         return new self(
             id: $id,
             action: $action,
             method: $method,
+            noValidate: $noValidate,
+            formMode: $formMode,
         );
     }
 }

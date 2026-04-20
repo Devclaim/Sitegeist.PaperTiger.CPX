@@ -252,6 +252,6 @@ final class FormSubmissionActionExecutor
             return null;
         }
 
-        return $this->convertUrisService->convertUriString($uri, $context->documentNode, $context->request, false);
+        return $this->convertUrisService->convertUriString($uri, $context->documentNode, $context->request, false, true);
     }
 }

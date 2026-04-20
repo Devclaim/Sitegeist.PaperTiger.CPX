@@ -14,7 +14,7 @@ use Neos\Flow\Validation\ValidatorResolver;
 class SchemaDefinition implements SchemaInterface
 {
     /**
-     * @var array<int, array{type: string, options: array<string, mixed>|null}>
+     * @var array<int, array{id: ?string, type: string, options: array<string, mixed>|null}>
      */
     protected array $validators = [];
 
@@ -48,11 +48,39 @@ class SchemaDefinition implements SchemaInterface
     public function validator(string $type, ?array $options = null): static
     {
         $this->validators[] = [
+            'id' => null,
             'type' => $type,
             'options' => $options,
         ];
 
         return $this;
+    }
+
+    /**
+     * Add a validator with a stable id that will be exposed to async clients.
+     *
+     * @param array<string, mixed>|null $options
+     */
+    public function validatorWithId(string $validationId, string $type, ?array $options = null): static
+    {
+        $validationId = trim($validationId);
+        $this->validators[] = [
+            'id' => $validationId !== '' ? $validationId : null,
+            'type' => $type,
+            'options' => $options,
+        ];
+
+        return $this;
+    }
+
+    /**
+     * Used by async validation descriptor generation.
+     *
+     * @return list<array{id: ?string, type: string, options: array<string, mixed>|null}>
+     */
+    public function getValidators(): array
+    {
+        return $this->validators;
     }
 
     public function typeConverterOption(string $className, string $optionName, mixed $optionValue): static
@@ -69,6 +97,11 @@ class SchemaDefinition implements SchemaInterface
     public function isRequired(): static
     {
         return $this->validator(NotEmptyValidator::class);
+    }
+
+    public function isRequiredWithId(string $validationId = 'required'): static
+    {
+        return $this->validatorWithId($validationId, NotEmptyValidator::class);
     }
 
     /**
@@ -119,7 +152,11 @@ class SchemaDefinition implements SchemaInterface
                 }
 
                 $validatorResult = $validator->validate($data);
-                $result->merge($validatorResult);
+                $this->mergeValidatorResult(
+                    $result,
+                    $validatorResult,
+                    $validationConfiguration['id']
+                );
             }
 
             return $result;
@@ -140,23 +177,28 @@ class SchemaDefinition implements SchemaInterface
             }
 
             $validatorResult = $validator->validate($valueToValidate);
-
-            if ($this->errorMessageOverrides === []) {
-                $result->merge($validatorResult);
-                continue;
-            }
-
-            foreach ($validatorResult->getErrors() as $error) {
-                $override = $this->errorMessageOverrides[$error->getCode()] ?? null;
-                if (is_string($override) && $override !== '') {
-                    $result->addError(new Error($override, $error->getCode()));
-                } else {
-                    $result->addError($error);
-                }
-            }
+            $this->mergeValidatorResult(
+                $result,
+                $validatorResult,
+                $validationConfiguration['id']
+            );
         }
 
         return $result;
+    }
+
+    private function mergeValidatorResult(Result $into, Result $from, ?string $validationId): void
+    {
+        foreach ($from->getErrors() as $error) {
+            $override = $this->errorMessageOverrides[$error->getCode()] ?? null;
+            $message = (is_string($override) && $override !== '') ? $override : $error->getMessage();
+
+            $into->addError(new ValidationError(
+                $message,
+                $error->getCode(),
+                $validationId,
+            ));
+        }
     }
 
     private function isEmptySubmittedValue(mixed $value): bool

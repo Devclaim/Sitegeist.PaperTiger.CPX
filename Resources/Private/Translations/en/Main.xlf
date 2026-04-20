@@ -95,6 +95,27 @@
       <trans-unit id="validation.dateRange.message" xml:space="preserve">
         <source>Date range message</source>
       </trans-unit>
+      <trans-unit id="validationError.required" xml:space="preserve">
+        <source>This field is required.</source>
+      </trans-unit>
+      <trans-unit id="validationError.minLength" xml:space="preserve">
+        <source>This field must contain at least %d characters.</source>
+      </trans-unit>
+      <trans-unit id="validationError.maxLength" xml:space="preserve">
+        <source>This field must contain at most %d characters.</source>
+      </trans-unit>
+      <trans-unit id="validationError.pattern" xml:space="preserve">
+        <source>This value does not match the expected format.</source>
+      </trans-unit>
+      <trans-unit id="validationError.dateRange" xml:space="preserve">
+        <source>The selected date is out of range.</source>
+      </trans-unit>
+      <trans-unit id="validationError.uploadType" xml:space="preserve">
+        <source>The selected file type is not allowed.</source>
+      </trans-unit>
+      <trans-unit id="validationError.uploadSize" xml:space="preserve">
+        <source>The selected file is too large.</source>
+      </trans-unit>
     </body>
   </file>
 </xliff>
