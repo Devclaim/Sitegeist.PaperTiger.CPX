@@ -191,7 +191,7 @@ class SchemaDefinition implements SchemaInterface
     {
         foreach ($from->getErrors() as $error) {
             $override = $this->errorMessageOverrides[$error->getCode()] ?? null;
-            $message = (is_string($override) && $override !== '') ? $override : $error->getMessage();
+            $message = (is_string($override) && $override !== '') ? $override : $error->render();
 
             $into->addError(new ValidationError(
                 $message,
