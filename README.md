@@ -71,7 +71,7 @@ Example:
 
 Async mode also toggles `papertiger-field--submitError` on invalid field containers briefly when submit is blocked by validation. You can use this class for custom animations.
 
-Async mode also toggles `papertiger-form--submitLoading` on the `<form>` while a submit request is in-flight.
+Async mode also toggles `papertiger-form--submitLoading` on the `<form>` while a submit request is in-flight, and disables `button[type="submit"]`.
 
 Example:
 
@@ -125,6 +125,7 @@ If you want to change shared field markup, replace the shared components.
 - `upload`
 - `checkbox`
 - `radio`
+- `button`
 - `date`
 - `message`
 
@@ -142,6 +143,7 @@ Sitegeist:
         error: 'Vendor\Shared\Components\Block\FormBuilder\Fields\Error\Error'
         message: 'Vendor\Shared\Components\Block\FormBuilder\Fields\Message\Message'
         input: 'Vendor\Shared\Components\Block\FormBuilder\Fields\Input\Input'
+        button: 'Vendor\Shared\Components\Block\FormBuilder\Fields\Button\Button'
 ```
 
 Example custom label component:

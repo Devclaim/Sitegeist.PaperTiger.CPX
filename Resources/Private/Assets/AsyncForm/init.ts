@@ -34,6 +34,19 @@ function fallbackSubmitResponse(message: string): SubmitResponse {
     };
 }
 
+function replaceFormWithHtml(form: HTMLFormElement, html: string): void {
+    const wrapper = document.createElement("div");
+    wrapper.setAttribute("data-papertiger-submit-message", "true");
+    wrapper.innerHTML = html;
+    form.replaceWith(wrapper);
+}
+
+function setSubmitDisabled(form: HTMLFormElement, disabled: boolean): void {
+    form.querySelectorAll<HTMLButtonElement>('button[type="submit"]').forEach((el) => {
+        el.disabled = disabled;
+    });
+}
+
 async function submitForm(
     form: HTMLFormElement,
     values: Record<string, unknown>
@@ -148,10 +161,9 @@ export function initAsyncForms(): void {
 
             void (async () => {
                 form.classList.add(SUBMIT_LOADING_CLASS);
+                setSubmitDisabled(form, true);
                 try {
                     const response = await submitForm(form, values);
-                    // eslint-disable-next-line no-console
-                    console.log("PaperTiger Submit response", response);
 
                     const json = response.json;
                     const serverErrors = normalizeSubmitErrors(json).map((it) => ({
@@ -181,6 +193,11 @@ export function initAsyncForms(): void {
                         return;
                     }
 
+                    if (json.success === true && typeof json.message === "string" && json.message !== "") {
+                        replaceFormWithHtml(form, json.message);
+                        return;
+                    }
+
                     // TODO: handle json.content / json.message in the DOM
                 } catch {
                     store.getState().setErrors([
@@ -192,7 +209,11 @@ export function initAsyncForms(): void {
                     ]);
                     triggerSubmitAttemptAnimation(form);
                 } finally {
-                    form.classList.remove(SUBMIT_LOADING_CLASS);
+                    // If the form was replaced by a success message, it is no longer connected.
+                    if (form.isConnected) {
+                        form.classList.remove(SUBMIT_LOADING_CLASS);
+                        setSubmitDisabled(form, false);
+                    }
                 }
             })();
         });

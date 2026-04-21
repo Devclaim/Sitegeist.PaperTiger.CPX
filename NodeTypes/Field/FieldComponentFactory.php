@@ -10,6 +10,8 @@ use Sitegeist\PaperTiger\CPX\Components\Field\CheckboxItem\CheckboxItem;
 use Sitegeist\PaperTiger\CPX\Components\Field\CheckboxItem\CheckboxItemProps;
 use Sitegeist\PaperTiger\CPX\Components\Error\Error;
 use Sitegeist\PaperTiger\CPX\Components\Error\ErrorProps;
+use Sitegeist\PaperTiger\CPX\Components\Field\ButtonField\ButtonField;
+use Sitegeist\PaperTiger\CPX\Components\Field\ButtonField\ButtonFieldProps;
 use Sitegeist\PaperTiger\CPX\Components\Field\InputField\InputField;
 use Sitegeist\PaperTiger\CPX\Components\Field\InputField\InputFieldProps;
 use Sitegeist\PaperTiger\CPX\Components\Field\RadioItem\RadioItem;
@@ -42,6 +44,7 @@ final class FieldComponentFactory
      *   upload?: class-string<ComponentInterface>,
      *   checkbox?: class-string<ComponentInterface>,
      *   radio?: class-string<ComponentInterface>,
+     *   button?: class-string<ComponentInterface>,
      *   message?: class-string<ComponentInterface>
      * } $componentClasses
      */
@@ -129,6 +132,13 @@ final class FieldComponentFactory
         $className = $this->componentClasses['radio'] ?? RadioItem::class;
 
         return $this->createComponent($className, $option);
+    }
+
+    public function createButton(ButtonFieldProps $field): ComponentInterface
+    {
+        $className = $this->componentClasses['button'] ?? ButtonField::class;
+
+        return $this->createComponent($className, $field);
     }
 
     private function createComponent(string $className, mixed ...$arguments): ComponentInterface
