@@ -51,8 +51,12 @@ final class DefaultAsyncValidationRuleProvider implements AsyncValidationRulePro
                 'fieldName' => $name,
                 'validationId' => $validationId,
                 'options' => $options,
-                'message' => $this->resolveAsyncMessage($context, $fieldNode, $validationId)
-                    ?? $this->translate('validationError.' . $validationId),
+                'message' => $this->formatFallbackMessage(
+                    $validationId,
+                    $options,
+                    $this->resolveAsyncMessage($context, $fieldNode, $validationId)
+                        ?? $this->translate('validationError.' . $validationId),
+                ),
             ];
         }
 
@@ -116,5 +120,37 @@ final class DefaultAsyncValidationRuleProvider implements AsyncValidationRulePro
                 $validationId . 'Message',
             )
         };
+    }
+
+    /**
+     * Some translated fallback messages contain placeholders (e.g. "%d") that need to be formatted with schema options.
+     *
+     * Custom messages (from the inspector) are assumed to be pre-formatted by the editor and are not altered.
+     *
+     * @param array<string,mixed> $options
+     */
+    private function formatFallbackMessage(string $validationId, array $options, string $message): string
+    {
+        if ($message === '') {
+            return $message;
+        }
+
+        try {
+            return match ($validationId) {
+                'minLength' => (isset($options['minimum']) && is_int($options['minimum']))
+                    ? sprintf($message, $options['minimum'])
+                    : $message,
+                'maxLength' => (isset($options['maximum']) && is_int($options['maximum']))
+                    ? sprintf($message, $options['maximum'])
+                    : $message,
+                'uploadSize' => (isset($options['maximumSize']) && is_int($options['maximumSize']))
+                    ? sprintf($message, $options['maximumSize'])
+                    : $message,
+                default => $message,
+            };
+        } catch (\Throwable) {
+            // If formatting fails (mismatched placeholders), fall back to the raw message.
+            return $message;
+        }
     }
 }
