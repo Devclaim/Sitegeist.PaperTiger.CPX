@@ -1,0 +1,93 @@
+Sitegeist.PaperTiger.CPX:Actions:
+  abstract: true
+  ui:
+    inspector:
+      tabs:
+        actions:
+          label: 'Sitegeist.PaperTiger.CPX:Main:actions.tab'
+          icon: bolt
+          position: 10
+      groups:
+        'actions-message':
+          label: 'Sitegeist.PaperTiger.CPX:NodeTypes.Action:groups.message'
+          position: 10
+          icon: 'icon-comment'
+          tab: actions
+        'actions-email':
+          label: 'Sitegeist.PaperTiger.CPX:NodeTypes.Action:groups.email'
+          position: 20
+          icon: 'icon-envelope-o'
+          tab: actions
+        'actions-redirect':
+          label: 'Sitegeist.PaperTiger.CPX:NodeTypes.Action:groups.redirect'
+          position: 30
+          icon: 'icon-arrow-right'
+          tab: actions
+      views:
+        messageActionEditor:
+          label: ''
+          group: actions-message
+          position: end
+          view: 'Sitegeist.PaperTiger.CPX/Inspector/Views/MessageActionEditor'
+  properties:
+    showMessage:
+      type: boolean
+      defaultValue: false
+      ui:
+        label: 'Sitegeist.PaperTiger.CPX:NodeTypes.Action.Message:properties.showMessage'
+        reloadIfChanged: true
+        inspector:
+          group: 'actions-message'
+          position: 10
+          editor: 'Neos.Neos/Inspector/Editors/BooleanEditor'
+    message:
+      type: string
+      ui:
+        inlineEditable: true
+        inline:
+          editorOptions:
+            placeholder: 'Sitegeist.PaperTiger.CPX:NodeTypes.Action.Message:properties.messagePlaceholder'
+            autoparagraph: true
+            linking:
+              anchor: true
+              title: true
+              relNofollow: true
+              targetBlank: true
+            formatting:
+              strong: true
+              em: true
+              underline: true
+              p: true
+              ol: true
+              ul: true
+              sub: true
+              sup: true
+              a: true
+              h1: false
+              h2: false
+              h3: true
+              h4: true
+              h5: false
+              h6: false
+              table: false
+              removeFormat: true
+    emailAction:
+      type: array
+      defaultValue: []
+      ui:
+        label: 'Sitegeist.PaperTiger.CPX:NodeTypes.Action:builtInTypes.email'
+        reloadIfChanged: true
+        inspector:
+          group: 'actions-email'
+          position: 10
+          editor: 'Sitegeist.PaperTiger.CPX/Inspector/Editors/EmailActionEditor'
+    redirectAction:
+      type: Sitegeist\PaperTiger\CPX\Domain\Action\Specification\RedirectActionSpecification
+      defaultValue: null
+      ui:
+        label: 'Sitegeist.PaperTiger.CPX:NodeTypes.Action:builtInTypes.redirect'
+        reloadIfChanged: true
+        inspector:
+          group: 'actions-redirect'
+          position: 10
+          editor: 'Sitegeist.PaperTiger.CPX/Inspector/Editors/RedirectActionEditor'

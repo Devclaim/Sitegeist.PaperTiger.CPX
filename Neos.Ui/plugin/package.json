@@ -8,7 +8,11 @@
     },
     "dependencies": {
         "@neos-project/neos-ui-extensibility": "^9.1",
-        "@sitegeist/papertiger-cpx-option-editor": "workspace:*"
+        "@sitegeist/papertiger-cpx-email-action-editor": "workspace:*",
+        "@sitegeist/papertiger-cpx-message-action-editor": "workspace:*",
+        "@sitegeist/papertiger-cpx-neos-bridge": "workspace:*",
+        "@sitegeist/papertiger-cpx-option-editor": "workspace:*",
+        "@sitegeist/papertiger-cpx-redirect-action-editor": "workspace:*"
     },
     "devDependencies": {
         "esbuild": "~0.25.0"

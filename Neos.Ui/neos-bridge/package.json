@@ -1,0 +1,9 @@
+{
+    "name": "@sitegeist/papertiger-cpx-neos-bridge",
+    "license": "GPL-3.0-or-later",
+    "version": "",
+    "main": "./src/index.ts",
+    "dependencies": {
+        "react": "^18.3.1"
+    }
+}

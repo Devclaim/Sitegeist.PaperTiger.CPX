@@ -1,5 +1,0 @@
-export component RedirectActionPreview {
-  uri: string
-
-  render <a class="papertiger-action-redirect" href={uri} target="_blank">{uri}</a>
-}

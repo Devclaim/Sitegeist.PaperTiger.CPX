@@ -10,20 +10,23 @@ use PackageFactory\ComponentEngine as _;
 final readonly class MessageActionPreview implements _\ComponentInterface
 {
     private function __construct(
-        private string $message,
+        private ?_\ComponentInterface $content,
+        private string $formId,
     ) {
     }
 
     public static function create(
-        string $message,
+        _\ComponentInterface|string|null $content,
+        string $formId,
     ): self {
         return new self(
-            message: $message,
+            content: is_string($content) ? _\StringComponent::fromString($content) : $content,
+            formId: $formId,
         );
     }
 
     public function render(): string
     {
-        return '<div class="papertiger-action-message">' . _\Util::escapeRenderValue($this->message) . '</div>';
+        return '<div data-message-action-preview="' . _\Util::escapeAttributeValue($this->formId) . '" hidden>' . (($temp = $this->content) === null ? '' : $temp->render()) . '</div>';
     }
 }

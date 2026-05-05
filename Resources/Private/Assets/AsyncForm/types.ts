@@ -15,6 +15,10 @@ export type ValidationField = {
 export type ValidationDescriptor = {
     formId: string;
     fields: ValidationField[];
+    templates?: {
+        message: string;
+        error: string;
+    };
 };
 
 export type ValidationError = {

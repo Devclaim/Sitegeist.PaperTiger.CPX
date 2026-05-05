@@ -6,7 +6,6 @@ namespace Sitegeist\PaperTiger\CPX\Domain;
 
 use Neos\ContentRepository\Core\Projection\ContentGraph\Filter\FindChildNodesFilter;
 use Neos\ContentRepository\Core\Projection\ContentGraph\Node;
-use Neos\ContentRepository\Core\SharedModel\Node\NodeName;
 use Neos\Error\Messages\Error;
 use Neos\Flow\Mvc\ActionRequest;
 use PackageFactory\Neos\ComponentEngine\NeosContext;
@@ -62,12 +61,7 @@ final class FormSubmissionValidator
      */
     private function resolveFieldNodes(NeosContext $context): array
     {
-        $fieldsCollectionNode = $context->subgraph->findNodeByPath(NodeName::fromString('fields'), $context->node->aggregateId);
-        if (!$fieldsCollectionNode instanceof Node) {
-            return [];
-        }
-
-        return $this->collectFieldNodes($context, $fieldsCollectionNode);
+        return $this->collectFieldNodes($context, $context->node);
     }
 
     /**

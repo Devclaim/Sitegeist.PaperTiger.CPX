@@ -1,4 +1,8 @@
 Sitegeist.PaperTiger.CPX:Form:
+  superTypes:
+    Neos.Neos:Content: true
+    Neos.Neos:ContentCollection: true
+    Sitegeist.PaperTiger.CPX:Actions: true
   ui:
     label: i18n
     icon: 'icon-list-alt'
@@ -28,11 +32,8 @@ Sitegeist.PaperTiger.CPX:Form:
       postprocessorOptions:
         enumName: Sitegeist\PaperTiger\CPX\Components\Form\FormMode
         propertyNames:
-          - formMode
-  superTypes:
-    Neos.Neos:Content: true
-  childNodes:
-    fields:
-      type: Sitegeist.PaperTiger.CPX:Field.Collection
-    actions:
-      type: Sitegeist.PaperTiger.CPX:Action.Collection
+          - formMode    
+  constraints:
+    nodeTypes:
+      '*': false
+      'Sitegeist.PaperTiger.CPX:Field.Constraint': true

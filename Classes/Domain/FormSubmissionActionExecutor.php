@@ -4,17 +4,15 @@ declare(strict_types=1);
 
 namespace Sitegeist\PaperTiger\CPX\Domain;
 
-use Neos\ContentRepository\Core\Projection\ContentGraph\Filter\FindChildNodesFilter;
-use Neos\ContentRepository\Core\Projection\ContentGraph\Node;
-use Neos\ContentRepository\Core\SharedModel\Node\NodeAddress;
 use Neos\ContentRepository\Core\SharedModel\Node\NodeAggregateId;
-use Neos\ContentRepository\Core\SharedModel\Node\NodeName;
 use Neos\Flow\Mvc\ActionRequest;
 use Neos\Flow\Mvc\ActionResponse;
 use Neos\Flow\ObjectManagement\ObjectManagerInterface;
 use PackageFactory\Neos\ComponentEngine\NeosContext;
 use Psr\Http\Message\UploadedFileInterface;
 use Sitegeist\PaperTiger\CPX\Domain\Action\ConfigurableActionInterface;
+use Sitegeist\PaperTiger\CPX\Domain\Action\Specification\EmailActionSpecification;
+use Sitegeist\PaperTiger\CPX\Domain\Action\Specification\RedirectActionSpecification;
 use Sitegeist\PaperTiger\CPX\Domain\Action\EmailAction;
 use Sitegeist\PaperTiger\CPX\Domain\Action\MessageAction;
 use Sitegeist\PaperTiger\CPX\Domain\Action\RedirectAction;
@@ -42,8 +40,32 @@ final class FormSubmissionActionExecutor
 
         $response = null;
 
-        foreach ($this->resolveActionNodes($context) as $actionNode) {
-            $actionResponse = $this->executeActionNode($request, $context, $actionNode, $arguments);
+        $showMessage = $context->nodes->getBoolValue($context->node, 'showMessage');
+
+        if ($showMessage) {
+            $message = $this->replaceTokens(
+                $context->nodes->getStringValue($context->node, 'message'),
+                $arguments
+            );
+            $this->messageAction->perform($request, $message);
+        }
+
+        foreach ($this->readEmailActionSpecifications($context) as $emailAction) {
+            $actionResponse = $this->performAction(
+                EmailAction::class,
+                $this->buildEmailActionOptionsFromSpecification($emailAction, $arguments),
+            );
+            if ($actionResponse instanceof ActionResponse) {
+                $response = $actionResponse;
+            }
+        }
+
+        $redirectAction = $this->readRedirectActionSpecification($context);
+        if ($redirectAction instanceof RedirectActionSpecification) {
+            $actionResponse = $this->performAction(
+                RedirectAction::class,
+                $this->buildRedirectActionOptionsFromSpecification($context, $redirectAction, $arguments),
+            );
             if ($actionResponse instanceof ActionResponse) {
                 $response = $actionResponse;
             }
@@ -53,90 +75,44 @@ final class FormSubmissionActionExecutor
     }
 
     /**
-     * @return array<int,Node>
+     * @return array<int, EmailActionSpecification>
      */
-    private function resolveActionNodes(NeosContext $context): array
+    private function readEmailActionSpecifications(NeosContext $context): array
     {
-        $actionsCollectionNode = $context->subgraph->findNodeByPath(NodeName::fromString('actions'), $context->node->aggregateId);
-        if (!$actionsCollectionNode instanceof Node) {
+        $value = $context->node->getProperty('emailAction');
+        if (!is_array($value)) {
             return [];
         }
 
-        return iterator_to_array(
-            $context->subgraph->findChildNodes($actionsCollectionNode->aggregateId, FindChildNodesFilter::create())
+        return array_values(array_filter(array_map(
+            static fn (mixed $entry): ?EmailActionSpecification => is_array($entry)
+                ? EmailActionSpecification::fromArray($entry)
+                : null,
+            $value,
+        )));
+    }
+
+    private function readRedirectActionSpecification(NeosContext $context): ?RedirectActionSpecification
+    {
+        return $context->nodes->getObjectValue(
+            $context->node,
+            'redirectAction',
+            RedirectActionSpecification::class,
         );
-    }
-
-    /**
-     * @param array<string,mixed> $arguments
-     */
-    private function executeActionNode(ActionRequest $request, NeosContext $context, Node $actionNode, array $arguments): ?ActionResponse
-    {
-        $nodeType = $context->nodes->tryGetNodeType($actionNode);
-        if ($nodeType === null) {
-            return null;
-        }
-
-        if ($nodeType->isOfType('Sitegeist.PaperTiger.CPX:Action.Message')) {
-            $message = $this->replaceTokens(
-                $context->nodes->getStringValue($actionNode, 'message'),
-                $arguments,
-            );
-            $this->messageAction->perform($request, $message);
-
-            return null;
-        }
-
-        $actionClassName = $this->resolveActionClassName($actionNode, $context);
-        if ($actionClassName === null) {
-            return null;
-        }
-
-        return $this->performAction(
-            $actionClassName,
-            $this->buildActionOptions($context, $actionNode, $arguments, $actionClassName),
-        );
-    }
-
-    /**
-     * @return class-string<ConfigurableActionInterface>|null
-     */
-    private function resolveActionClassName(Node $actionNode, NeosContext $context): ?string
-    {
-        $nodeType = $context->nodes->tryGetNodeType($actionNode);
-        if ($nodeType === null) {
-            return null;
-        }
-
-        return match (true) {
-            $nodeType->isOfType('Sitegeist.PaperTiger.CPX:Action.Redirect') => RedirectAction::class,
-            $nodeType->isOfType('Sitegeist.PaperTiger.CPX:Action.Email') => EmailAction::class,
-            default => null,
-        };
-    }
-
-    /**
-     * @param class-string<ConfigurableActionInterface> $actionClassName
-     * @param array<string,mixed> $arguments
-     * @return array<string,mixed>
-     */
-    private function buildActionOptions(NeosContext $context, Node $actionNode, array $arguments, string $actionClassName): array
-    {
-        return match ($actionClassName) {
-            RedirectAction::class => $this->buildRedirectActionOptions($context, $actionNode, $arguments),
-            EmailAction::class => $this->buildEmailActionOptions($context, $actionNode, $arguments),
-            default => [],
-        };
     }
 
     /**
      * @param array<string,mixed> $arguments
      * @return array<string,mixed>
      */
-    private function buildRedirectActionOptions(NeosContext $context, Node $actionNode, array $arguments): array
+    private function buildRedirectActionOptionsFromSpecification(
+        NeosContext $context,
+        RedirectActionSpecification $action,
+        array $arguments,
+    ): array
     {
         return [
-            'uri' => $this->resolveRedirectUri($context, $arguments, $actionNode),
+            'uri' => $this->resolveRedirectUri($context, $arguments, $action->uri),
         ];
     }
 
@@ -144,34 +120,36 @@ final class FormSubmissionActionExecutor
      * @param array<string,mixed> $arguments
      * @return array<string,mixed>
      */
-    private function buildEmailActionOptions(NeosContext $context, Node $actionNode, array $arguments): array
+    private function buildEmailActionOptionsFromSpecification(
+        EmailActionSpecification $action,
+        array $arguments,
+    ): array
     {
-        $format = $context->nodes->getStringValue($actionNode, 'format') ?? 'plaintext';
-        $plaintext = $this->replaceTokens($context->nodes->getStringValue($actionNode, 'plaintext'), $arguments);
-        $html = $this->replaceTokens($context->nodes->getStringValue($actionNode, 'html'), $arguments);
+        $plaintext = $this->replaceTokens($action->plaintext, $arguments);
+        $html = $this->replaceTokens($action->html, $arguments);
 
-        if ($format === 'html') {
+        if ($action->format === 'html') {
             $plaintext = null;
         }
-        if ($format === 'plaintext') {
+        if ($action->format === 'plaintext') {
             $html = null;
         }
 
         return [
-            'subject' => $this->replaceTokens($context->nodes->getStringValue($actionNode, 'subject'), $arguments),
+            'subject' => $this->replaceTokens($action->subject, $arguments),
             'text' => $plaintext,
             'html' => $html,
-            'recipientAddress' => $this->replaceTokens($context->nodes->getStringValue($actionNode, 'recipientAddress'), $arguments),
-            'recipientName' => $this->replaceTokens($context->nodes->getStringValue($actionNode, 'recipientName'), $arguments),
-            'senderAddress' => $this->replaceTokens($context->nodes->getStringValue($actionNode, 'senderAddress'), $arguments),
-            'senderName' => $this->replaceTokens($context->nodes->getStringValue($actionNode, 'senderName'), $arguments),
-            'replyToAddress' => $this->replaceTokens($context->nodes->getStringValue($actionNode, 'replyToAddress'), $arguments),
-            'carbonCopyAddress' => $this->replaceTokens($context->nodes->getStringValue($actionNode, 'carbonCopyAddress'), $arguments),
-            'blindCarbonCopyAddress' => $this->replaceTokens($context->nodes->getStringValue($actionNode, 'blindCarbonCopyAddress'), $arguments),
-            'attachments' => ($context->nodes->getBoolValue($actionNode, 'attachUploads') ?? false)
+            'recipientAddress' => $this->replaceTokens($action->recipientAddress, $arguments),
+            'recipientName' => $this->replaceTokens($action->recipientName, $arguments),
+            'senderAddress' => $this->replaceTokens($action->senderAddress, $arguments),
+            'senderName' => $this->replaceTokens($action->senderName, $arguments),
+            'replyToAddress' => $this->replaceTokens($action->replyToAddress, $arguments),
+            'carbonCopyAddress' => $this->replaceTokens($action->carbonCopyAddress, $arguments),
+            'blindCarbonCopyAddress' => $this->replaceTokens($action->blindCarbonCopyAddress, $arguments),
+            'attachments' => $action->attachUploads
                 ? $this->collectUploadArguments($arguments)
                 : null,
-            'testMode' => $context->nodes->getBoolValue($actionNode, 'testMode') ?? false,
+            'testMode' => $action->testMode,
         ];
     }
 
@@ -245,9 +223,9 @@ final class FormSubmissionActionExecutor
         return $uploads;
     }
 
-    private function resolveRedirectUri(NeosContext $context, array $arguments, Node $actionNode): ?string
+    private function resolveRedirectUri(NeosContext $context, array $arguments, ?string $uriValue): ?string
     {
-        $uri = $this->replaceTokens($context->nodes->getStringValue($actionNode, 'uri'), $arguments);
+        $uri = $this->replaceTokens($uriValue, $arguments);
         if (!is_string($uri) || $uri === '') {
             return null;
         }

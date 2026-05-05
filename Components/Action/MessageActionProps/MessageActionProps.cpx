@@ -1,3 +1,0 @@
-export struct MessageActionProps {
-  message: ?string
-}

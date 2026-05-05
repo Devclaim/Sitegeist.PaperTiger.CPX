@@ -5,6 +5,27 @@
       <trans-unit id="groups.form" xml:space="preserve">
         <source>Form</source>
       </trans-unit>
+      <trans-unit id="groups.actions" xml:space="preserve">
+        <source>Actions</source>
+      </trans-unit>
+      <trans-unit id="groups.message" xml:space="preserve">
+        <source>Message action</source>
+      </trans-unit>
+      <trans-unit id="groups.email" xml:space="preserve">
+        <source>Email action</source>
+      </trans-unit>
+      <trans-unit id="groups.redirect" xml:space="preserve">
+        <source>Redirect action</source>
+      </trans-unit>
+      <trans-unit id="builtInTypes.message" xml:space="preserve">
+        <source>Show message</source>
+      </trans-unit>
+      <trans-unit id="builtInTypes.email" xml:space="preserve">
+        <source>Send email</source>
+      </trans-unit>
+      <trans-unit id="builtInTypes.redirect" xml:space="preserve">
+        <source>Redirect user</source>
+      </trans-unit>
     </body>
   </file>
 </xliff>

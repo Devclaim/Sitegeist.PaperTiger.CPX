@@ -18,6 +18,10 @@
         <source>Follow up actions</source>
         <target>Formular-Aktionen</target>
       </trans-unit>
+      <trans-unit id="actions.tab" xml:space="preserve">
+        <source>Actions</source>
+        <target>Aktionen</target>
+      </trans-unit>
       <trans-unit id="actionCollection.fieldNames.description" xml:space="preserve">
         <source>Field names:</source>
         <target>Feldnamen:</target>

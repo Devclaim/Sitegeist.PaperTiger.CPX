@@ -94,6 +94,8 @@ Example:
 }
 ```
 
+Async mode renders its error/message markup via the configured shared components as well (for example your custom `error` / `message` components).
+
 Async client-side validation is extendable: you can register additional JS validators (by `validationId`) via `registerAsyncValidator(...)`, and you can add additional PHP async validation rule providers via the `Sitegeist.PaperTiger.CPX.asyncValidation.ruleProviders` setting.
 
 ### 2. Customize the Form Wrapper

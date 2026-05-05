@@ -1,5 +1,8 @@
 export component MessageActionPreview {
-  message: string
+  content: slot
+  formId: string
 
-  render <div class="papertiger-action-message">{message}</div>
+  render <div data-message-action-preview={formId} hidden>
+    {content}
+  </div>
 }

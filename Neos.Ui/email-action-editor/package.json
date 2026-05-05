@@ -1,0 +1,12 @@
+{
+    "name": "@sitegeist/papertiger-cpx-email-action-editor",
+    "license": "MIT",
+    "version": "",
+    "main": "./src/index.tsx",
+    "dependencies": {
+        "@neos-project/react-ui-components": "^9.1",
+        "react": "^18.3.1",
+        "react-dom": "^18.3.1",
+        "styled-components": "^5.3.0"
+    }
+}

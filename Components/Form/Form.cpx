@@ -13,6 +13,7 @@ export component Form {
     method={form.method}
     novalidate={form.noValidate}
     enctype="multipart/form-data"
+    data-__neos-insertion-anchor
   >
     {error}
     {content}

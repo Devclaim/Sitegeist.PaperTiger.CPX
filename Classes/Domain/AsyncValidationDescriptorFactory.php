@@ -6,7 +6,6 @@ namespace Sitegeist\PaperTiger\CPX\Domain;
 
 use Neos\ContentRepository\Core\Projection\ContentGraph\Filter\FindChildNodesFilter;
 use Neos\ContentRepository\Core\Projection\ContentGraph\Node;
-use Neos\ContentRepository\Core\SharedModel\Node\NodeName;
 use PackageFactory\Neos\ComponentEngine\NeosContext;
 use Sitegeist\PaperTiger\CPX\Domain\AsyncValidation\AsyncValidationRuleProviderRegistry;
 
@@ -22,32 +21,24 @@ final class AsyncValidationDescriptorFactory
      */
     public function forForm(NeosContext $context): array
     {
-        $fieldsCollectionNode = $context->subgraph->findNodeByPath(
-            NodeName::fromString('fields'),
-            $context->node->aggregateId,
-        );
+        return $this->collectFieldDescriptors($context, $context->node);
+    }
 
-        if (!$fieldsCollectionNode instanceof Node) {
-            return [];
-        }
-
+    /**
+     * @return list<array{name: string, validations: list<array<string, mixed>>}>
+     */
+    private function collectFieldDescriptors(NeosContext $context, Node $parentNode): array
+    {
         $fields = [];
 
-        foreach ($context->subgraph->findChildNodes($fieldsCollectionNode->aggregateId, FindChildNodesFilter::create()) as $fieldNode) {
+        foreach ($context->subgraph->findChildNodes($parentNode->aggregateId, FindChildNodesFilter::create()) as $fieldNode) {
             $nodeType = $context->nodes->tryGetNodeType($fieldNode);
             if ($nodeType === null) {
                 continue;
             }
 
             if ($nodeType->isOfType('Sitegeist.PaperTiger.CPX:Fieldset')) {
-                foreach ($context->subgraph->findChildNodes($fieldNode->aggregateId, FindChildNodesFilter::create()) as $childNode) {
-                    if (($context->nodes->tryGetNodeType($childNode)?->isOfType('Sitegeist.PaperTiger.CPX:Field') ?? false) === true) {
-                        $descriptor = $this->forField($context, $childNode);
-                        if ($descriptor !== null) {
-                            $fields[] = $descriptor;
-                        }
-                    }
-                }
+                $fields = [...$fields, ...$this->collectFieldDescriptors($context, $fieldNode)];
                 continue;
             }
 
@@ -107,4 +98,3 @@ final class AsyncValidationDescriptorFactory
         ];
     }
 }
-

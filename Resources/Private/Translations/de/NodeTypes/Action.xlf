@@ -6,6 +6,34 @@
         <source>Form</source>
         <target>Formular</target>
       </trans-unit>
+      <trans-unit id="groups.actions" xml:space="preserve">
+        <source>Actions</source>
+        <target>Aktionen</target>
+      </trans-unit>
+      <trans-unit id="groups.message" xml:space="preserve">
+        <source>Message action</source>
+        <target>Nachrichtenaktion</target>
+      </trans-unit>
+      <trans-unit id="groups.email" xml:space="preserve">
+        <source>Email action</source>
+        <target>E-Mail-Aktion</target>
+      </trans-unit>
+      <trans-unit id="groups.redirect" xml:space="preserve">
+        <source>Redirect action</source>
+        <target>Weiterleitungsaktion</target>
+      </trans-unit>
+      <trans-unit id="builtInTypes.message" xml:space="preserve">
+        <source>Show message</source>
+        <target>Nachricht anzeigen</target>
+      </trans-unit>
+      <trans-unit id="builtInTypes.email" xml:space="preserve">
+        <source>Send email</source>
+        <target>E-Mail senden</target>
+      </trans-unit>
+      <trans-unit id="builtInTypes.redirect" xml:space="preserve">
+        <source>Redirect user</source>
+        <target>Benutzer weiterleiten</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

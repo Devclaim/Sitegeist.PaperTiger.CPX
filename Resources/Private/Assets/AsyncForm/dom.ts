@@ -2,6 +2,7 @@ import type { ValidationError } from "./types";
 
 const SUBMIT_ERROR_CLASS = "papertiger-field--submitError";
 const GENERAL_ERROR_FIELD = "__general";
+const CONTENT_PLACEHOLDER_TOKEN = "{content}";
 
 export function collectFormValues(form: HTMLFormElement): Record<string, unknown> {
     const values: Record<string, unknown> = {};
@@ -63,7 +64,11 @@ export function scrollToFirstError(form: HTMLFormElement, errors: ValidationErro
     container.scrollIntoView({ behavior: "smooth", block: "center" });
 }
 
-export function applyErrorsToDom(form: HTMLFormElement, errors: ValidationError[]): void {
+export function applyErrorsToDom(
+    form: HTMLFormElement,
+    errors: ValidationError[],
+    errorTemplateHtml: string | null = null
+): void {
     clearErrorsFromDom(form);
 
     const byField = new Map<string, ValidationError[]>();
@@ -85,6 +90,19 @@ export function applyErrorsToDom(form: HTMLFormElement, errors: ValidationError[
         slot.setAttribute("data-papertiger-async-errors", "true");
 
         for (const err of fieldErrors) {
+            if (errorTemplateHtml) {
+                const container = document.createElement("div");
+                container.innerHTML = errorTemplateHtml.replace(
+                    CONTENT_PLACEHOLDER_TOKEN,
+                    escapeHtml(err.message)
+                );
+                const el = container.firstElementChild;
+                if (el) {
+                    slot.appendChild(el);
+                    continue;
+                }
+            }
+
             const p = document.createElement("p");
             p.className = "papertiger-error";
             p.textContent = err.message;
@@ -113,4 +131,13 @@ function findFieldContainer(form: HTMLFormElement, fieldName: string): HTMLEleme
 function cssEscape(value: string): string {
     // Minimal escape; IDs are already sanitized field names in our setup.
     return value.replace(/[^a-zA-Z0-9_-]/g, "\\$&");
+}
+
+function escapeHtml(value: string): string {
+    return value
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/\"/g, "&quot;")
+        .replace(/'/g, "&#39;");
 }

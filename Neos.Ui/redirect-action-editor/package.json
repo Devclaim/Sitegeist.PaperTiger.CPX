@@ -1,0 +1,10 @@
+{
+    "name": "@sitegeist/papertiger-cpx-redirect-action-editor",
+    "license": "MIT",
+    "version": "",
+    "main": "./src/index.tsx",
+    "dependencies": {
+        "react": "^18.3.1",
+        "react-dom": "^18.3.1"
+    }
+}

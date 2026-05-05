@@ -14,6 +14,11 @@ const options = {
     jsx: 'transform',
     jsxFactory: 'React.createElement',
     jsxFragment: 'React.Fragment',
+    tsconfigRaw: {
+        compilerOptions: {
+            jsx: 'react'
+        }
+    },
     entryPoints: { Plugin: './src/index.js' },
     outdir: '../../Resources/Public/Neos.Ui',
     alias: extensibilityMap

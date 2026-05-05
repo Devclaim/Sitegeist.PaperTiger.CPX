@@ -34,9 +34,21 @@ function fallbackSubmitResponse(message: string): SubmitResponse {
     };
 }
 
-function replaceFormWithHtml(form: HTMLFormElement, html: string): void {
+function replaceFormWithHtml(form: HTMLFormElement, templateHtml: string | null, html: string): void {
+    if (templateHtml) {
+        const wrapperHtml = templateHtml.replace("{content}", html);
+        const container = document.createElement("div");
+        container.innerHTML = wrapperHtml;
+        const wrapper = container.firstElementChild;
+        if (wrapper) {
+            form.replaceWith(wrapper);
+            return;
+        }
+    }
+
     const wrapper = document.createElement("div");
-    wrapper.setAttribute("data-papertiger-submit-message", "true");
+    wrapper.className = "papertiger-message";
+    wrapper.setAttribute("role", "status");
     wrapper.innerHTML = html;
     form.replaceWith(wrapper);
 }
@@ -86,6 +98,8 @@ export function initAsyncForms(): void {
         if (!form) continue;
 
         const SUBMIT_LOADING_CLASS = "papertiger-form--submitLoading";
+        const messageTemplateHtml = descriptor.templates?.message ?? null;
+        const errorTemplateHtml = descriptor.templates?.error ?? null;
 
         const fieldSchemas = buildFieldSchemas(descriptor);
         const store = createAsyncFormStore();
@@ -95,7 +109,7 @@ export function initAsyncForms(): void {
             if (state.errors.length === 0) {
                 clearErrorsFromDom(form);
             } else {
-                applyErrorsToDom(form, state.errors);
+                applyErrorsToDom(form, state.errors, errorTemplateHtml);
             }
         });
 
@@ -194,11 +208,9 @@ export function initAsyncForms(): void {
                     }
 
                     if (json.success === true && typeof json.message === "string" && json.message !== "") {
-                        replaceFormWithHtml(form, json.message);
+                        replaceFormWithHtml(form, messageTemplateHtml, json.message);
                         return;
                     }
-
-                    // TODO: handle json.content / json.message in the DOM
                 } catch {
                     store.getState().setErrors([
                         {
@@ -209,7 +221,6 @@ export function initAsyncForms(): void {
                     ]);
                     triggerSubmitAttemptAnimation(form);
                 } finally {
-                    // If the form was replaced by a success message, it is no longer connected.
                     if (form.isConnected) {
                         form.classList.remove(SUBMIT_LOADING_CLASS);
                         setSubmitDisabled(form, false);

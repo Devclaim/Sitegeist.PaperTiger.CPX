@@ -4,14 +4,9 @@ declare(strict_types=1);
 
 namespace Sitegeist\PaperTiger\CPX\NodeTypes\Form;
 
-use Neos\ContentRepository\Core\Projection\ContentGraph\Filter\FindChildNodesFilter;
-use Neos\ContentRepository\Core\Projection\ContentGraph\Node;
 use Neos\ContentRepository\Core\SharedModel\Node\NodeAddress;
-use Neos\ContentRepository\Core\SharedModel\Node\NodeName;
-use Neos\Flow\I18n\Translator;
 use PackageFactory\ComponentEngine\ComponentCollection;
 use PackageFactory\ComponentEngine\ComponentInterface;
-use PackageFactory\ComponentEngine\SlotComponent;
 use PackageFactory\ComponentEngine\StringComponent;
 use PackageFactory\Neos\ComponentEngine\Caching\CacheDirective;
 use PackageFactory\Neos\ComponentEngine\Caching\CacheSegment;
@@ -19,18 +14,14 @@ use PackageFactory\Neos\ComponentEngine\Integration\ContentRenderer;
 use PackageFactory\Neos\ComponentEngine\Integration\RenderingEntryPoint;
 use PackageFactory\Neos\ComponentEngine\Integration\RenderingUseCase;
 use PackageFactory\Neos\ComponentEngine\NeosContext;
-use PackageFactory\Neos\ComponentEngine\Presentation\Component\ContentElementCollection;
-use Sitegeist\PaperTiger\CPX\Components\FieldNames\FieldNames;
-use Sitegeist\PaperTiger\CPX\Components\FieldNameToken\FieldNameToken;
 use Sitegeist\PaperTiger\CPX\Components\Field\HiddenField\HiddenField;
 use Sitegeist\PaperTiger\CPX\Components\Field\HiddenField\HiddenFieldProps;
 use Sitegeist\PaperTiger\CPX\Components\Error\ErrorProps;
 use Sitegeist\PaperTiger\CPX\Components\Form\Form;
 use Sitegeist\PaperTiger\CPX\Components\Form\FormMode;
 use Sitegeist\PaperTiger\CPX\Components\Form\FormProps;
-use Sitegeist\PaperTiger\CPX\Components\FormEditor\FormEditor;
-use Sitegeist\PaperTiger\CPX\Components\FormSectionHeader\FormSectionHeader;
 use Sitegeist\PaperTiger\CPX\Components\Message\MessageProps;
+use Sitegeist\PaperTiger\CPX\Components\MessageActionPreview\MessageActionPreview;
 use Sitegeist\PaperTiger\CPX\Domain\Action\MessageAction;
 use Sitegeist\PaperTiger\CPX\Domain\AsyncValidationDescriptorFactory;
 use Sitegeist\PaperTiger\CPX\Domain\FormSubmissionRequestProcessor;
@@ -42,7 +33,6 @@ final class FormFactory
 {
     public function __construct(
         private readonly ContentRenderer $contentRenderer,
-        private readonly Translator $translator,
         private readonly ResourceFactory $resourceFactory,
         private readonly FieldComponentFactory $fieldComponentFactory,
         private readonly FormSubmissionRequestProcessor $formSubmissionRequestProcessor,
@@ -52,10 +42,6 @@ final class FormFactory
 
     public function create(NeosContext $context): ComponentInterface
     {
-        if ($context->renderingMode->isEdit) {
-            return $this->createEditor($context);
-        }
-
         $formMode = $this->formMode($context);
         if ($formMode === FormMode::FORM_MODE_STANDARD) {
             return CacheSegment::create(
@@ -99,21 +85,30 @@ final class FormFactory
             return StringComponent::fromHtmlString('<a id="' . htmlspecialchars($formId, ENT_QUOTES) . '"></a>');
         }
 
-        return Form::create(
-            form: $this->createFormProps($context),
-            error: $this->renderGeneralError($context),
-            content: ComponentCollection::list(
-                $this->createContextField($context, 'paperTigerNode', NodeAddress::fromNode($context->node)->toJson()),
-                $this->createContextField($context, 'paperTigerDocument', NodeAddress::fromNode($context->documentNode)->toJson()),
-                ...array_filter([$this->renderFields($context)]),
-                ...($this->formMode($context) === FormMode::FORM_MODE_ASYNC ? [
-                    $this->renderAsyncValidationDescriptor($context),
-                    $this->resourceFactory->publicScriptTag(
-                        'Sitegeist.PaperTiger.CPX',
-                        'Scripts/AsyncForm.js',
-                    ),
-                ] : []),
+        return ComponentCollection::list(
+            Form::create(
+                form: $this->createFormProps($context, $context->renderingMode->isEdit),
+                error: $this->renderGeneralError($context),
+                content: ComponentCollection::list(
+                    $this->createContextField($context, 'paperTigerNode', NodeAddress::fromNode($context->node)->toJson()),
+                    $this->createContextField($context, 'paperTigerDocument', NodeAddress::fromNode($context->documentNode)->toJson()),
+                    ...array_filter([$this->renderFields($context)]),
+                    ...($this->formMode($context) === FormMode::FORM_MODE_ASYNC ? [
+                        $this->renderAsyncValidationDescriptor($context),
+                        $this->resourceFactory->publicScriptTag(
+                            'Sitegeist.PaperTiger.CPX',
+                            'Scripts/AsyncForm.js',
+                        ),
+                    ] : []),
+                ),
             ),
+            ...($context->renderingMode->isEdit ? array_filter([
+                $this->renderMessageActionPreview($context),
+                $this->resourceFactory->publicScriptTag(
+                    'Sitegeist.PaperTiger.CPX',
+                    'Scripts/Backend.js',
+                ),
+            ]) : []),
         );
     }
 
@@ -121,37 +116,34 @@ final class FormFactory
     {
         $formId = $this->formId($context);
 
+        $messageTemplate = $this->fieldComponentFactory->createMessage(
+            message: MessageProps::create(id: $formId),
+            content: StringComponent::fromHtmlString('{content}'),
+        );
+
+        $errorTemplate = $this->fieldComponentFactory->createError(
+            error: ErrorProps::create(message: '{content}'),
+        );
+
         $descriptor = [
             'formId' => $formId,
             'fields' => $this->asyncValidationDescriptorFactory->forForm($context),
+            'templates' => [
+                'message' => $messageTemplate->render(),
+                'error' => $errorTemplate->render(),
+            ],
         ];
+
+        $json = json_encode($descriptor, JSON_THROW_ON_ERROR | JSON_UNESCAPED_SLASHES);
+        // Prevent "</script>" from terminating the script tag if it ever appears in template HTML.
+        $json = str_replace('</script', '<\\/script', $json);
 
         return StringComponent::fromHtmlString(
             sprintf(
                 '<script type="application/json" data-papertiger-validation data-form-id="%s">%s</script>',
                 htmlspecialchars($formId, ENT_QUOTES),
-                htmlspecialchars(json_encode($descriptor, JSON_THROW_ON_ERROR), ENT_NOQUOTES),
+                $json,
             ),
-        );
-    }
-
-    private function createEditor(NeosContext $context): FormEditor
-    {
-        return FormEditor::create(
-            assets: SlotComponent::list(
-                ...array_filter([
-                    $this->resourceFactory->inlinePublicStyle(
-                        'Sitegeist.PaperTiger.CPX',
-                        'Styles/Backend.css',
-                    ),
-                    $this->resourceFactory->inlinePublicScript(
-                        'Sitegeist.PaperTiger.CPX',
-                        'Scripts/Backend.js',
-                    ),
-                ]),
-            ),
-            fields: $this->renderFieldsEditor($context),
-            actions: $this->renderActionsEditor($context),
         );
     }
 
@@ -191,83 +183,22 @@ final class FormFactory
         );
     }
 
-    private function renderFields(NeosContext $context): ComponentInterface|string|null
+    private function renderFields(NeosContext $context): ?ComponentInterface
     {
-        if ($this->formMode($context) === FormMode::FORM_MODE_STANDARD) {
-            return $this->renderStandardFields($context);
-        }
-
-        return $this->contentRenderer->forContentCollectionChildNode(
-            node: $context->node,
-            collectionName: NodeName::fromString('fields'),
-            context: $context,
-            additionalClasses: ['papertiger-form__fields']
-        );
-    }
-
-    private function renderStandardFields(NeosContext $context): ?ComponentInterface
-    {
-        $collectionNode = $this->findCollectionNode($context, 'fields');
-        if (!$collectionNode instanceof Node) {
-            return null;
-        }
-
-        $items = $this->contentRenderer->renderContentChildren(
-            $context->with(node: $collectionNode),
+        return $this->contentRenderer->renderContentChildren(
+            $context,
             RenderingUseCase::CONTENT,
         );
-
-        return ContentElementCollection::create(
-            editable: $context->renderingMode->isEdit,
-            nodeAddress: NodeAddress::fromNode($collectionNode),
-            fusionPath: RenderingEntryPoint::forUseCase(RenderingUseCase::CONTENT_COLLECTION)->serializeToString(),
-            content: $items,
-            additionalClasses: ['papertiger-form__fields'],
-        );
     }
 
-    private function renderFieldsEditor(NeosContext $context): ComponentInterface|string|null
+    private function renderMessageActionPreview(NeosContext $context): ?ComponentInterface
     {
-        return Form::create(
-            form: $this->createFormProps($context, true),
-            error: null,
-            content: ComponentCollection::list(
-                $this->createContextField($context, 'paperTigerNode', NodeAddress::fromNode($context->node)->toJson()),
-                $this->createContextField($context, 'paperTigerDocument', NodeAddress::fromNode($context->documentNode)->toJson()),
-                ...array_filter([
-                    $this->createCollectionEditor(
-                        context: $context,
-                        collectionName: 'fields',
-                        additionalClasses: ['papertiger-form__fields'],
-                        content: fn (?ComponentInterface $items) => ComponentCollection::list(
-                            FormSectionHeader::create(
-                                number: '1',
-                                title: $this->translate('form.formFields.header', 'Form fields'),
-                            ),
-                            ...($items ? [$items] : []),
-                        ),
-                    ),
-                ]),
-            ),
-        );
-    }
-
-    private function renderActionsEditor(NeosContext $context): ComponentInterface|string|null
-    {
-        $fieldNames = $this->renderFieldNames($context);
-
-        return $this->createCollectionEditor(
-            context: $context,
-            collectionName: 'actions',
-            additionalClasses: ['papertiger-form__actions'],
-            content: fn (?ComponentInterface $items) => ComponentCollection::list(
-                FormSectionHeader::create(
-                    number: '2',
-                    title: $this->translate('form.followUpActions.header', 'Follow up actions'),
-                ),
-                ...($fieldNames ? [$fieldNames] : []),
-                ...($items ? [$items] : []),
-            ),
+        return MessageActionPreview::create(
+            formId: $this->formId($context),
+            content: $this->fieldComponentFactory->createMessage(
+                message: MessageProps::create(id: $this->formId($context)),
+                content: $context->neos->getEditable($context->node, 'message', true),
+            )
         );
     }
 
@@ -284,87 +215,6 @@ final class FormFactory
                 value: $value,
             ),
         );
-    }
-
-    private function renderFieldNames(NeosContext $context): ?ComponentInterface
-    {
-        $fieldsCollectionNode = $this->findCollectionNode($context, 'fields');
-        if (!$fieldsCollectionNode instanceof Node) {
-            return null;
-        }
-
-        $tokens = [];
-
-        foreach ($context->subgraph->findChildNodes(
-            $fieldsCollectionNode->aggregateId,
-            FindChildNodesFilter::create(),
-        ) as $fieldNode) {
-            $name = $context->nodes->getStringValue($fieldNode, 'name');
-            if ($name === null || $name === '') {
-                continue;
-            }
-
-            $tokens[] = FieldNameToken::create(
-                token: '{' . $name . '}',
-                buttonTitle: $this->translate('actionCollection.fieldNames.copyToClipboard', 'Copy to clipboard'),
-            );
-        }
-
-        if ($tokens === []) {
-            return null;
-        }
-
-        return FieldNames::create(
-            description: $this->translate('actionCollection.fieldNames.description', 'Field names:'),
-            content: SlotComponent::list(...$tokens),
-        );
-    }
-
-    private function findCollectionNode(NeosContext $context, string $collectionName): ?Node
-    {
-        $collectionNode = $context->subgraph->findNodeByPath(
-            NodeName::fromString($collectionName),
-            $context->node->aggregateId,
-        );
-
-        return $collectionNode instanceof Node ? $collectionNode : null;
-    }
-
-    private function createCollectionEditor(
-        NeosContext $context,
-        string $collectionName,
-        array $additionalClasses,
-        \Closure $content,
-    ): ?ComponentInterface {
-        $collectionNode = $this->findCollectionNode($context, $collectionName);
-        if (!$collectionNode instanceof Node) {
-            return null;
-        }
-
-        $items = $this->contentRenderer->renderContentChildren(
-            $context->with(node: $collectionNode),
-            RenderingUseCase::CONTENT,
-        );
-
-        return ContentElementCollection::create(
-            editable: $context->renderingMode->isEdit,
-            nodeAddress: NodeAddress::fromNode($collectionNode),
-            fusionPath: RenderingEntryPoint::forUseCase(RenderingUseCase::CONTENT_COLLECTION)->serializeToString(),
-            content: $content($items),
-            additionalClasses: $additionalClasses,
-        );
-    }
-
-    private function translate(string $id, string $fallback): string
-    {
-        return $this->translator->translateById(
-            $id,
-            [],
-            null,
-            null,
-            'Main',
-            'Sitegeist.PaperTiger.CPX',
-        ) ?: $fallback;
     }
 
     private function formMode(NeosContext $context): FormMode

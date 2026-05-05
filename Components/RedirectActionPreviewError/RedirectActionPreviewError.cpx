@@ -1,5 +1,0 @@
-export component RedirectActionPreviewError {
-  message: string
-
-  render <div class="papertiger-action-redirect papertiger-action-redirect--error">{message}</div>
-}
