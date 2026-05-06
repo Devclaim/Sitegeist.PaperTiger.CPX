@@ -18,6 +18,18 @@
         <source>Follow up actions</source>
         <target>Formular-Aktionen</target>
       </trans-unit>
+      <trans-unit id="fields" xml:space="preserve">
+        <source>Fields</source>
+        <target>Felder</target>
+      </trans-unit>
+      <trans-unit id="formView" xml:space="preserve">
+        <source>Form</source>
+        <target>Formular</target>
+      </trans-unit>
+      <trans-unit id="messageView" xml:space="preserve">
+        <source>Message</source>
+        <target>Nachricht</target>
+      </trans-unit>
       <trans-unit id="actions.tab" xml:space="preserve">
         <source>Actions</source>
         <target>Aktionen</target>

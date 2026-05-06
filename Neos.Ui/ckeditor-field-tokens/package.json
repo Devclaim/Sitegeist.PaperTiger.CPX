@@ -1,0 +1,12 @@
+{
+    "name": "@sitegeist/papertiger-cpx-ckeditor-field-tokens",
+    "license": "MIT",
+    "version": "",
+    "main": "./src/index.tsx",
+    "dependencies": {
+        "@ckeditor/ckeditor5-core": "^44.3.0",
+        "@neos-project/react-ui-components": "^9.1",
+        "react": "^18.3.1",
+        "react-redux": "9.2.0"
+    }
+}

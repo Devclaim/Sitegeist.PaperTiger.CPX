@@ -11,7 +11,7 @@ Sitegeist.PaperTiger.CPX:Actions:
         'actions-message':
           label: 'Sitegeist.PaperTiger.CPX:NodeTypes.Action:groups.message'
           position: 10
-          icon: 'icon-comment'
+          icon: 'commenting-o'
           tab: actions
         'actions-email':
           label: 'Sitegeist.PaperTiger.CPX:NodeTypes.Action:groups.email'
@@ -25,7 +25,7 @@ Sitegeist.PaperTiger.CPX:Actions:
           tab: actions
       views:
         messageActionEditor:
-          label: ''
+          label: 'Sitegeist.PaperTiger.CPX:NodeTypes.Action.Message:views.messageActionEditor.label'
           group: actions-message
           position: end
           view: 'Sitegeist.PaperTiger.CPX/Inspector/Views/MessageActionEditor'
@@ -48,6 +48,8 @@ Sitegeist.PaperTiger.CPX:Actions:
           editorOptions:
             placeholder: 'Sitegeist.PaperTiger.CPX:NodeTypes.Action.Message:properties.messagePlaceholder'
             autoparagraph: true
+            paperTigerFieldTokens:
+              enabled: true
             linking:
               anchor: true
               title: true

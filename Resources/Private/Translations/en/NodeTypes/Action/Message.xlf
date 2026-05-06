@@ -5,6 +5,9 @@
       <trans-unit id="properties.showMessage" xml:space="preserve">
         <source>Show message</source>
       </trans-unit>
+      <trans-unit id="views.messageActionEditor.label" xml:space="preserve">
+        <source>Switch between form and message to edit the message.</source>
+      </trans-unit>
       <trans-unit id="properties.messagePlaceholder" xml:space="preserve">
         <source>Type Message here</source>
       </trans-unit>

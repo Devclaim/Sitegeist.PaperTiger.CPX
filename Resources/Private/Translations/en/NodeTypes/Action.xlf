@@ -9,7 +9,7 @@
         <source>Actions</source>
       </trans-unit>
       <trans-unit id="groups.message" xml:space="preserve">
-        <source>Message action</source>
+        <source>Action - Show Message</source>
       </trans-unit>
       <trans-unit id="groups.email" xml:space="preserve">
         <source>Email action</source>

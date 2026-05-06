@@ -14,6 +14,15 @@
       <trans-unit id="form.followUpActions.header" xml:space="preserve">
         <source>Follow up actions</source>
       </trans-unit>
+      <trans-unit id="fields" xml:space="preserve">
+        <source>Fields</source>
+      </trans-unit>
+      <trans-unit id="formView" xml:space="preserve">
+        <source>Form</source>
+      </trans-unit>
+      <trans-unit id="messageView" xml:space="preserve">
+        <source>Message</source>
+      </trans-unit>
       <trans-unit id="actions.tab" xml:space="preserve">
         <source>Actions</source>
       </trans-unit>

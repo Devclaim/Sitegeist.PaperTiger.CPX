@@ -11,8 +11,8 @@
         <target>Aktionen</target>
       </trans-unit>
       <trans-unit id="groups.message" xml:space="preserve">
-        <source>Message action</source>
-        <target>Nachrichtenaktion</target>
+        <source>Action - Show Message</source>
+        <target>Aktion - Nachricht anzeigen</target>
       </trans-unit>
       <trans-unit id="groups.email" xml:space="preserve">
         <source>Email action</source>

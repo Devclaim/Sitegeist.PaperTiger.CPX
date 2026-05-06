@@ -5,10 +5,14 @@ import {MessageActionEditor} from './MessageActionEditor';
 import {
     NeosContext,
     IGlobalRegistry,
+    IStore,
     Registry
 } from '@sitegeist/papertiger-cpx-neos-bridge';
 
-export function registerMessageActionEditor(globalRegistry: IGlobalRegistry): void {
+export function registerMessageActionEditor(
+    globalRegistry: IGlobalRegistry,
+    store: IStore
+): void {
     const inspectorRegistry = globalRegistry.get('inspector') as Registry | undefined;
     const viewsRegistry = inspectorRegistry?.get<Registry>('views');
 
@@ -25,7 +29,7 @@ export function registerMessageActionEditor(globalRegistry: IGlobalRegistry): vo
             component: (props: any) =>
                 React.createElement(
                     NeosContext.Provider,
-                    {value: {globalRegistry}},
+                    {value: {globalRegistry, store}},
                     React.createElement(MessageActionEditor, props)
                 )
         }
