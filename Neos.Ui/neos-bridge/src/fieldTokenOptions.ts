@@ -49,7 +49,7 @@ const readFieldLabel = (node: Node, fallbackName: string): string => {
     return fallbackName;
 };
 
-export const resolveSiblingFieldTokenOptions = (
+export const resolveFieldTokenOptions = (
     state: any,
     contextPath: string | null
 ): FieldTokenOption[] => {

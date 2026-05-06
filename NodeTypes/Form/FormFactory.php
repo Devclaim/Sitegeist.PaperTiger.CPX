@@ -104,6 +104,10 @@ final class FormFactory
             ),
             ...($context->renderingMode->isEdit ? array_filter([
                 $this->renderMessageActionPreview($context),
+                $this->resourceFactory->publicStylesheetTag(
+                    'Sitegeist.PaperTiger.CPX',
+                    'Styles/Backend.css',
+                ),
                 $this->resourceFactory->publicScriptTag(
                     'Sitegeist.PaperTiger.CPX',
                     'Scripts/Backend.js',

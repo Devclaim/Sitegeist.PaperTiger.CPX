@@ -1,0 +1,25 @@
+.ck .paper-tiger-field-token-dropdown-button {
+    min-width: 0;
+    white-space: nowrap;
+    padding-inline: 10px;
+}
+
+.ck .paper-tiger-field-token-dropdown-button .ck-button__icon,
+.ck .paper-tiger-field-token-icon {
+    width: var(--ck-icon-size);
+    height: var(--ck-icon-size);
+}
+
+.ck .paper-tiger-field-token-dropdown-button .ck-button__label {
+    font-size: 16px;
+    width: fit-content !important;
+}
+
+.ck .paper-tiger-field-token-dropdown .ck-list__item {
+    min-width: fit-content !important;
+    font-size: 16px;
+}
+
+.ck .paper-tiger-field-token-dropdown .ck-dropdown__panel .ck-list__item .ck.ck-button.ck-list-item-button:hover {
+    color: #fff;
+}

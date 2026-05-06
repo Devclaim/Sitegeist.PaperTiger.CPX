@@ -69,6 +69,24 @@ final class ResourceFactory
         );
     }
 
+    public function publicStylesheetTag(
+        string $packageKey,
+        string $relativePathAndFilename,
+    ): ComponentInterface {
+        $uri = sprintf(
+            '/_Resources/Static/Packages/%s/%s',
+            $packageKey,
+            ltrim($relativePathAndFilename, '/'),
+        );
+
+        return StringComponent::fromHtmlString(
+            sprintf(
+                '<link rel="stylesheet" href="%s" />',
+                htmlspecialchars($uri, ENT_QUOTES),
+            )
+        );
+    }
+
     public function publicAssetContents(
         string $packageKey,
         string $relativePathAndFilename,

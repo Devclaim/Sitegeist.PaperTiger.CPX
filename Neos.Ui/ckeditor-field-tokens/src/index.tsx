@@ -1,6 +1,6 @@
 import {FieldTokenPlugin} from './FieldTokenPlugin';
 import {
-    resolveSiblingFieldTokenOptions
+    resolveFieldTokenOptions
 } from '@sitegeist/papertiger-cpx-neos-bridge';
 
 type GlobalRegistry = {
@@ -104,7 +104,7 @@ export function registerFieldTokenCkEditorIntegration(
 
             const state = store.getState();
             const contextPath = resolveEditorContextPath(state, options);
-            const tokens = resolveSiblingFieldTokenOptions(state, contextPath);
+            const tokens = resolveFieldTokenOptions(state, contextPath);
             const label =
                 i18nRegistry?.translate(
                     'fields',
