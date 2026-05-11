@@ -3,9 +3,16 @@ import React from 'react';
 type EmailActionEntry = Record<string, unknown>;
 type EmailActionValue = EmailActionEntry[] | null | undefined;
 
+export type EmailActionFieldToken = {
+    name: string;
+    label: string;
+    token: string;
+};
+
 type EmailActionDialogPayload = {
     value?: EmailActionEntry;
     index: number;
+    fieldTokens?: Array<EmailActionFieldToken>;
     onApply: (index: number, nextValue: EmailActionEntry) => void;
 };
 

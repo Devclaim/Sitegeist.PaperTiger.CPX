@@ -18,8 +18,8 @@ manifest('@sitegeist/papertiger-cpx', {}, (globalRegistry, {store}) => {
     registerMessageActionEditorStore(globalRegistry, store);
 
     registerOptionEditor(globalRegistry);
-    registerEmailActionDialogContainer(globalRegistry);
-    registerEmailActionEditor(globalRegistry);
+    registerEmailActionDialogContainer(globalRegistry, store);
+    registerEmailActionEditor(globalRegistry, store);
     registerRedirectActionEditor(globalRegistry);
     registerMessageActionEditor(globalRegistry, store);
     registerFieldTokenCkEditorIntegration(globalRegistry, store);

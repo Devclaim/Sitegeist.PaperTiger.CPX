@@ -53,6 +53,56 @@
       <trans-unit id="properties.testMode" xml:space="preserve">
         <source>Test mode</source>
       </trans-unit>
+      <trans-unit id="editor.title" xml:space="preserve"><source>Email Action Editor</source></trans-unit>
+      <trans-unit id="editor.description" xml:space="preserve"><source>Manage recipients, senders, and the HTML content of each email right here.</source></trans-unit>
+      <trans-unit id="editor.emailLabel" xml:space="preserve"><source>Email</source></trans-unit>
+      <trans-unit id="editor.recipient" xml:space="preserve"><source>Recipient</source></trans-unit>
+      <trans-unit id="editor.sender" xml:space="preserve"><source>Sender</source></trans-unit>
+      <trans-unit id="editor.notSet" xml:space="preserve"><source>Not set</source></trans-unit>
+      <trans-unit id="editor.edit" xml:space="preserve"><source>Edit</source></trans-unit>
+      <trans-unit id="editor.delete" xml:space="preserve"><source>Delete</source></trans-unit>
+      <trans-unit id="editor.addEmail" xml:space="preserve"><source>Add email</source></trans-unit>
+      <trans-unit id="editor.advancedSenderData" xml:space="preserve"><source>Advanced sender data</source></trans-unit>
+      <trans-unit id="editor.close" xml:space="preserve"><source>Close</source></trans-unit>
+      <trans-unit id="dialog.discard" xml:space="preserve"><source>Discard</source></trans-unit>
+      <trans-unit id="dialog.apply" xml:space="preserve"><source>Apply</source></trans-unit>
+      <trans-unit id="dialog.plainText" xml:space="preserve"><source>Plain text</source></trans-unit>
+      <trans-unit id="preview.title" xml:space="preserve"><source>Preview</source></trans-unit>
+      <trans-unit id="preview.showCompatibility" xml:space="preserve"><source>Show compatibility</source></trans-unit>
+      <trans-unit id="preview.client" xml:space="preserve"><source>Client</source></trans-unit>
+      <trans-unit id="preview.theme" xml:space="preserve"><source>Theme</source></trans-unit>
+      <trans-unit id="preview.light" xml:space="preserve"><source>Light</source></trans-unit>
+      <trans-unit id="preview.dark" xml:space="preserve"><source>Dark</source></trans-unit>
+      <trans-unit id="preview.device.phone" xml:space="preserve"><source>Phone</source></trans-unit>
+      <trans-unit id="preview.device.tablet" xml:space="preserve"><source>Tablet</source></trans-unit>
+      <trans-unit id="preview.device.desktop" xml:space="preserve"><source>Desktop</source></trans-unit>
+      <trans-unit id="preview.htmlFrameTitle" xml:space="preserve"><source>Email HTML Preview</source></trans-unit>
+      <trans-unit id="preview.noHtml" xml:space="preserve"><source>No HTML content yet. Add content on the left to see the preview.</source></trans-unit>
+      <trans-unit id="preview.noPlainText" xml:space="preserve"><source>No plain-text content yet. Add content on the left to see the preview.</source></trans-unit>
+      <trans-unit id="compat.loadingData" xml:space="preserve"><source>Loading caniemail.com data...</source></trans-unit>
+      <trans-unit id="compat.loadFailed" xml:space="preserve"><source>Failed to load data</source></trans-unit>
+      <trans-unit id="compat.dataSource" xml:space="preserve"><source>Data source: caniemail.com</source></trans-unit>
+      <trans-unit id="compat.backToEditor" xml:space="preserve"><source>Back to editor</source></trans-unit>
+      <trans-unit id="compat.legend.full" xml:space="preserve"><source>Full</source></trans-unit>
+      <trans-unit id="compat.legend.partial" xml:space="preserve"><source>Partial</source></trans-unit>
+      <trans-unit id="compat.legend.none" xml:space="preserve"><source>None</source></trans-unit>
+      <trans-unit id="compat.refreshData" xml:space="preserve"><source>Reload data from caniemail.com</source></trans-unit>
+      <trans-unit id="compat.refreshing" xml:space="preserve"><source>Refreshing…</source></trans-unit>
+      <trans-unit id="compat.refresh" xml:space="preserve"><source>Refresh data</source></trans-unit>
+      <trans-unit id="compat.loadingCompatibility" xml:space="preserve"><source>Loading compatibility data from caniemail.com…</source></trans-unit>
+      <trans-unit id="compat.retrying" xml:space="preserve"><source>Retrying…</source></trans-unit>
+      <trans-unit id="compat.retry" xml:space="preserve"><source>Try again</source></trans-unit>
+      <trans-unit id="compat.noHtml" xml:space="preserve"><source>No HTML content yet. As soon as content exists, compatibility will be checked.</source></trans-unit>
+      <trans-unit id="compat.refreshFailed" xml:space="preserve"><source>Refresh failed</source></trans-unit>
+      <trans-unit id="compat.cachedDataShown" xml:space="preserve"><source>Showing cached data.</source></trans-unit>
+      <trans-unit id="compat.supported" xml:space="preserve"><source>supported</source></trans-unit>
+      <trans-unit id="compat.partiallySupported" xml:space="preserve"><source>partially supported</source></trans-unit>
+      <trans-unit id="compat.notSupported" xml:space="preserve"><source>not supported</source></trans-unit>
+      <trans-unit id="compat.features" xml:space="preserve"><source>Features</source></trans-unit>
+      <trans-unit id="compat.noFeaturesDetected" xml:space="preserve"><source>No known features detected in HTML.</source></trans-unit>
+      <trans-unit id="compat.limitedClients" xml:space="preserve"><source>Clients with limited or missing support</source></trans-unit>
+      <trans-unit id="compat.notes" xml:space="preserve"><source>Notes</source></trans-unit>
+      <trans-unit id="compat.onlineReference" xml:space="preserve"><source>Online reference</source></trans-unit>
     </body>
   </file>
 </xliff>
