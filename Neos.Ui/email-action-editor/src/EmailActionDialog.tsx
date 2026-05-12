@@ -21,13 +21,10 @@ import {
 import {useCompatibilityAnalysis} from './components/emailCompatibilityCompute';
 import {
     Container,
-    Description,
     EditorLayout,
     FormatToggle,
     FormatToggleSide,
-    Header,
     ResizeHandleVisual,
-    Title,
     ToolbarRow,
     dialogStyles
 } from './components/EmailActionDialog.styles';
@@ -184,7 +181,11 @@ export const EmailActionDialogContainer: React.FC = () => {
                                         subject={subject}
                                         compatibility={compatibility}
                                         clients={clients}
-                                        compatibilityScore={analysis.averageScore}
+                                        compatibilityScore={
+                                            analysis.overview.totalCells > 0
+                                                ? Math.round(analysis.overview.supportedPct)
+                                                : null
+                                        }
                                         onShowCompatibility={() => setActiveView('compatibility')}
                                     />
                                 </Panel>

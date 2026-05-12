@@ -13,11 +13,9 @@ import {
     PlainPreview,
     PreviewControls,
     PreviewControlGroup,
-    PreviewControlLabel,
     PreviewSelect,
     PreviewFrame,
     PreviewFrameStage,
-    SubjectPreview
 } from './EmailActionDialog.styles';
 import {EmailClient} from './emailCompatibilityRemote';
 import {transformPreviewMarkup} from './emailPreviewTransform';
@@ -68,12 +66,6 @@ const DEVICE_ICON: Record<DeviceMode, string> = {
 };
 
 const DEVICE_ORDER: readonly DeviceMode[] = ['phone', 'tablet', 'desktop'];
-
-const DEVICE_FALLBACK_LABEL: Record<DeviceMode, string> = {
-    phone: 'Phone',
-    tablet: 'Tablet',
-    desktop: 'Desktop'
-};
 
 export const PreviewPane = React.memo((props: PreviewPaneProps) => {
     const t = useI18n();

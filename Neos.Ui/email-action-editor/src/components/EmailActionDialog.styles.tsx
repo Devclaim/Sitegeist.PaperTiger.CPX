@@ -113,7 +113,7 @@ export const AddressDivider = styled.span`
     flex-shrink: 0;
     width: 1px;
     height: 22px;
-    background: #ddd;
+    background: #555;
     margin: 0 4px;
 `;
 
@@ -127,15 +127,8 @@ export const AddressArrow = styled.span`
 
 export const AddressIcon = styled.span`
     flex-shrink: 0;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 26px;
-    height: 26px;
-    border-radius: 50%;
-    background: #f1f1f1;
-    color: #555;
-    font-size: 12px;
+    color: white;
+    font-size: 18px;
 `;
 
 export const AddressPopoverWrapper = styled.div`
@@ -151,9 +144,8 @@ export const AddressPopover = styled.div`
     z-index: 50;
     width: min(440px, 90vw);
     padding: 14px;
-    border: 1px solid #d7d7d7;
-    border-radius: 6px;
-    background: #fff;
+    border: 1px solid #555;
+    background: #141414;
     box-shadow: 0 12px 28px rgba(0, 0, 0, 0.18);
 `;
 
@@ -168,7 +160,7 @@ export const AddressPopoverTitle = styled.h4`
     margin: 0;
     font-size: 12px;
     font-weight: 700;
-    color: #333;
+    color: white;
     text-transform: uppercase;
     letter-spacing: 0.04em;
 `;
@@ -189,7 +181,7 @@ export const AddressPopoverField = styled.label`
 export const AddressPopoverFieldLabel = styled.span`
     font-size: 11px;
     font-weight: 700;
-    color: #555;
+    color: white;
     text-transform: uppercase;
     letter-spacing: 0.04em;
 `;
@@ -231,7 +223,7 @@ export const ResizeHandleVisual = styled.div`
         bottom: 6px;
         left: 50%;
         width: 1px;
-        background: #d7d7d7;
+        background: #555;
         transform: translateX(-50%);
     }
 
@@ -243,9 +235,9 @@ export const ResizeHandleVisual = styled.div`
         width: 6px;
         height: 42px;
         border-radius: 999px;
-        background: #b7b7b7;
+        background: #555;
         transform: translate(-50%, -50%);
-        box-shadow: 0 0 0 4px #f5f5f5;
+        box-shadow: 0 0 0 4px #333;
     }
 
     @media (max-width: 1100px) {
@@ -366,46 +358,29 @@ export const CompatBadge = styled.button<{ status: CompatStatus }>`
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    min-width: 56px;
-    height: 30px;
-    padding: 0 12px;
-    border: 1px solid
-        ${({ status }) =>
-            status === 'unsupported' ? '#cb2431' :
-            status === 'partial' ? '#dbab09' :
-            status === 'ok' ? '#2ea44f' :
-            '#9a9a9a'};
+    padding: 4px 12px;
     border-radius: 999px;
+    border: none;
     background:
         ${({ status }) =>
-            status === 'unsupported' ? '#fdebec' :
-            status === 'partial' ? '#fff8db' :
-            status === 'ok' ? '#eaf7ee' :
-            '#f2f2f2'};
-    color: black;
+            status === 'unsupported' ? '#cb2431' :
+            status === 'partial' ? '#9e8020' :
+            status === 'ok' ? '#2ea44f' :
+            '#9a9a9a'};
+    color: #fff;
     font-family: inherit;
     font-size: 13px;
     font-weight: 800;
     line-height: 1;
     cursor: pointer;
-    transition: background 150ms ease, transform 100ms ease;
+    transition: filter 150ms ease, transform 100ms ease;
 
     &:hover {
-        background:
-            ${({ status }) =>
-                status === 'unsupported' ? '#f8d7da' :
-                status === 'partial' ? '#fff1b8' :
-                status === 'ok' ? '#d4edda' :
-                '#e5e5e5'};
+        filter: brightness(1.08);
     }
 
     &:active {
         transform: scale(0.97);
-    }
-
-    &:focus {
-        outline: none;
-        box-shadow: 0 0 0 3px rgba(0, 173, 238, 0.25);
     }
 `;
 
@@ -862,18 +837,15 @@ export const CompatFeatureDetails = styled.div`
     flex-direction: column;
     gap: 10px;
     padding: 12px 14px 14px 14px;
-    margin: -2px 6px 0 6px;
-    border: 1px solid #e2e2e2;
-    border-top: none;
-    border-radius: 0 0 6px 6px;
-    background: #fafafa;
+    margin: 1px 0 4px 0;
+    background: #242424;
     font-size: 12px;
-    color: #333;
+    color: white;
 `;
 
 export const CompatFeatureDescription = styled.p`
     margin: 0;
-    color: #444;
+    color: white;
     line-height: 1.5;
 `;
 
@@ -881,35 +853,42 @@ export const CompatDetailHeading = styled.div`
     margin-top: 4px;
     font-size: 11px;
     font-weight: 700;
-    color: #555;
+    color: white;
     text-transform: uppercase;
     letter-spacing: 0.04em;
 `;
 
 export const CompatVersionList = styled.div`
-    display: flex;
-    flex-wrap: wrap;
-    gap: 4px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 4px 16px;
 `;
 
 export const CompatVersionChip = styled.span<{ status: 'partial' | 'unsupported' }>`
     display: inline-flex;
     align-items: center;
     gap: 4px;
-    padding: 2px 8px;
-    border-radius: 999px;
-    font-size: 11px;
-    color: #444;
-    border: 1px solid
-        ${({status}) => (status === 'unsupported' ? '#f1c4be' : '#f3dca6')};
-    background: ${({status}) =>
-        status === 'unsupported' ? '#fdecea' : '#fef7e6'};
+    font-size: 12px;
+    color: #cfcccc;
+    line-height: 1.4;
+
+    &::before {
+        content: '';
+        flex-shrink: 0;
+        display: inline-block;
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: ${({status}) =>
+            status === 'unsupported' ? '#cb2431' : '#dbab09'};
+    }
 `;
 
-export const CompatVersionNoteRef = styled.sup`
-    color: #b08300;
+export const CompatVersionNoteRef = styled.span`
+    color: white;
     font-weight: 700;
-    margin-left: 2px;
+    margin-left: 1px;
+    font-size: 9px;
 `;
 
 export const CompatNotesList = styled.ol`
@@ -926,16 +905,16 @@ export const CompatNoteItem = styled.li`
     align-items: flex-start;
     gap: 8px;
     font-size: 11px;
-    color: #555;
+    color: #fff;
 `;
 
 export const CompatNoteNum = styled.span`
     flex-shrink: 0;
-    width: 18px;
-    height: 18px;
-    border-radius: 50%;
-    background: #b08300;
+    width: 12px;
+    height: 12px;
+    background: #555;
     color: #fff;
+    margin-right: 4px;
     font-size: 10px;
     font-weight: 700;
     display: inline-flex;

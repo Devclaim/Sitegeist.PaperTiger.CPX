@@ -84,6 +84,19 @@ export const AddressBar: React.FC<AddressBarProps> = ({
 
     return (
         <AddressEnvelope>
+            <AddressIcon aria-hidden="true">
+                <Icon icon="heading" />
+            </AddressIcon>
+            <AddressInputSlot $grow={1.6} ref={subjectSlotRef}>
+                <TextInput
+                    value={getStringValue(entry.subject)}
+                    onChange={(value: string) => onSetFieldValue('subject', value)}
+                    onFocus={onFocusSubject}
+                    placeholder={t('Sitegeist.PaperTiger.CPX:NodeTypes.Action.Email:properties.subject')}
+                    aria-label={t('Sitegeist.PaperTiger.CPX:NodeTypes.Action.Email:properties.subject')}
+                />
+            </AddressInputSlot>
+            <AddressDivider aria-hidden="true" />
             <AddressInputSlot>
                 <TextInput
                     value={getStringValue(entry.senderAddress)}
@@ -105,19 +118,6 @@ export const AddressBar: React.FC<AddressBarProps> = ({
                     aria-label={t('Sitegeist.PaperTiger.CPX:NodeTypes.Action.Email:editor.recipient')}
                 />
             </AddressInputSlot>
-            <AddressDivider aria-hidden="true" />
-            <AddressIcon aria-hidden="true">
-                <Icon icon="heading" />
-            </AddressIcon>
-            <AddressInputSlot $grow={1.6} ref={subjectSlotRef}>
-                <TextInput
-                    value={getStringValue(entry.subject)}
-                    onChange={(value: string) => onSetFieldValue('subject', value)}
-                    onFocus={onFocusSubject}
-                    placeholder={t('Sitegeist.PaperTiger.CPX:NodeTypes.Action.Email:properties.subject')}
-                    aria-label={t('Sitegeist.PaperTiger.CPX:NodeTypes.Action.Email:properties.subject')}
-                />
-            </AddressInputSlot>
             <AddressPopoverWrapper ref={wrapperRef}>
                 <IconButton
                     icon="ellipsis-h"
@@ -135,15 +135,6 @@ export const AddressBar: React.FC<AddressBarProps> = ({
                             <AddressPopoverTitle>
                                 {t('Sitegeist.PaperTiger.CPX:NodeTypes.Action.Email:editor.advancedSenderData')}
                             </AddressPopoverTitle>
-                            <IconButton
-                                icon="times"
-                                onClick={() => setPopoverOpen(false)}
-                                title={t('Sitegeist.PaperTiger.CPX:NodeTypes.Action.Email:editor.close')}
-                                aria-label={t('Sitegeist.PaperTiger.CPX:NodeTypes.Action.Email:editor.close')}
-                                style="transparent"
-                                hoverStyle="darken"
-                                size="small"
-                            />
                         </AddressPopoverHeader>
                         <AddressPopoverGrid>
                             <AddressPopoverField>
