@@ -6,8 +6,28 @@ import {
     lookupSupport
 } from './emailCompatibilityRemote';
 
+export type PreviewTheme = 'light' | 'dark';
+
+/**
+ * How a specific email client treats dark-mode rendering. Determined by
+ * the client itself, not by the user. Stored in PreviewPane as a per-client
+ * mapping and threaded through to the transform.
+ *
+ *   'aggressive' - Forces invert+hue-rotate on the whole body (mimics
+ *                  Gmail Android / Outlook.com webmail forced-dark).
+ *   'gentle'     - Applies color-scheme: dark plus body bg/color overrides
+ *                  but otherwise honours the email's own colours (mimics
+ *                  Apple Mail, Outlook macOS, Thunderbird).
+ *   'none'       - Client does not adapt to dark mode at all; preview
+ *                  renders the same as light (mimics Outlook Windows Word
+ *                  engine, which ignores dark-mode CSS entirely).
+ */
+export type DarkModeBehavior = 'aggressive' | 'gentle' | 'none';
+
 export type PreviewTransformOptions = {
     client: EmailClient | null;
+    theme: PreviewTheme;
+    darkModeBehavior?: DarkModeBehavior;
     compatibility: CaniemailData | null;
 };
 
@@ -144,6 +164,14 @@ const ensureHead = (doc: Document): HTMLHeadElement => {
     return head;
 };
 
+const prependStyle = (doc: Document, css: string): void => {
+    const head = ensureHead(doc);
+    const styleEl = doc.createElement('style');
+    styleEl.setAttribute('data-cpx-injected', 'true');
+    styleEl.textContent = css;
+    head.insertBefore(styleEl, head.firstChild);
+};
+
 const appendStyle = (doc: Document, css: string): void => {
     const head = ensureHead(doc);
     const styleEl = doc.createElement('style');
@@ -160,6 +188,37 @@ const PARTIAL_MARK_STYLE = `
     }
 `;
 
+const applyDarkTheme = (doc: Document, behavior: DarkModeBehavior): void => {
+    if (behavior === 'none') {
+        return;
+    }
+    if (behavior === 'aggressive') {
+        prependStyle(doc, `
+            :root { color-scheme: dark; }
+            html { background: #1a1a1a; }
+            html body {
+                filter: invert(1) hue-rotate(180deg);
+                background: #fafafa;
+            }
+            html body img,
+            html body svg,
+            html body video,
+            html body picture,
+            html body iframe {
+                filter: invert(1) hue-rotate(180deg);
+            }
+        `);
+        return;
+    }
+    prependStyle(doc, `
+        :root { color-scheme: dark; }
+        html, body {
+            background: #1a1a1a !important;
+            color: #e5e5e5 !important;
+        }
+    `);
+};
+
 // ----- Public API -----
 
 export const transformPreviewMarkup = (
@@ -170,8 +229,8 @@ export const transformPreviewMarkup = (
     if (trimmed.length === 0) {
         return markup;
     }
-    const {client, compatibility} = options;
-    if (!client) {
+    const {client, theme, darkModeBehavior, compatibility} = options;
+    if (!client && theme === 'light') {
         return markup;
     }
 
@@ -224,6 +283,10 @@ export const transformPreviewMarkup = (
                 stripCssAtRule(doc, name);
             }
         }
+    }
+
+    if (theme === 'dark') {
+        applyDarkTheme(doc, darkModeBehavior ?? 'gentle');
     }
 
     return `<!DOCTYPE html>${doc.documentElement.outerHTML}`;

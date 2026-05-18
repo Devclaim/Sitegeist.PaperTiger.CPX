@@ -1,7 +1,7 @@
 import React from 'react';
 
-type EmailActionEntry = Record<string, unknown>;
-type EmailActionValue = EmailActionEntry[] | null | undefined;
+export type EmailActionEntry = Record<string, unknown>;
+export type EmailActionFieldHighlights = Record<string, boolean>;
 
 export type EmailActionFieldToken = {
     name: string;
@@ -10,7 +10,10 @@ export type EmailActionFieldToken = {
 };
 
 type EmailActionDialogPayload = {
+    baselineValue?: EmailActionEntry;
     value?: EmailActionEntry;
+    neosHighlight?: boolean;
+    neosFieldHighlights?: EmailActionFieldHighlights;
     index: number;
     fieldTokens?: Array<EmailActionFieldToken>;
     onApply: (index: number, nextValue: EmailActionEntry) => void;

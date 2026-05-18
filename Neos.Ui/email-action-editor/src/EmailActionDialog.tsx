@@ -29,6 +29,7 @@ import {
     dialogStyles
 } from './components/EmailActionDialog.styles';
 import {InsertTarget, useEmailActionEditor} from './useEmailActionEditor';
+import {DialogDirtyContext, useCreateDialogDirtyValue} from './dialogDirtyContext';
 
 const EDITOR_LAYOUT_STORAGE_KEY =
     'Sitegeist.PaperTiger.CPX.EmailActionDialog.layout';
@@ -37,6 +38,7 @@ export const EmailActionDialogContainer: React.FC = () => {
     const t = useI18n();
     const {isOpen, payload} = useEmailActionDialogState();
     const [entry, setEntry] = React.useState<Record<string, unknown>>({});
+    const [baselineEntry, setBaselineEntry] = React.useState<Record<string, unknown>>({});
     const [activeTarget, setActiveTarget] = React.useState<InsertTarget>('html');
     const htmlEditorRef = React.useRef<EditorView | null>(null);
     const subjectInputRef = React.useRef<HTMLInputElement | null>(null);
@@ -46,6 +48,7 @@ export const EmailActionDialogContainer: React.FC = () => {
     React.useEffect(() => {
         if (isOpen) {
             setEntry(payload?.value ?? {});
+            setBaselineEntry(payload?.baselineValue ?? payload?.value ?? {});
             setActiveTarget(
                 (payload?.value?.format ?? 'plaintext') === 'html' ? 'html' : 'plaintext'
             );
@@ -90,6 +93,16 @@ export const EmailActionDialogContainer: React.FC = () => {
         }
     }, [format, activeView]);
 
+    const dirtyState = useCreateDialogDirtyValue({
+        baselineEntry,
+        entry,
+        format,
+        neosFieldHighlights: payload?.neosFieldHighlights
+    });
+    const editorPaneDirty = dirtyState.contentDirty ||
+        dirtyState.neosFieldHighlights.format === true ||
+        dirtyState.neosFieldHighlights.html === true ||
+        dirtyState.neosFieldHighlights.plaintext === true;
     if (!isOpen || !payload) {
         return null;
     }
@@ -111,16 +124,18 @@ export const EmailActionDialogContainer: React.FC = () => {
                     <Button type="button" onClick={closeEmailActionDialog}>
                         {t('Sitegeist.PaperTiger.CPX:NodeTypes.Action.Email:dialog.discard')}
                     </Button>,
-                    <Button style="success" type="button" onClick={handleApply}>
+                    <Button style="success" type="button" onClick={handleApply} disabled={!dirtyState.isDirty}>
                         {t('Sitegeist.PaperTiger.CPX:NodeTypes.Action.Email:dialog.apply')}
                     </Button>
                 ]}
             >
+                <DialogDirtyContext.Provider value={dirtyState}>
                 <Container>
                     <ToolbarRow>
                         <FormatToggle
                             type="button"
                             htmlActive={format === 'html'}
+                            dirty={dirtyState.formatDirty}
                             aria-pressed={format === 'html'}
                             onClick={() => {
                                 const nextFormat = format === 'html' ? 'plaintext' : 'html';
@@ -168,6 +183,7 @@ export const EmailActionDialogContainer: React.FC = () => {
                                         onPlaintextChange={handlePlaintextChange}
                                         plaintextInputRef={plaintextInputRef}
                                         htmlEditorRef={htmlEditorRef}
+                                        paneDirty={editorPaneDirty}
                                     />
                                 </Panel>
                                 <PanelResizeHandle>
@@ -193,6 +209,7 @@ export const EmailActionDialogContainer: React.FC = () => {
                         </EditorLayout>
                     )}
                 </Container>
+                </DialogDirtyContext.Provider>
             </Dialog>
         </>
     );

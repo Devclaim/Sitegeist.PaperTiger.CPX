@@ -16,9 +16,15 @@ import {
     PreviewSelect,
     PreviewFrame,
     PreviewFrameStage,
+    ThemeToggle,
+    ThemeToggleButton
 } from './EmailActionDialog.styles';
 import {EmailClient} from './emailCompatibilityRemote';
-import {transformPreviewMarkup} from './emailPreviewTransform';
+import {
+    DarkModeBehavior,
+    PreviewTheme,
+    transformPreviewMarkup
+} from './emailPreviewTransform';
 import {UseCompatibilityDataResult} from './emailCompatibilityRemote';
 
 type PreviewPaneProps = {
@@ -67,6 +73,30 @@ const DEVICE_ICON: Record<DeviceMode, string> = {
 
 const DEVICE_ORDER: readonly DeviceMode[] = ['phone', 'tablet', 'desktop'];
 
+const THEME_ORDER: readonly PreviewTheme[] = ['light', 'dark'];
+
+const THEME_FALLBACK_LABEL: Record<PreviewTheme, string> = {
+    light: 'Light',
+    dark: 'Dark'
+};
+
+const THEME_ICON: Record<PreviewTheme, string> = {
+    light: 'sun',
+    dark: 'moon'
+};
+
+const CLIENT_DARK_MODE: Record<string, DarkModeBehavior> = {
+    'gmail/desktop-webmail': 'aggressive',
+    'gmail/android': 'aggressive',
+    'outlook/windows': 'none',
+    'outlook/outlook-com': 'aggressive',
+    'apple-mail/macos': 'gentle',
+    'apple-mail/ios': 'gentle'
+};
+
+const darkModeForClient = (client: EmailClient | null): DarkModeBehavior =>
+    client ? (CLIENT_DARK_MODE[client.id] ?? 'gentle') : 'gentle';
+
 export const PreviewPane = React.memo((props: PreviewPaneProps) => {
     const t = useI18n();
     const {
@@ -81,6 +111,7 @@ export const PreviewPane = React.memo((props: PreviewPaneProps) => {
 
     const [selectedClientId, setSelectedClientId] = React.useState<string>(DEFAULT_CLIENT_ID);
     const [device, setDevice] = React.useState<DeviceMode>('desktop');
+    const [theme, setTheme] = React.useState<PreviewTheme>('light');
     const previewClients = React.useMemo<readonly EmailClient[]>(() => {
         const byId = new Map(clients.map((client) => [client.id, client]));
         return PREVIEW_TARGET_IDS
@@ -112,9 +143,11 @@ export const PreviewPane = React.memo((props: PreviewPaneProps) => {
         }
         return transformPreviewMarkup(previewMarkup, {
             client: selectedClient,
+            theme,
+            darkModeBehavior: darkModeForClient(selectedClient),
             compatibility: compatibility?.data ?? null
         });
-    }, [format, previewMarkup, selectedClient, compatibility?.data]);
+    }, [format, previewMarkup, selectedClient, theme, compatibility?.data]);
 
     const showCompatBadge =
         format === 'html' && compatibilityScore !== null;
@@ -177,6 +210,48 @@ export const PreviewPane = React.memo((props: PreviewPaneProps) => {
                             ))}
                         </DeviceToggle>
                     </PreviewControlGroup>
+                    <PreviewControlGroup>
+                        <ThemeToggle
+                            $activeIndex={Math.max(0, THEME_ORDER.indexOf(theme))}
+                            role="group"
+                            aria-label={t(
+                                'theme',
+                                'Theme',
+                                {},
+                                'Sitegeist.PaperTiger.CPX',
+                                'Main'
+                            )}
+                        >
+                            {THEME_ORDER.map((mode) => (
+                                <ThemeToggleButton
+                                    key={mode}
+                                    type="button"
+                                    onClick={() =>
+                                        setTheme((current) =>
+                                            current === 'light' ? 'dark' : 'light'
+                                        )
+                                    }
+                                    title={t(
+                                        mode,
+                                        THEME_FALLBACK_LABEL[mode],
+                                        {},
+                                        'Sitegeist.PaperTiger.CPX',
+                                        'Main'
+                                    )}
+                                    aria-label={t(
+                                        mode,
+                                        THEME_FALLBACK_LABEL[mode],
+                                        {},
+                                        'Sitegeist.PaperTiger.CPX',
+                                        'Main'
+                                    )}
+                                    aria-pressed={theme === mode}
+                                >
+                                    <Icon icon={THEME_ICON[mode]} />
+                                </ThemeToggleButton>
+                            ))}
+                        </ThemeToggle>
+                    </PreviewControlGroup>
                 </PreviewControls>
             </PaneHeader>
             {format === 'html' ? (
@@ -189,7 +264,10 @@ export const PreviewPane = React.memo((props: PreviewPaneProps) => {
                 </PreviewFrameStage>
             ) : (
                 <PreviewFrameStage>
-                    <PlainPreview $maxWidth={DEVICE_MAX_WIDTH[device]}>
+                    <PlainPreview
+                        $maxWidth={DEVICE_MAX_WIDTH[device]}
+                        $theme={theme}
+                    >
                         {previewPlaintext}
                     </PlainPreview>
                 </PreviewFrameStage>

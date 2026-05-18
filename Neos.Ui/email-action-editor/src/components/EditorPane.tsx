@@ -22,6 +22,7 @@ type EditorPaneProps = {
     onPlaintextChange: (value: string) => void;
     plaintextInputRef: React.RefObject<HTMLTextAreaElement>;
     htmlEditorRef: React.MutableRefObject<EditorView | null>;
+    paneDirty: boolean;
 };
 
 export const EditorPane = React.memo((props: EditorPaneProps) => {
@@ -36,11 +37,11 @@ export const EditorPane = React.memo((props: EditorPaneProps) => {
         onInsertToken,
         onPlaintextChange,
         plaintextInputRef,
-        htmlEditorRef
+        htmlEditorRef,
+        paneDirty
     } = props;
-
     return (
-        <Pane>
+        <Pane $dirty={paneDirty}>
             <TokenBar
                 fieldTokens={fieldTokens}
                 onInsertToken={onInsertToken}

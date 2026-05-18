@@ -70,11 +70,9 @@
         <source>Test mode</source>
         <target>Testmodus</target>
       </trans-unit>
-      <trans-unit id="editor.title" xml:space="preserve"><source>Email Action Editor</source><target>E-Mail-Aktionseditor</target></trans-unit>
-      <trans-unit id="editor.description" xml:space="preserve"><source>Manage recipients, senders, and the HTML content of each email right here.</source><target>Verwalte Empfänger, Absender und den HTML-Inhalt jeder E-Mail direkt hier.</target></trans-unit>
-      <trans-unit id="editor.emailLabel" xml:space="preserve"><source>Email</source><target>E-Mail</target></trans-unit>
       <trans-unit id="editor.recipient" xml:space="preserve"><source>Recipient</source><target>Empfänger</target></trans-unit>
       <trans-unit id="editor.sender" xml:space="preserve"><source>Sender</source><target>Absender</target></trans-unit>
+      <trans-unit id="editor.subject" xml:space="preserve"><source>Subject</source><target>Betreff</target></trans-unit>
       <trans-unit id="editor.notSet" xml:space="preserve"><source>Not set</source><target>Nicht gesetzt</target></trans-unit>
       <trans-unit id="editor.edit" xml:space="preserve"><source>Edit</source><target>Bearbeiten</target></trans-unit>
       <trans-unit id="editor.delete" xml:space="preserve"><source>Delete</source><target>Löschen</target></trans-unit>

@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import {Icon} from '@neos-project/react-ui-components';
+import {Button, Icon} from '@neos-project/react-ui-components';
 import {
     IGlobalRegistry,
     IStore,
@@ -14,89 +14,53 @@ import {
 import {EmailActionDialogContainer} from './EmailActionDialog';
 import {openEmailActionDialog} from './dialogState';
 
-const Container = styled.div<{ highlight?: boolean }>`
+const Container = styled.div`
     display: flex;
     flex-direction: column;
     gap: 12px;
-    padding: 0;
     background: transparent;
-
-    ${({highlight}) => highlight && `
-        box-shadow: 0 0 0 2px #ff8700;
-        border-radius: 2px;
-    `}
-`;
-
-const Title = styled.div`
-    font-weight: 600;
-`;
-
-const Description = styled.div`
-    font-size: 12px;
-    color: #666;
 `;
 
 const ActionsList = styled.div`
     display: flex;
     flex-direction: column;
     gap: 10px;
+    margin-top: 12px;
 `;
 
-const ActionRow = styled.div`
+const ActionRow = styled.div<{ dirty?: boolean }>`
+    background-color: var(--colors-ContrastDarkest);
+    padding: 8px 12px;
+    margin-bottom: 1px;
+    line-height: 20px;
+    min-height: 20px;
     display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 8px;
-    flex-wrap: wrap;
-    padding: 0 2px;
+    flex-direction: column;
+    gap: 12px;
+    ${({dirty}) => dirty && `
+        box-shadow: 0 0 0 2px #ff8700;
+    `}
 `;
 
 const ActionSummary = styled.div`
     display: flex;
+    flex-direction: column;
     align-items: baseline;
-    gap: 8px;
-    min-width: 0;
-    font-weight: 600;
+    gap: 2px;
 `;
 
-const ActionLabel = styled.span`
+const ActionLabel = styled.span<{ changed?: boolean }>`
     flex: 0 0 auto;
-    font-size: 12px;
-    color: #8a8a8a;
-    text-transform: uppercase;
+    font-size: 14px;
+    font-weight: bold;
+    color: ${({changed}) => (changed ? '#ffb24d' : '#fff')};
     letter-spacing: 0.04em;
 `;
 
-const ActionValue = styled.span`
+const ActionValue = styled.span<{ changed?: boolean }>`
     min-width: 0;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    font-size: 13px;
-    color: #1f1f1f;
-`;
-
-const ActionSeparator = styled.span`
-    color: #b5b5b5;
-`;
-
-const IconButton = styled.button`
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 28px;
-    height: 28px;
-    padding: 0;
-    border: 0;
-    background: transparent;
-    color: #5f5f5f;
-    cursor: pointer;
-    transition: color 140ms ease, background-color 140ms ease;
-
-    &:hover {
-        color: #26224c;
-        background: rgba(38, 34, 76, 0.08);
-    }
+    font-size: 14px;
+    color: ${({changed}) => (changed ? '#ffd9a3' : '#999')};
 `;
 
 const AddButton = styled.button`
@@ -108,24 +72,34 @@ const AddButton = styled.button`
     padding: 12px 14px;
     border: 1px dashed #b5b5b5;
     background: transparent;
-    color: #3c3c3c;
+    color: #b5b5b5;
     cursor: pointer;
     font-size: 11px;
-    font-weight: 700;
-    letter-spacing: 0.02em;
-    border-radius: 4px;
 
     &:hover {
-        border-color: #26224c;
-        color: #26224c;
-        background: rgba(38, 34, 76, 0.04);
+        border-color: #00adee;
+        color: #00adee;
+    }
+
+    svg {
+        color: inherit;
     }
 `;
 
 const ActionButtons = styled.div`
     display: flex;
     align-items: center;
-    gap: 2px;
+    gap: 4px;
+    width: 100%;
+
+    .btn--action {
+        width: 100%;
+        font-size: 12px;
+    }
+    
+    .btn--action svg {
+        margin-right: 8px;
+    }
 `;
 
 const createEmptyEmailAction = (): Record<string, unknown> => ({
@@ -147,6 +121,43 @@ const formatInlineValue = (value: unknown, fallback: string): string => {
     return trimmed.length > 0 ? trimmed : fallback;
 };
 
+const normalizeValue = (value: unknown): unknown => {
+    if (value === null || typeof value === 'undefined') {
+        return '';
+    }
+    return value;
+};
+
+const areEmailEntriesEqual = (
+    left: Record<string, unknown>,
+    right: Record<string, unknown>
+): boolean => {
+    const keys = new Set([...Object.keys(left), ...Object.keys(right)]);
+    for (const key of keys) {
+        if (normalizeValue(left[key]) !== normalizeValue(right[key])) {
+            return false;
+        }
+    }
+    return true;
+};
+
+const buildFieldHighlights = (
+    baseline: Record<string, unknown>,
+    current: Record<string, unknown>
+): Record<string, boolean> => ({
+    subject: baseline.subject !== current.subject,
+    senderAddress: baseline.senderAddress !== current.senderAddress,
+    recipientAddress: baseline.recipientAddress !== current.recipientAddress,
+    senderName: baseline.senderName !== current.senderName,
+    recipientName: baseline.recipientName !== current.recipientName,
+    replyToAddress: baseline.replyToAddress !== current.replyToAddress,
+    carbonCopyAddress: baseline.carbonCopyAddress !== current.carbonCopyAddress,
+    blindCarbonCopyAddress: baseline.blindCarbonCopyAddress !== current.blindCarbonCopyAddress,
+    format: baseline.format !== current.format,
+    html: baseline.html !== current.html,
+    plaintext: baseline.plaintext !== current.plaintext
+});
+
 const EmailActionEditorComponent: React.FC<any> = (props) => {
     const t = useI18n();
     const value = Array.isArray(props.value) ? props.value : [];
@@ -154,26 +165,31 @@ const EmailActionEditorComponent: React.FC<any> = (props) => {
     const fieldTokens = useNeosSelector((state) =>
         resolveFieldTokenOptions(state, focusedContextPath)
     );
+    const lastCleanValueRef = React.useRef<Record<string, unknown>[]>(value);
+
+    React.useEffect(() => {
+        if (props.highlight === false) {
+            lastCleanValueRef.current = value;
+        }
+    }, [props.highlight, value]);
+
     const commitEntries = (nextEntries: Record<string, unknown>[]): void => {
         props.commit(nextEntries);
     };
 
     const handleAdd = (): void => {
-        const nextEntries = [...value, createEmptyEmailAction()];
-        const nextIndex = nextEntries.length - 1;
-
-        commitEntries(nextEntries);
+        const emptyEntry = createEmptyEmailAction();
 
         openEmailActionDialog({
-            index: nextIndex,
-            value: nextEntries[nextIndex],
+            index: value.length,
+            baselineValue: emptyEntry,
+            value: emptyEntry,
+            neosHighlight: false,
+            neosFieldHighlights: {},
             fieldTokens,
-            onApply: (editedIndex, nextValue) => {
-                props.commit(
-                    nextEntries.map((entry: Record<string, unknown>, currentIndex: number) => (
-                        currentIndex === editedIndex ? nextValue : entry
-                    ))
-                );
+            onApply: (_editedIndex, nextValue) => {
+                const updatedEntries = [...value, nextValue];
+                commitEntries(updatedEntries);
             }
         });
     };
@@ -183,47 +199,70 @@ const EmailActionEditorComponent: React.FC<any> = (props) => {
     };
 
     const handleEdit = (index: number): void => {
+        const currentValue = value[index] ?? createEmptyEmailAction();
+        const baselineValue = value[index] ?? createEmptyEmailAction();
+        const committedBaseline = lastCleanValueRef.current[index] ?? {};
         openEmailActionDialog({
             index,
-            value: value[index] ?? createEmptyEmailAction(),
+            baselineValue,
+            value: currentValue,
+            neosHighlight: props.highlight === true,
+            neosFieldHighlights: props.highlight === true
+                ? buildFieldHighlights(committedBaseline, currentValue)
+                : {},
             fieldTokens,
             onApply: (editedIndex, nextValue) => {
-                commitEntries(value.map((entry: Record<string, unknown>, currentIndex: number) => (
+                const updatedEntries = value.map((entry: Record<string, unknown>, currentIndex: number) => (
                     currentIndex === editedIndex ? nextValue : entry
-                )));
+                ));
+                commitEntries(updatedEntries);
             }
         });
     };
 
     return (
-        <Container highlight={props.highlight}>
-            <Title>{t('Sitegeist.PaperTiger.CPX:NodeTypes.Action.Email:editor.title')}</Title>
-            <Description>
-                {t('Sitegeist.PaperTiger.CPX:NodeTypes.Action.Email:editor.description')}
-            </Description>
+        <Container>
             <ActionsList>
-                {value.map((entry: Record<string, unknown>, index: number) => (
-                    <ActionRow key={index}>
+                {value.map((entry: Record<string, unknown>, index: number) => {
+                    const baselineEntry = lastCleanValueRef.current[index] ?? {};
+                    const isRowChanged = props.highlight === true && !areEmailEntriesEqual(baselineEntry, entry);
+                    const isSubjectChanged = props.highlight === true && baselineEntry.subject !== entry.subject;
+                    const isSenderChanged = props.highlight === true && baselineEntry.senderAddress !== entry.senderAddress;
+                    const isRecipientChanged = props.highlight === true && baselineEntry.recipientAddress !== entry.recipientAddress;
+                    return (
+                    <ActionRow key={index} dirty={isRowChanged}>
                         <ActionSummary>
-                            <ActionLabel>{t('Sitegeist.PaperTiger.CPX:NodeTypes.Action.Email:editor.emailLabel')} {index + 1}</ActionLabel>
-                            <ActionValue>
-                                {t('Sitegeist.PaperTiger.CPX:NodeTypes.Action.Email:editor.recipient')}: {formatInlineValue(entry.recipientAddress, t('Sitegeist.PaperTiger.CPX:NodeTypes.Action.Email:editor.notSet'))}
+                            <ActionLabel changed={isSubjectChanged}>
+                                {t('Sitegeist.PaperTiger.CPX:NodeTypes.Action.Email:editor.subject')}
+                            </ActionLabel>
+                            <ActionValue changed={isSubjectChanged}>
+                                {formatInlineValue(entry.subject, t('Sitegeist.PaperTiger.CPX:NodeTypes.Action.Email:editor.notSet'))}
                             </ActionValue>
-                            <ActionSeparator>/</ActionSeparator>
-                            <ActionValue>
-                                {t('Sitegeist.PaperTiger.CPX:NodeTypes.Action.Email:editor.sender')}: {formatInlineValue(entry.senderAddress, t('Sitegeist.PaperTiger.CPX:NodeTypes.Action.Email:editor.notSet'))}
+                        </ActionSummary>
+                        <ActionSummary>
+                            <ActionLabel changed={isSenderChanged}>{t('Sitegeist.PaperTiger.CPX:NodeTypes.Action.Email:editor.sender')}</ActionLabel>
+                            <ActionValue changed={isSenderChanged}>
+                                {formatInlineValue(entry.senderAddress, t('Sitegeist.PaperTiger.CPX:NodeTypes.Action.Email:editor.notSet'))}
+                            </ActionValue>
+                        </ActionSummary>
+                        <ActionSummary>
+                           <ActionLabel changed={isRecipientChanged}>{t('Sitegeist.PaperTiger.CPX:NodeTypes.Action.Email:editor.recipient')}</ActionLabel>
+                            <ActionValue changed={isRecipientChanged}>
+                                {formatInlineValue(entry.recipientAddress, t('Sitegeist.PaperTiger.CPX:NodeTypes.Action.Email:editor.notSet'))}
                             </ActionValue>
                         </ActionSummary>
                         <ActionButtons>
-                            <IconButton type="button" onClick={() => handleEdit(index)} aria-label={`${t('Sitegeist.PaperTiger.CPX:NodeTypes.Action.Email:editor.edit')} ${t('Sitegeist.PaperTiger.CPX:NodeTypes.Action.Email:editor.emailLabel')} ${index + 1}`}>
+                            <Button className='btn--action' onClick={() => handleEdit(index)} aria-label={t('Sitegeist.PaperTiger.CPX:NodeTypes.Action.Email:editor.edit')}>
                                 <Icon icon="pencil" />
-                            </IconButton>
-                            <IconButton type="button" onClick={() => handleDelete(index)} aria-label={`${t('Sitegeist.PaperTiger.CPX:NodeTypes.Action.Email:editor.delete')} ${t('Sitegeist.PaperTiger.CPX:NodeTypes.Action.Email:editor.emailLabel')} ${index + 1}`}>
+                                {t('Sitegeist.PaperTiger.CPX:NodeTypes.Action.Email:editor.edit')}
+                            </Button>
+                            <Button className='btn--action' style='error' hoverStyle='error' onClick={() => handleDelete(index)} aria-label={t('Sitegeist.PaperTiger.CPX:NodeTypes.Action.Email:editor.delete')}>
                                 <Icon icon="trash" />
-                            </IconButton>
+                                {t('Sitegeist.PaperTiger.CPX:NodeTypes.Action.Email:editor.delete')}
+                            </Button>
                         </ActionButtons>
                     </ActionRow>
-                ))}
+                )})}
             </ActionsList>
             <AddButton type="button" onClick={handleAdd}>
                 <Icon icon="plus" />

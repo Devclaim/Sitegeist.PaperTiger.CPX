@@ -53,11 +53,9 @@
       <trans-unit id="properties.testMode" xml:space="preserve">
         <source>Test mode</source>
       </trans-unit>
-      <trans-unit id="editor.title" xml:space="preserve"><source>Email Action Editor</source></trans-unit>
-      <trans-unit id="editor.description" xml:space="preserve"><source>Manage recipients, senders, and the HTML content of each email right here.</source></trans-unit>
-      <trans-unit id="editor.emailLabel" xml:space="preserve"><source>Email</source></trans-unit>
       <trans-unit id="editor.recipient" xml:space="preserve"><source>Recipient</source></trans-unit>
       <trans-unit id="editor.sender" xml:space="preserve"><source>Sender</source></trans-unit>
+      <trans-unit id="editor.subject" xml:space="preserve"><source>Subject</source></trans-unit>
       <trans-unit id="editor.notSet" xml:space="preserve"><source>Not set</source></trans-unit>
       <trans-unit id="editor.edit" xml:space="preserve"><source>Edit</source></trans-unit>
       <trans-unit id="editor.delete" xml:space="preserve"><source>Delete</source></trans-unit>

@@ -11,6 +11,9 @@ export const dialogStyles = `
     .papertiger-email-dialog [class*="dialog__body"] {
         height: 100%;
     }
+    .papertiger-email-dialog [class*="dialog__title"] {
+        display: none;
+    }
 `;
 
 export const Container = styled.div`
@@ -47,10 +50,11 @@ export const ToolbarRow = styled.div`
     justify-content: space-between;
     gap: 12px;
     flex-wrap: wrap;
+    padding-top: 16px;
 `;
 
 
-export const FormatToggle = styled.button<{ htmlActive: boolean }>`
+export const FormatToggle = styled.button<{ htmlActive: boolean; dirty?: boolean }>`
     position: relative;
     display: flex;
     align-items: center;
@@ -62,6 +66,7 @@ export const FormatToggle = styled.button<{ htmlActive: boolean }>`
     cursor: pointer;
     overflow: hidden;
     transition: background-color 180ms ease, opacity 180ms ease;
+    box-shadow: ${({dirty}) => (dirty ? '0 0 0 2px #ff8700' : 'none')};
 
     &::before {
         content: '';
@@ -104,9 +109,11 @@ export const AddressEnvelope = styled.div`
     margin-left: auto;
 `;
 
-export const AddressInputSlot = styled.div<{ $grow?: number }>`
+export const AddressInputSlot = styled.div<{ $grow?: number; $dirty?: boolean }>`
     flex: ${({$grow}) => $grow ?? 1} 1 0;
     min-width: 0;
+    border-radius: 3px;
+    box-shadow: ${({$dirty}) => ($dirty ? '0 0 0 2px #ff8700' : 'none')};
 `;
 
 export const AddressDivider = styled.span`
@@ -137,6 +144,11 @@ export const AddressPopoverWrapper = styled.div`
     margin-left: 4px;
 `;
 
+export const AddressPopoverToggle = styled.div<{ $dirty?: boolean }>`
+    border-radius: 3px;
+    box-shadow: ${({$dirty}) => ($dirty ? '0 0 0 2px #ff8700' : 'none')};
+`;
+
 export const AddressPopover = styled.div`
     position: absolute;
     top: calc(100% + 8px);
@@ -144,7 +156,7 @@ export const AddressPopover = styled.div`
     z-index: 50;
     width: min(440px, 90vw);
     padding: 14px;
-    border: 1px solid #555;
+    border: 1px solid #00adee;
     background: #141414;
     box-shadow: 0 12px 28px rgba(0, 0, 0, 0.18);
 `;
@@ -176,6 +188,11 @@ export const AddressPopoverField = styled.label`
     flex-direction: column;
     gap: 4px;
     min-width: 0;
+
+    .papertiger-dirty-input {
+        border-radius: 3px;
+        box-shadow: 0 0 0 2px #ff8700;
+    }
 `;
 
 export const AddressPopoverFieldLabel = styled.span`
@@ -185,8 +202,6 @@ export const AddressPopoverFieldLabel = styled.span`
     text-transform: uppercase;
     letter-spacing: 0.04em;
 `;
-
-
 
 export const EditorLayout = styled.div`
     min-height: 0;
@@ -199,14 +214,24 @@ export const EditorLayout = styled.div`
     }
 `;
 
-export const Pane = styled.div`
+export const Pane = styled.div<{ $dirty?: boolean }>`
+    position: relative;
     display: flex;
     flex-direction: column;
     height: 100%;
     min-height: 0;
     border-radius: 6px;
-    overflow: hidden;
     background: #3f3f3f;
+
+    &::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        border-radius: inherit;
+        box-shadow: ${({$dirty}) => ($dirty ? 'inset 0 0 0 2px #ff8700' : 'none')};
+        pointer-events: none;
+        z-index: 2;
+    }
 `;
 
 export const ResizeHandleVisual = styled.div`
@@ -470,6 +495,55 @@ export const DeviceToggle = styled.div<{ $activeIndex: number }>`
     }
 `;
 
+export const ThemeToggle = styled.div<{ $activeIndex: number }>`
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    height: 28px;
+    padding: 0;
+    border: 0;
+    background: #3f3f3f;
+    overflow: hidden;
+
+    &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        width: 50%;
+        background: #00adee;
+        box-shadow: 0 4px 12px rgba(0, 173, 238, 0.28);
+        transform: translateX(${({$activeIndex}) => $activeIndex * 100}%);
+        transition: transform 220ms ease;
+    }
+`;
+
+export const ThemeToggleButton = styled.button`
+    position: relative;
+    z-index: 1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 100%;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: #fff;
+    font-size: 13px;
+    cursor: pointer;
+    transition: color 180ms ease;
+
+    &:hover {
+        color: #fff;
+    }
+
+    &:focus {
+        outline: none;
+    }
+`;
+
 export const DeviceToggleButton = styled.button`
     position: relative;
     z-index: 1;
@@ -528,7 +602,10 @@ export const TokenButton = styled.button`
     }
 `;
 
-export const PlainPreview = styled.pre<{ $maxWidth?: string }>`
+export const PlainPreview = styled.pre<{
+    $maxWidth?: string;
+    $theme?: 'light' | 'dark';
+}>`
     margin: 0;
     width: 100%;
     max-width: ${({$maxWidth}) => $maxWidth ?? 'none'};
@@ -540,7 +617,9 @@ export const PlainPreview = styled.pre<{ $maxWidth?: string }>`
     font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
     font-size: 20px;
     line-height: 1.5;
-    background: #3f3f3f;
+    background: ${({$theme}) => ($theme === 'light' ? '#ffffff' : '#3f3f3f')};
+    color: ${({$theme}) => ($theme === 'light' ? '#1f1f1f' : '#e5e5e5')};
+    transition: background 180ms ease, color 180ms ease;
 `;
 
 type CompatStatus = 'ok' | 'partial' | 'unsupported' | 'unknown';
