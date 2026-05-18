@@ -30,6 +30,7 @@ import {
 } from './components/EmailActionDialog.styles';
 import {InsertTarget, useEmailActionEditor} from './useEmailActionEditor';
 import {DialogDirtyContext, useCreateDialogDirtyValue} from './dialogDirtyContext';
+import {validateEmailEntry} from './emailValidation';
 
 const EDITOR_LAYOUT_STORAGE_KEY =
     'Sitegeist.PaperTiger.CPX.EmailActionDialog.layout';
@@ -103,6 +104,7 @@ export const EmailActionDialogContainer: React.FC = () => {
         dirtyState.neosFieldHighlights.format === true ||
         dirtyState.neosFieldHighlights.html === true ||
         dirtyState.neosFieldHighlights.plaintext === true;
+    const emailValidation = React.useMemo(() => validateEmailEntry(entry), [entry]);
     if (!isOpen || !payload) {
         return null;
     }
@@ -111,7 +113,6 @@ export const EmailActionDialogContainer: React.FC = () => {
         payload.onApply(payload.index, entry);
         closeEmailActionDialog();
     };
-
     return (
         <>
             <style>{dialogStyles}</style>
@@ -119,12 +120,13 @@ export const EmailActionDialogContainer: React.FC = () => {
                 isOpen
                 className="papertiger-email-dialog"
                 style="jumbo"
+                preventClosing={dirtyState.isDirty}
                 onRequestClose={closeEmailActionDialog}
                 actions={[
                     <Button type="button" onClick={closeEmailActionDialog}>
                         {t('Sitegeist.PaperTiger.CPX:NodeTypes.Action.Email:dialog.discard')}
                     </Button>,
-                    <Button style="success" type="button" onClick={handleApply} disabled={!dirtyState.isDirty}>
+                    <Button style="success" type="button" onClick={handleApply} disabled={!dirtyState.isDirty || !emailValidation.isValid}>
                         {t('Sitegeist.PaperTiger.CPX:NodeTypes.Action.Email:dialog.apply')}
                     </Button>
                 ]}
@@ -154,6 +156,7 @@ export const EmailActionDialogContainer: React.FC = () => {
                         </FormatToggle>
                         <AddressBar
                             entry={entry}
+                            fieldWarnings={emailValidation.fieldWarnings}
                             onSetFieldValue={setFieldValue}
                             onFocusSubject={() => setActiveTarget('subject')}
                             subjectInputRef={subjectInputRef}

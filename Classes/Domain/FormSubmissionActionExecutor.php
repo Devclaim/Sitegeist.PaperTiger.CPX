@@ -12,10 +12,10 @@ use PackageFactory\Neos\ComponentEngine\NeosContext;
 use Psr\Http\Message\UploadedFileInterface;
 use Sitegeist\PaperTiger\CPX\Domain\Action\ConfigurableActionInterface;
 use Sitegeist\PaperTiger\CPX\Domain\Action\Specification\EmailActionSpecification;
-use Sitegeist\PaperTiger\CPX\Domain\Action\Specification\RedirectActionSpecification;
 use Sitegeist\PaperTiger\CPX\Domain\Action\EmailAction;
 use Sitegeist\PaperTiger\CPX\Domain\Action\MessageAction;
 use Sitegeist\PaperTiger\CPX\Domain\Action\RedirectAction;
+use Sitegeist\PaperTiger\CPX\Components\Form\ActionType;
 use Sitegeist\PaperTiger\CPX\Domain\Uri\ConvertUrisService;
 
 final class FormSubmissionActionExecutor
@@ -40,9 +40,8 @@ final class FormSubmissionActionExecutor
 
         $response = null;
 
-        $showMessage = $context->nodes->getBoolValue($context->node, 'showMessage');
-
-        if ($showMessage) {
+        $actionType = $this->readActionType($context);
+        if ($actionType === ActionType::MESSAGE) {
             $message = $this->replaceTokens(
                 $context->nodes->getStringValue($context->node, 'message'),
                 $arguments
@@ -60,11 +59,11 @@ final class FormSubmissionActionExecutor
             }
         }
 
-        $redirectAction = $this->readRedirectActionSpecification($context);
-        if ($redirectAction instanceof RedirectActionSpecification) {
+        $redirectUri = $this->readRedirectUri($context);
+        if ($actionType === ActionType::REDIRECT && is_string($redirectUri) && $redirectUri !== '') {
             $actionResponse = $this->performAction(
                 RedirectAction::class,
-                $this->buildRedirectActionOptionsFromSpecification($context, $redirectAction, $arguments),
+                $this->buildRedirectActionOptions($context, $redirectUri, $arguments),
             );
             if ($actionResponse instanceof ActionResponse) {
                 $response = $actionResponse;
@@ -92,27 +91,29 @@ final class FormSubmissionActionExecutor
         )));
     }
 
-    private function readRedirectActionSpecification(NeosContext $context): ?RedirectActionSpecification
+    private function readRedirectUri(NeosContext $context): ?string
     {
-        return $context->nodes->getObjectValue(
-            $context->node,
-            'redirectAction',
-            RedirectActionSpecification::class,
-        );
+        return $context->nodes->getStringValue($context->node, 'redirectAction');
+    }
+
+    private function readActionType(NeosContext $context): ActionType
+    {
+        $actionType = $context->nodes->getStringValue($context->node, 'actionType');
+        return ActionType::tryFrom((string)$actionType) ?? ActionType::MESSAGE;
     }
 
     /**
      * @param array<string,mixed> $arguments
      * @return array<string,mixed>
      */
-    private function buildRedirectActionOptionsFromSpecification(
+    private function buildRedirectActionOptions(
         NeosContext $context,
-        RedirectActionSpecification $action,
+        string $redirectUri,
         array $arguments,
     ): array
     {
         return [
-            'uri' => $this->resolveRedirectUri($context, $arguments, $action->uri),
+            'uri' => $this->resolveRedirectUri($context, $arguments, $redirectUri),
         ];
     }
 

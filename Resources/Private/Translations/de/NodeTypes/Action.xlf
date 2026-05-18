@@ -11,12 +11,12 @@
         <target>Aktionen</target>
       </trans-unit>
       <trans-unit id="groups.message" xml:space="preserve">
-        <source>Action - Show Message</source>
-        <target>Aktion - Nachricht anzeigen</target>
+        <source>Form Action</source>
+        <target>Formularaktion</target>
       </trans-unit>
       <trans-unit id="groups.email" xml:space="preserve">
-        <source>Email action</source>
-        <target>E-Mail-Aktion</target>
+        <source>Send Emails</source>
+        <target>E-Mails senden</target>
       </trans-unit>
       <trans-unit id="groups.redirect" xml:space="preserve">
         <source>Redirect action</source>
@@ -27,12 +27,24 @@
         <target>Nachricht anzeigen</target>
       </trans-unit>
       <trans-unit id="builtInTypes.email" xml:space="preserve">
-        <source>Send email</source>
-        <target>E-Mail senden</target>
+        <source>Emails</source>
+        <target>E-mails</target>
       </trans-unit>
       <trans-unit id="builtInTypes.redirect" xml:space="preserve">
-        <source>Redirect user</source>
-        <target>Benutzer weiterleiten</target>
+        <source>Redirect link</source>
+        <target>Weiterleitungslink</target>
+      </trans-unit>
+      <trans-unit id="properties.actionType" xml:space="preserve">
+        <source>Form Action</source>
+        <target>Formularaktion</target>
+      </trans-unit>
+      <trans-unit id="properties.actionType.values.message" xml:space="preserve">
+        <source>Show message</source>
+        <target>Nachricht anzeigen</target>
+      </trans-unit>
+      <trans-unit id="properties.actionType.values.redirect" xml:space="preserve">
+        <source>Redirect</source>
+        <target>Weiterleiten</target>
       </trans-unit>
     </body>
   </file>

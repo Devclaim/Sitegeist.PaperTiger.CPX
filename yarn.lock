@@ -1603,17 +1603,7 @@ __metadata:
     "@sitegeist/papertiger-cpx-message-action-editor": "workspace:*"
     "@sitegeist/papertiger-cpx-neos-bridge": "workspace:*"
     "@sitegeist/papertiger-cpx-option-editor": "workspace:*"
-    "@sitegeist/papertiger-cpx-redirect-action-editor": "workspace:*"
     esbuild: ~0.27.2
-  languageName: unknown
-  linkType: soft
-
-"@sitegeist/papertiger-cpx-redirect-action-editor@workspace:*, @sitegeist/papertiger-cpx-redirect-action-editor@workspace:Neos.Ui/redirect-action-editor":
-  version: 0.0.0-use.local
-  resolution: "@sitegeist/papertiger-cpx-redirect-action-editor@workspace:Neos.Ui/redirect-action-editor"
-  dependencies:
-    react: ^18.3.1
-    react-dom: ^18.3.1
   languageName: unknown
   linkType: soft
 

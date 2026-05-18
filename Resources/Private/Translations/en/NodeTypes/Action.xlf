@@ -9,10 +9,10 @@
         <source>Actions</source>
       </trans-unit>
       <trans-unit id="groups.message" xml:space="preserve">
-        <source>Action - Show Message</source>
+        <source>Form Action</source>
       </trans-unit>
       <trans-unit id="groups.email" xml:space="preserve">
-        <source>Email action</source>
+        <source>Send Emails</source>
       </trans-unit>
       <trans-unit id="groups.redirect" xml:space="preserve">
         <source>Redirect action</source>
@@ -21,10 +21,19 @@
         <source>Show message</source>
       </trans-unit>
       <trans-unit id="builtInTypes.email" xml:space="preserve">
-        <source>Send email</source>
+        <source>Emails</source>
       </trans-unit>
       <trans-unit id="builtInTypes.redirect" xml:space="preserve">
-        <source>Redirect user</source>
+        <source>Redirect link</source>
+      </trans-unit>
+      <trans-unit id="properties.actionType" xml:space="preserve">
+        <source>Form Action</source>
+      </trans-unit>
+      <trans-unit id="properties.actionType.values.message" xml:space="preserve">
+        <source>Show message</source>
+      </trans-unit>
+      <trans-unit id="properties.actionType.values.redirect" xml:space="preserve">
+        <source>Redirect</source>
       </trans-unit>
     </body>
   </file>

@@ -1,5 +1,5 @@
 import React from 'react';
-import {Icon, IconButton, TextInput} from '@neos-project/react-ui-components';
+import {Icon, IconButton, TextInput, Tooltip} from '@neos-project/react-ui-components';
 
 import {SetFieldValue} from '../useEmailActionEditor';
 import {useI18n} from '@sitegeist/papertiger-cpx-neos-bridge';
@@ -24,6 +24,7 @@ type Entry = Record<string, unknown>;
 
 type AddressBarProps = {
     entry: Entry;
+    fieldWarnings: Record<string, string | undefined>;
     onSetFieldValue: SetFieldValue;
     onFocusSubject: () => void;
     subjectInputRef: React.MutableRefObject<HTMLInputElement | null>;
@@ -31,9 +32,17 @@ type AddressBarProps = {
 
 const getStringValue = (value: unknown): string =>
     typeof value === 'string' ? value : '';
+const getInputClassName = (isDirty: boolean, isInvalid: boolean): string | undefined => {
+    const classes = [
+        isDirty ? 'papertiger-dirty-input' : '',
+        isInvalid ? 'papertiger-invalid-input' : ''
+    ].filter(Boolean);
+    return classes.length ? classes.join(' ') : undefined;
+};
 
 export const AddressBar: React.FC<AddressBarProps> = ({
     entry,
+    fieldWarnings,
     onSetFieldValue,
     onFocusSubject,
     subjectInputRef
@@ -120,11 +129,20 @@ export const AddressBar: React.FC<AddressBarProps> = ({
             <AddressDivider aria-hidden="true" />
             <AddressInputSlot $dirty={dirtyFields.senderAddress === true || neosFieldHighlights.senderAddress === true}>
                 <TextInput
+                    className={getInputClassName(
+                        dirtyFields.senderAddress === true || neosFieldHighlights.senderAddress === true,
+                        Boolean(fieldWarnings.senderAddress)
+                    )}
                     value={getStringValue(entry.senderAddress)}
                     onChange={(value: string) => onSetFieldValue('senderAddress', value)}
                     placeholder={t('Sitegeist.PaperTiger.CPX:NodeTypes.Action.Email:editor.sender')}
                     aria-label={t('Sitegeist.PaperTiger.CPX:NodeTypes.Action.Email:editor.sender')}
                 />
+                {fieldWarnings.senderAddress ? (
+                    <span className="papertiger-inline-warning">
+                        <Tooltip renderInline asWarning>{fieldWarnings.senderAddress}</Tooltip>
+                    </span>
+                ) : null}
             </AddressInputSlot>
             <AddressArrow aria-hidden="true">→</AddressArrow>
             <AddressIcon aria-hidden="true">
@@ -133,11 +151,20 @@ export const AddressBar: React.FC<AddressBarProps> = ({
             <AddressArrow aria-hidden="true">→</AddressArrow>
             <AddressInputSlot $dirty={dirtyFields.recipientAddress === true || neosFieldHighlights.recipientAddress === true}>
                 <TextInput
+                    className={getInputClassName(
+                        dirtyFields.recipientAddress === true || neosFieldHighlights.recipientAddress === true,
+                        Boolean(fieldWarnings.recipientAddress)
+                    )}
                     value={getStringValue(entry.recipientAddress)}
                     onChange={(value: string) => onSetFieldValue('recipientAddress', value)}
                     placeholder={t('Sitegeist.PaperTiger.CPX:NodeTypes.Action.Email:editor.recipient')}
                     aria-label={t('Sitegeist.PaperTiger.CPX:NodeTypes.Action.Email:editor.recipient')}
                 />
+                {fieldWarnings.recipientAddress ? (
+                    <span className="papertiger-inline-warning">
+                        <Tooltip renderInline asWarning>{fieldWarnings.recipientAddress}</Tooltip>
+                    </span>
+                ) : null}
             </AddressInputSlot>
             <AddressPopoverWrapper ref={wrapperRef}>
                 <AddressPopoverToggle $dirty={isPopoverDirty && !popoverOpen}>
@@ -165,7 +192,10 @@ export const AddressBar: React.FC<AddressBarProps> = ({
                                     {t('Sitegeist.PaperTiger.CPX:NodeTypes.Action.Email:properties.recipientName')}
                                 </AddressPopoverFieldLabel>
                                 <TextInput
-                                    className={dirtyFields.recipientName === true || neosFieldHighlights.recipientName === true ? 'papertiger-dirty-input' : undefined}
+                                    className={getInputClassName(
+                                        dirtyFields.recipientName === true || neosFieldHighlights.recipientName === true,
+                                        false
+                                    )}
                                     value={getStringValue(entry.recipientName)}
                                     onChange={(value: string) =>
                                         onSetFieldValue('recipientName', value)
@@ -177,7 +207,10 @@ export const AddressBar: React.FC<AddressBarProps> = ({
                                     {t('Sitegeist.PaperTiger.CPX:NodeTypes.Action.Email:properties.senderName')}
                                 </AddressPopoverFieldLabel>
                                 <TextInput
-                                    className={dirtyFields.senderName === true || neosFieldHighlights.senderName === true ? 'papertiger-dirty-input' : undefined}
+                                    className={getInputClassName(
+                                        dirtyFields.senderName === true || neosFieldHighlights.senderName === true,
+                                        false
+                                    )}
                                     value={getStringValue(entry.senderName)}
                                     onChange={(value: string) =>
                                         onSetFieldValue('senderName', value)
@@ -187,27 +220,46 @@ export const AddressBar: React.FC<AddressBarProps> = ({
                             <AddressPopoverField>
                                 <AddressPopoverFieldLabel>Reply-To</AddressPopoverFieldLabel>
                                 <TextInput
-                                    className={dirtyFields.replyToAddress === true || neosFieldHighlights.replyToAddress === true ? 'papertiger-dirty-input' : undefined}
+                                    className={getInputClassName(
+                                        dirtyFields.replyToAddress === true || neosFieldHighlights.replyToAddress === true,
+                                        Boolean(fieldWarnings.replyToAddress)
+                                    )}
                                     value={getStringValue(entry.replyToAddress)}
                                     onChange={(value: string) =>
                                         onSetFieldValue('replyToAddress', value)
                                     }
                                 />
+                                {fieldWarnings.replyToAddress ? (
+                                    <span className="papertiger-inline-warning">
+                                        <Tooltip renderInline asWarning>{fieldWarnings.replyToAddress}</Tooltip>
+                                    </span>
+                                ) : null}
                             </AddressPopoverField>
                             <AddressPopoverField>
                                 <AddressPopoverFieldLabel>CC</AddressPopoverFieldLabel>
                                 <TextInput
-                                    className={dirtyFields.carbonCopyAddress === true || neosFieldHighlights.carbonCopyAddress === true ? 'papertiger-dirty-input' : undefined}
+                                    className={getInputClassName(
+                                        dirtyFields.carbonCopyAddress === true || neosFieldHighlights.carbonCopyAddress === true,
+                                        Boolean(fieldWarnings.carbonCopyAddress)
+                                    )}
                                     value={getStringValue(entry.carbonCopyAddress)}
                                     onChange={(value: string) =>
                                         onSetFieldValue('carbonCopyAddress', value)
                                     }
                                 />
+                                {fieldWarnings.carbonCopyAddress ? (
+                                    <span className="papertiger-inline-warning">
+                                        <Tooltip renderInline asWarning>{fieldWarnings.carbonCopyAddress}</Tooltip>
+                                    </span>
+                                ) : null}
                             </AddressPopoverField>
                             <AddressPopoverField>
                                 <AddressPopoverFieldLabel>BCC</AddressPopoverFieldLabel>
                                 <TextInput
-                                    className={dirtyFields.blindCarbonCopyAddress === true || neosFieldHighlights.blindCarbonCopyAddress === true ? 'papertiger-dirty-input' : undefined}
+                                    className={getInputClassName(
+                                        dirtyFields.blindCarbonCopyAddress === true || neosFieldHighlights.blindCarbonCopyAddress === true,
+                                        Boolean(fieldWarnings.blindCarbonCopyAddress)
+                                    )}
                                     value={getStringValue(entry.blindCarbonCopyAddress)}
                                     onChange={(value: string) =>
                                         onSetFieldValue(
@@ -216,6 +268,11 @@ export const AddressBar: React.FC<AddressBarProps> = ({
                                         )
                                     }
                                 />
+                                {fieldWarnings.blindCarbonCopyAddress ? (
+                                    <span className="papertiger-inline-warning">
+                                        <Tooltip renderInline asWarning>{fieldWarnings.blindCarbonCopyAddress}</Tooltip>
+                                    </span>
+                                ) : null}
                             </AddressPopoverField>
                         </AddressPopoverGrid>
                     </AddressPopover>

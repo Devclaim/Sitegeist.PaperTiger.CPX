@@ -110,10 +110,23 @@ export const AddressEnvelope = styled.div`
 `;
 
 export const AddressInputSlot = styled.div<{ $grow?: number; $dirty?: boolean }>`
+    position: relative;
     flex: ${({$grow}) => $grow ?? 1} 1 0;
     min-width: 0;
     border-radius: 3px;
     box-shadow: ${({$dirty}) => ($dirty ? '0 0 0 2px #ff8700' : 'none')};
+
+    .papertiger-invalid-input {
+        border-radius: 3px;
+        box-shadow: 0 0 0 2px #d14343;
+    }
+    .papertiger-inline-warning {
+        position: absolute;
+        top: calc(100% + 4px);
+        left: 0;
+        z-index: 60;
+        pointer-events: none;
+    }
 `;
 
 export const AddressDivider = styled.span`
@@ -184,6 +197,7 @@ export const AddressPopoverGrid = styled.div`
 `;
 
 export const AddressPopoverField = styled.label`
+    position: relative;
     display: flex;
     flex-direction: column;
     gap: 4px;
@@ -192,6 +206,17 @@ export const AddressPopoverField = styled.label`
     .papertiger-dirty-input {
         border-radius: 3px;
         box-shadow: 0 0 0 2px #ff8700;
+    }
+    .papertiger-invalid-input {
+        border-radius: 3px;
+        box-shadow: 0 0 0 2px #d14343;
+    }
+    .papertiger-inline-warning {
+        position: absolute;
+        top: calc(100% + 4px);
+        left: 0;
+        z-index: 60;
+        pointer-events: none;
     }
 `;
 

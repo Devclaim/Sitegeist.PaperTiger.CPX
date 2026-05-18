@@ -2,27 +2,17 @@ Sitegeist.PaperTiger.CPX:Actions:
   abstract: true
   ui:
     inspector:
-      tabs:
-        actions:
-          label: 'Sitegeist.PaperTiger.CPX:Main:actions.tab'
-          icon: bolt
-          position: 10
       groups:
         'actions-message':
           label: 'Sitegeist.PaperTiger.CPX:NodeTypes.Action:groups.message'
-          position: 10
+          position: 20
           icon: 'commenting-o'
-          tab: actions
+          tab: default
         'actions-email':
           label: 'Sitegeist.PaperTiger.CPX:NodeTypes.Action:groups.email'
-          position: 20
-          icon: 'icon-envelope-o'
-          tab: actions
-        'actions-redirect':
-          label: 'Sitegeist.PaperTiger.CPX:NodeTypes.Action:groups.redirect'
           position: 30
-          icon: 'icon-arrow-right'
-          tab: actions
+          icon: 'icon-envelope-o'
+          tab: default
       views:
         messageActionEditor:
           label: 'Sitegeist.PaperTiger.CPX:NodeTypes.Action.Message:views.messageActionEditor.label'
@@ -30,16 +20,22 @@ Sitegeist.PaperTiger.CPX:Actions:
           position: end
           view: 'Sitegeist.PaperTiger.CPX/Inspector/Views/MessageActionEditor'
   properties:
-    showMessage:
-      type: boolean
-      defaultValue: false
+    actionType:
+      type: string
+      defaultValue: 'message'
       ui:
-        label: 'Sitegeist.PaperTiger.CPX:NodeTypes.Action.Message:properties.showMessage'
+        label: 'Sitegeist.PaperTiger.CPX:NodeTypes.Action:properties.actionType'
         reloadIfChanged: true
         inspector:
           group: 'actions-message'
-          position: 10
-          editor: 'Neos.Neos/Inspector/Editors/BooleanEditor'
+          position: 'start'
+          editor: 'Neos.Neos/Inspector/Editors/SelectBoxEditor'
+          editorOptions:
+            values:
+              message:
+                label: 'Sitegeist.PaperTiger.CPX:NodeTypes.Action:properties.actionType.values.message'
+              redirect:
+                label: 'Sitegeist.PaperTiger.CPX:NodeTypes.Action:properties.actionType.values.redirect'
     message:
       type: string
       ui:
@@ -84,12 +80,23 @@ Sitegeist.PaperTiger.CPX:Actions:
           position: 10
           editor: 'Sitegeist.PaperTiger.CPX/Inspector/Editors/EmailActionEditor'
     redirectAction:
-      type: Sitegeist\PaperTiger\CPX\Domain\Action\Specification\RedirectActionSpecification
-      defaultValue: null
+      type: string
       ui:
         label: 'Sitegeist.PaperTiger.CPX:NodeTypes.Action:builtInTypes.redirect'
         reloadIfChanged: true
         inspector:
-          group: 'actions-redirect'
-          position: 10
-          editor: 'Sitegeist.PaperTiger.CPX/Inspector/Editors/RedirectActionEditor'
+          hidden: 'ClientEval:node.properties.actionType !== "redirect"'
+          group: 'actions-message'
+          editor: 'Neos.Neos/Inspector/Editors/LinkEditor'
+          editorOptions:
+            linkTypes:
+              Document:
+                enabled: true
+              Web:
+                enabled: true
+              Asset:
+                enabled: false
+              MailTo:
+                enabled: false
+              Phone:
+                enabled: false
