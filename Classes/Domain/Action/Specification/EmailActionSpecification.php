@@ -28,7 +28,6 @@ final readonly class EmailActionSpecification implements ActionSpecificationInte
         public ?string $carbonCopyAddress = null,
         public ?string $blindCarbonCopyAddress = null,
         public bool $attachUploads = false,
-        public bool $testMode = false,
     ) {
     }
 
@@ -55,7 +54,6 @@ final readonly class EmailActionSpecification implements ActionSpecificationInte
             carbonCopyAddress: is_string($values['carbonCopyAddress'] ?? null) ? $values['carbonCopyAddress'] : null,
             blindCarbonCopyAddress: is_string($values['blindCarbonCopyAddress'] ?? null) ? $values['blindCarbonCopyAddress'] : null,
             attachUploads: (bool)($values['attachUploads'] ?? false),
-            testMode: (bool)($values['testMode'] ?? false),
         );
     }
 
@@ -73,8 +71,7 @@ final readonly class EmailActionSpecification implements ActionSpecificationInte
      *   replyToAddress: ?string,
      *   carbonCopyAddress: ?string,
      *   blindCarbonCopyAddress: ?string,
-     *   attachUploads: bool,
-     *   testMode: bool
+     *   attachUploads: bool
      * }
      */
     public function jsonSerialize(): array
@@ -93,7 +90,6 @@ final readonly class EmailActionSpecification implements ActionSpecificationInte
             'carbonCopyAddress' => $this->carbonCopyAddress,
             'blindCarbonCopyAddress' => $this->blindCarbonCopyAddress,
             'attachUploads' => $this->attachUploads,
-            'testMode' => $this->testMode,
         ];
     }
 }

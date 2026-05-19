@@ -13,7 +13,7 @@ export class InsertFieldTokenCommand extends Command {
         const { editor } = this;
 
         editor.model.change(writer => {
-            const text = writer.createText(`${token} `);
+            const text = writer.createText(token);
             const selection = editor.model.document.selection;
 
             const insertedRange = editor.model.insertContent(text, selection);

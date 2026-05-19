@@ -1,5 +1,5 @@
 import React from 'react';
-import {Icon, IconButton, TextInput, Tooltip} from '@neos-project/react-ui-components';
+import {CheckBox, Icon, IconButton, Label, TextInput, Tooltip} from '@neos-project/react-ui-components';
 
 import {SetFieldValue} from '../useEmailActionEditor';
 import {useI18n} from '@sitegeist/papertiger-cpx-neos-bridge';
@@ -11,6 +11,7 @@ import {
     AddressIcon,
     AddressInputSlot,
     AddressPopover,
+    CheckboxLabel,
     AddressPopoverField,
     AddressPopoverFieldLabel,
     AddressPopoverGrid,
@@ -273,6 +274,24 @@ export const AddressBar: React.FC<AddressBarProps> = ({
                                         <Tooltip renderInline asWarning>{fieldWarnings.blindCarbonCopyAddress}</Tooltip>
                                     </span>
                                 ) : null}
+                            </AddressPopoverField>
+                            <AddressPopoverField>
+                                <CheckboxLabel>
+                                    <CheckBox
+                                    
+                                        isChecked={Boolean(entry.attachUploads)}
+                                        onChange={(isChecked: boolean) =>
+                                            onSetFieldValue('attachUploads', isChecked)
+                                        }
+                                    />
+                                    {t(
+                                        'properties.attachUploads',
+                                        'Attach uploads',
+                                        {},
+                                        'Sitegeist.PaperTiger.CPX',
+                                        'NodeTypes.Action.Email'
+                                    )}
+                                </CheckboxLabel>
                             </AddressPopoverField>
                         </AddressPopoverGrid>
                     </AddressPopover>

@@ -57,25 +57,6 @@ final class EmailAction extends AbstractAction
         $this->applyBody($mail);
         $this->addAttachments($mail);
 
-        if (($this->options['testMode'] ?? false) === true) {
-            $response = new ActionResponse();
-            $response->setContent(
-                \Neos\Flow\var_dump(
-                    [
-                        'subject' => $subject,
-                        'sender' => [$senderAddress => $senderName],
-                        'recipients' => is_array($recipientAddress) ? $recipientAddress : [$recipientAddress => $recipientName],
-                        'text' => $this->options['text'] ?? null,
-                        'html' => $this->options['html'] ?? null,
-                    ],
-                    'E-Mail "' . $subject . '"',
-                    true
-                )
-            );
-
-            return $response;
-        }
-
         /** @phpstan-ignore-next-line */
         $this->objectManager->get($mailerServiceClassName)->getMailer()->send($mail);
 
@@ -135,6 +116,10 @@ final class EmailAction extends AbstractAction
             }
 
             if ($attachment instanceof UploadedFileInterface) {
+                if ($attachment->getError() !== UPLOAD_ERR_OK) {
+                    continue;
+                }
+
                 $mail->addPart(new DataPart(
                     $attachment->getStream()->getContents(),
                     $attachment->getClientFilename(),

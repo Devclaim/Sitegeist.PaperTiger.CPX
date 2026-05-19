@@ -59,6 +59,9 @@ final class UploadRenderer implements ContentNodeRendererInterface
                 $accept = implode(', ', $acceptItems);
             }
         }
+        $isMultiple = $context->nodes->getBoolValue($context->node, 'isMultiple') ?? false;
+        $fieldName = $isMultiple ? $name . '[]' : $name;
+
         $fieldContainer = FieldContainerProps::create(
             id: 'fieldcontainer_' . $name,
             label: $context->nodes->getStringValue($context->node, 'label'),
@@ -72,8 +75,8 @@ final class UploadRenderer implements ContentNodeRendererInterface
             $this->fieldComponentFactory->createUpload(
                 field: UploadFieldProps::create(
                     fieldContainer: $fieldContainer,
-                    name: $name,
-                    isMultiple: $context->nodes->getBoolValue($context->node, 'isMultiple'),
+                    name: $fieldName,
+                    isMultiple: $isMultiple,
                     isRequired: $context->nodes->getBoolValue($context->node, 'isRequired'),
                     accept: $accept,
                     allowedExtensions: is_array($allowedExtensions) ? implode(',', $allowedExtensions) : null,

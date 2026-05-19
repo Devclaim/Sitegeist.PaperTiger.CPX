@@ -220,6 +220,14 @@ export const AddressPopoverField = styled.label`
     }
 `;
 
+export const CheckboxLabel = styled.label`
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    height: 100%;
+`;
+
 export const AddressPopoverFieldLabel = styled.span`
     font-size: 11px;
     font-weight: 700;

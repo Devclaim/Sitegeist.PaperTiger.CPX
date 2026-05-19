@@ -15,8 +15,9 @@ export type EntryField =
 
 export type InsertTarget = 'subject' | 'plaintext' | 'html';
 export type EmailFormat = 'plaintext' | 'html';
-export type EditableField = EntryField | 'html' | 'format';
-export type SetFieldValue = (field: EditableField, value: string) => void;
+export type EditableField = EntryField | 'html' | 'format' | 'attachUploads';
+export type EditableFieldValue = string | boolean;
+export type SetFieldValue = (field: EditableField, value: EditableFieldValue) => void;
 
 type UseEmailActionEditorParams = {
     activeTarget: InsertTarget;

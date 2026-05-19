@@ -50,9 +50,6 @@
       <trans-unit id="properties.attachUploads" xml:space="preserve">
         <source>Attach uploads</source>
       </trans-unit>
-      <trans-unit id="properties.testMode" xml:space="preserve">
-        <source>Test mode</source>
-      </trans-unit>
       <trans-unit id="editor.recipient" xml:space="preserve"><source>Recipient</source></trans-unit>
       <trans-unit id="editor.sender" xml:space="preserve"><source>Sender</source></trans-unit>
       <trans-unit id="editor.subject" xml:space="preserve"><source>Subject</source></trans-unit>

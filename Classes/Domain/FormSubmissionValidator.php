@@ -107,18 +107,18 @@ final class FormSubmissionValidator
         }
 
         $convertedValue = $schema->convert($rawValue);
-        $validationValue = $convertedValue ?? $rawValue;
-        $result = $schema->validate($validationValue);
+        $effectiveValue = $convertedValue ?? $rawValue;
+        $result = $schema->validate($effectiveValue);
 
         if (!$result->hasErrors()) {
-            return [[], $convertedValue, $fieldName];
+            return [[], $effectiveValue, $fieldName];
         }
 
         $customErrorMessageEnabled = $this->readBool($context, $fieldNode, 'customErrorMessageEnabled') ?? false;
         $customErrorMessage = $this->readString($context, $fieldNode, 'customErrorMessage');
 
         if ($customErrorMessageEnabled && is_string($customErrorMessage) && $customErrorMessage !== '') {
-            return [[new FormSubmissionValidationError($fieldName, $customErrorMessage)], $convertedValue, $fieldName];
+            return [[new FormSubmissionValidationError($fieldName, $customErrorMessage)], $effectiveValue, $fieldName];
         }
 
         return [
@@ -130,7 +130,7 @@ final class FormSubmissionValidator
                 ),
                 $result->getErrors(),
             ),
-            $convertedValue,
+            $effectiveValue,
             $fieldName,
         ];
     }

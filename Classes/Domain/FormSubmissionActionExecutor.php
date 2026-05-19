@@ -150,7 +150,6 @@ final class FormSubmissionActionExecutor
             'attachments' => $action->attachUploads
                 ? $this->collectUploadArguments($arguments)
                 : null,
-            'testMode' => $action->testMode,
         ];
     }
 
@@ -204,22 +203,14 @@ final class FormSubmissionActionExecutor
     {
         $uploads = [];
 
-        foreach ($arguments as $value) {
-            if ($value instanceof UploadedFileInterface) {
-                $uploads[] = $value;
-                continue;
-            }
-
-            if (!is_array($value)) {
-                continue;
-            }
-
-            foreach ($value as $item) {
-                if ($item instanceof UploadedFileInterface) {
-                    $uploads[] = $item;
+        array_walk_recursive(
+            $arguments,
+            static function (mixed $leaf) use (&$uploads): void {
+                if ($leaf instanceof UploadedFileInterface) {
+                    $uploads[] = $leaf;
                 }
             }
-        }
+        );
 
         return $uploads;
     }
