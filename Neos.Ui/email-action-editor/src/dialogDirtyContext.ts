@@ -30,13 +30,14 @@ const DIALOG_DIRTY_FIELDS = [
     'replyToAddress',
     'carbonCopyAddress',
     'blindCarbonCopyAddress',
+    'attachUploads',
     'format',
     'html',
     'plaintext'
 ] as const;
 
 const normalizeValue = (value: unknown): unknown => {
-    if (value === null || typeof value === 'undefined') {
+    if (value === null || typeof value === 'undefined' || value === false) {
         return '';
     }
     return value;

@@ -220,12 +220,15 @@ export const AddressPopoverField = styled.label`
     }
 `;
 
-export const CheckboxLabel = styled.label`
+export const CheckboxLabel = styled.label<{ $dirty?: boolean }>`
     display: flex;
     align-items: center;
     gap: 8px;
     cursor: pointer;
     height: 100%;
+    padding: 4px 6px;
+    border-radius: 3px;
+    box-shadow: ${({$dirty}) => ($dirty ? '0 0 0 2px #ff8700' : 'none')};
 `;
 
 export const AddressPopoverFieldLabel = styled.span`

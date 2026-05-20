@@ -56,11 +56,13 @@ export const AddressBar: React.FC<AddressBarProps> = ({
         dirtyFields.replyToAddress === true ||
         dirtyFields.carbonCopyAddress === true ||
         dirtyFields.blindCarbonCopyAddress === true ||
+        dirtyFields.attachUploads === true ||
         neosFieldHighlights.recipientName === true ||
         neosFieldHighlights.senderName === true ||
         neosFieldHighlights.replyToAddress === true ||
         neosFieldHighlights.carbonCopyAddress === true ||
-        neosFieldHighlights.blindCarbonCopyAddress === true;
+        neosFieldHighlights.blindCarbonCopyAddress === true ||
+        neosFieldHighlights.attachUploads === true;
     const [popoverOpen, setPopoverOpen] = React.useState(false);
     const wrapperRef = React.useRef<HTMLDivElement | null>(null);
     const subjectSlotRef = React.useRef<HTMLDivElement | null>(null);
@@ -276,9 +278,13 @@ export const AddressBar: React.FC<AddressBarProps> = ({
                                 ) : null}
                             </AddressPopoverField>
                             <AddressPopoverField>
-                                <CheckboxLabel>
+                                <CheckboxLabel
+                                    $dirty={
+                                        dirtyFields.attachUploads === true ||
+                                        neosFieldHighlights.attachUploads === true
+                                    }
+                                >
                                     <CheckBox
-                                    
                                         isChecked={Boolean(entry.attachUploads)}
                                         onChange={(isChecked: boolean) =>
                                             onSetFieldValue('attachUploads', isChecked)
