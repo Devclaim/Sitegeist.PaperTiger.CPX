@@ -25,6 +25,7 @@ final class FieldContainerFactory
         ?string $label = null,
         ?string $inputId = null,
         ?bool $isRequired = null,
+        ?bool $withoutLabel = false
     ): ComponentInterface {
         $identifier = $context->nodes->getStringValue($context->node, 'name') ?? $context->node->aggregateId->value;
         $formState = PaperTigerFormState::fromRequest($context->request);
@@ -39,7 +40,7 @@ final class FieldContainerFactory
 
         return $this->fieldComponentFactory->createFieldContainer(
             fieldContainer: $fieldContainer,
-            label: $this->fieldComponentFactory->createLabel(
+            label: $withoutLabel ? null : $this->fieldComponentFactory->createLabel(
                 label: LabelProps::create(
                     inputId: $fieldContainer->inputId,
                     label: $fieldContainer->label,

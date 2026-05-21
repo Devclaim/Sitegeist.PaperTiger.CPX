@@ -8,4 +8,5 @@ Sitegeist.PaperTiger.CPX:Mixin.Field.Button:
   superTypes:
     'Sitegeist.PaperTiger.CPX:Field': true
     'Sitegeist.PaperTiger.CPX:Mixin.Label': true
+    'Sitegeist.PaperTiger.CPX:Mixin.Name': false
 

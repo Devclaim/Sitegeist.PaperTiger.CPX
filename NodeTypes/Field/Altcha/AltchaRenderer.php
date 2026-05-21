@@ -36,7 +36,8 @@ final class AltchaRenderer implements ContentNodeRendererInterface
                     'Sitegeist.PaperTiger.CPX',
                     'Scripts/Altcha.js',
                 ),
-            )
+            ),
+            withoutLabel: true
         );
     }
 }
