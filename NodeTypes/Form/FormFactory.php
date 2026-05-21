@@ -217,6 +217,7 @@ final class FormFactory
             field: HiddenFieldProps::create(
                 name: $name,
                 value: $value,
+                inBackend: false,
             ),
         );
     }

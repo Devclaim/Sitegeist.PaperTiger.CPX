@@ -23,3 +23,7 @@
 .ck .paper-tiger-field-token-dropdown .ck-dropdown__panel .ck-list__item .ck.ck-button.ck-list-item-button:hover {
     color: #fff;
 }
+
+.papertiger-field:has(.papertiger-field__control--hidden-backend) {
+    opacity: 70%;
+}

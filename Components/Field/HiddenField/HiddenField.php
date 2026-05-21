@@ -25,6 +25,6 @@ final readonly class HiddenField implements _\ComponentInterface
 
     public function render(): string
     {
-        return '<input type="hidden" name="' . _\Util::escapeAttributeValue($this->field->name) . '"' . (($temp = $this->field->value) === null ? '' : ' value="' . _\Util::escapeAttributeValue($temp) . '"') . ' class="papertiger-field__control papertiger-field__control--hidden" />';
+        return ($this->field->inBackend ? '<input type="text" name="' . _\Util::escapeAttributeValue($this->field->name) . '"' . (($temp = $this->field->value) === null ? '' : ' value="' . _\Util::escapeAttributeValue($temp) . '"') . ' class="papertiger-field__control papertiger-field__control--hidden-backend" readonly disabled />' : '<input type="hidden" name="' . _\Util::escapeAttributeValue($this->field->name) . '"' . (($temp = $this->field->value) === null ? '' : ' value="' . _\Util::escapeAttributeValue($temp) . '"') . ' class="papertiger-field__control papertiger-field__control--hidden" />');
     }
 }

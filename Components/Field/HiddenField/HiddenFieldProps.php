@@ -12,16 +12,19 @@ final readonly class HiddenFieldProps
     private function __construct(
         public string $name,
         public ?string $value,
+        public bool $inBackend,
     ) {
     }
 
     public static function create(
         string $name,
         ?string $value,
+        bool $inBackend,
     ): self {
         return new self(
             name: $name,
             value: $value,
+            inBackend: $inBackend,
         );
     }
 }

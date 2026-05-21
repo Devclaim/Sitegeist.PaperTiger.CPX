@@ -3,10 +3,20 @@ from "./HiddenFieldProps.cpx" import { HiddenFieldProps }
 export component HiddenField {
   field: HiddenFieldProps
 
-  render <input
-    type="hidden"
-    name={field.name}
-    value={field.value}
-    class="papertiger-field__control papertiger-field__control--hidden"
-  />
+  render field.inBackend ?
+    <input
+      type="text"
+      name={field.name}
+      value={field.value}
+      class="papertiger-field__control papertiger-field__control--hidden-backend"
+      readonly
+      disabled
+    />
+    :
+    <input
+      type="hidden"
+      name={field.name}
+      value={field.value}
+      class="papertiger-field__control papertiger-field__control--hidden"
+    />
 }
