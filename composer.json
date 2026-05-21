@@ -3,14 +3,18 @@
     "type": "neos-plugin",
     "name": "sitegeist/papertiger-cpx",
     "license": "GPL-3.0+",
+    "minimum-stability": "dev",
+    "prefer-stable": true,
     "require": {
-        "php": ">=8.2",
-        "neos/neos": "^9.0",
+        "php": ">=8.5",
+        "neos/neos": "^9.1",
         "neos/neos-ui": "^9.1",
+        "neos/contentgraph-doctrinedbaladapter": "^9.0",
         "packagefactory/neos-component-engine": "1.0.0-alpha3",
         "sitegeist/inspectorgadget": "^3.0",
         "sitegeist/schemeonyou": "^2.1.0",
-        "neos/symfonymailer": "^1.0.2"
+        "neos/symfonymailer": "^1.0.2",
+        "altcha-org/altcha": "^2.0"
     },
     "autoload": {
         "psr-4": {

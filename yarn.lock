@@ -1615,6 +1615,7 @@ __metadata:
     "@types/react": ^17.0.3
     "@types/react-dom": ^17.0.3
     "@types/styled-components": ^5.1.9
+    altcha: 3.0.9
     esbuild: ~0.27.2
     typescript: ^4.2.4
     zustand: ^5.0.5
@@ -1778,6 +1779,15 @@ __metadata:
     "@codemirror/state": ">=6.0.0"
     "@codemirror/view": ">=6.0.0"
   checksum: dbf3125cf6ced2f54a615fed786c07088a140929880643a6cbf7132636c6628435d51b3f054aec78e5a68ec2e0a0e5653776fb44f01d5232bdc6f506b76410cb
+  languageName: node
+  linkType: hard
+
+"altcha@npm:3.0.9":
+  version: 3.0.9
+  resolution: "altcha@npm:3.0.9"
+  dependencies:
+    hash-wasm: ^4.12.0
+  checksum: 0d1e25584024dfd580db52364088fa700021f1a0fb47b9f9d97df06ecf930691a98c3b47008289729bf83ed562f6551aeb11c0e5f827765618d50a5abfee8aeb
   languageName: node
   linkType: hard
 
@@ -2088,6 +2098,13 @@ __metadata:
   version: 3.0.0
   resolution: "has-flag@npm:3.0.0"
   checksum: 4a15638b454bf086c8148979aae044dd6e39d63904cd452d970374fa6a87623423da485dfb814e7be882e05c096a7ccf1ebd48e7e7501d0208d8384ff4dea73b
+  languageName: node
+  linkType: hard
+
+"hash-wasm@npm:^4.12.0":
+  version: 4.12.0
+  resolution: "hash-wasm@npm:4.12.0"
+  checksum: f292c94a19a3d7c075e1e7de2764ba8a006ae5a9551b1a35c61f693035df7977e6cb41f3fc036deb4a724e1949711b7cba06f7ad174f5aeb295edb64649b4a32
   languageName: node
   linkType: hard
 

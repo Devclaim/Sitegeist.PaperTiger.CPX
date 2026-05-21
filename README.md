@@ -1,5 +1,17 @@
 # Sitegeist.PaperTiger.CPX
 
+## Required Configuration
+
+This package requires an ALTCHA HMAC secret for the captcha field. The secret is used to sign and verify ALTCHA challenges.
+
+```yaml
+Sitegeist:
+  PaperTiger:
+    CPX:
+      Altcha:
+        secret: '<your-random-hmac-secret>'
+```
+
 ## Form Modes
 
 PaperTiger supports two form modes:

@@ -19,14 +19,19 @@ Sitegeist:
           'Sitegeist.PaperTiger.CPX:Field.Hidden': 'Sitegeist\PaperTiger\CPX\Domain\Validation\Schema\HiddenFieldSchemaProvider'
           'Sitegeist.PaperTiger.CPX:Field.Honeypot': 'Sitegeist\PaperTiger\CPX\Domain\Validation\Schema\HoneypotFieldSchemaProvider'
           'Sitegeist.PaperTiger.CPX:Field.Upload': 'Sitegeist\PaperTiger\CPX\Domain\Validation\Schema\UploadFieldSchemaProvider'
-
+          'Sitegeist.PaperTiger.CPX:Field.Altcha': 'Sitegeist\PaperTiger\CPX\Domain\Validation\Schema\AltchaFieldSchemaProvider'
+      Altcha:
+        secret: ''
   SchemeOnYou:
     documents:
       papertiger:
         name: papertiger
         classNames:
           - 'Sitegeist\PaperTiger\CPX\Controller\FormController'
-
+      altcha:
+        name: altcha
+        classNames:
+          - 'Sitegeist\PaperTiger\CPX\Controller\AltchaChallengeController'
 Neos:
   Flow:
     mvc:

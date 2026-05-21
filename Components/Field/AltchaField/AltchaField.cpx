@@ -1,0 +1,13 @@
+from "./AltchaFieldProps.cpx" import { AltchaFieldProps }
+
+export component AltchaField {
+  field: AltchaFieldProps
+
+  render <altcha-widget
+    class="papertiger-field__control--altcha"
+    auto="onfocus"
+    display="standard"
+    challenge={field.challengeUrl}
+    name={field.name}
+  ></altcha-widget>
+}

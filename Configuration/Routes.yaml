@@ -8,3 +8,13 @@
     '@action': 'submit'
     '@format': 'json'
   httpMethods: ['POST']
+-
+  name:  'Altcha'
+  uriPattern: 'altcha'
+  defaults:
+    '@package': 'Sitegeist.PaperTiger.CPX'
+    '@subpackage': ''
+    '@controller': 'AltchaChallenge'
+    '@action': 'challenge'
+    '@format': 'json'
+  httpMethods: ['GET']

@@ -14,7 +14,8 @@ const builds = [
         entryPoints: {
             Backend: './Resources/Private/Assets/Backend.ts',
             Honeypot: './Resources/Private/Assets/Honeypot.ts',
-            AsyncForm: './Resources/Private/Assets/AsyncForm.ts'
+            AsyncForm: './Resources/Private/Assets/AsyncForm.ts',
+            Altcha: './Resources/Private/Assets/Altcha.ts'
         },
         outdir: './Resources/Public/Scripts'
     },

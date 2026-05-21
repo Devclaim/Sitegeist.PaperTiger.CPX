@@ -4,10 +4,15 @@ privilegeTargets:
 
     'Sitegeist.PaperTiger.CPX.FormSubmission:Api':
       matcher: 'method(Sitegeist\PaperTiger\CPX\Controller\FormController->(.*)Action())'
+    'Sitegeist.PaperTiger.CPX.Altcha:Api':
+      matcher: 'method(Sitegeist\PaperTiger\CPX\Controller\AltchaChallengeController->(.*)Action())'
 
 roles:
   'Neos.Flow:Everybody':
     privileges:
       -
         privilegeTarget: 'Sitegeist.PaperTiger.CPX.FormSubmission:Api'
+        permission: GRANT
+      -
+        privilegeTarget: 'Sitegeist.PaperTiger.CPX.Altcha:Api'
         permission: GRANT
