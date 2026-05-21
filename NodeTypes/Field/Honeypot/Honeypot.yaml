@@ -1,3 +1,0 @@
-Sitegeist.PaperTiger.CPX:Field.Honeypot:
-  superTypes:
-    'Sitegeist.PaperTiger.CPX:Mixin.Field.Honeypot': true

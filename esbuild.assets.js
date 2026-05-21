@@ -13,7 +13,6 @@ const builds = [
         target: 'es2020',
         entryPoints: {
             Backend: './Resources/Private/Assets/Backend.ts',
-            Honeypot: './Resources/Private/Assets/Honeypot.ts',
             AsyncForm: './Resources/Private/Assets/AsyncForm.ts',
             Altcha: './Resources/Private/Assets/Altcha.ts'
         },
