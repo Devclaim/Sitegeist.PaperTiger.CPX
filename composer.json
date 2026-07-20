@@ -6,7 +6,7 @@
     "minimum-stability": "dev",
     "prefer-stable": true,
     "require": {
-        "php": ">=8.5",
+        "php": ">=8.4",
         "neos/neos": "^9.1",
         "neos/neos-ui": "^9.1",
         "neos/contentgraph-doctrinedbaladapter": "^9.0",
