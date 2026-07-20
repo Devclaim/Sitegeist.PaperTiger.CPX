@@ -10,7 +10,7 @@
         "neos/neos": "^9.1",
         "neos/neos-ui": "^9.1",
         "neos/contentgraph-doctrinedbaladapter": "^9.0",
-        "packagefactory/neos-component-engine": "1.0.0-alpha3",
+        "packagefactory/neos-component-engine": "1.0.0-alpha4",
         "sitegeist/inspectorgadget": "^3.0",
         "sitegeist/schemeonyou": "^2.1.0",
         "neos/symfonymailer": "^1.0.2",
