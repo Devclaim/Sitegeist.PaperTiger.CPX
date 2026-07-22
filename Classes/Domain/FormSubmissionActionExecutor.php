@@ -8,6 +8,7 @@ use Neos\ContentRepository\Core\SharedModel\Node\NodeAggregateId;
 use Neos\Flow\Mvc\ActionRequest;
 use Neos\Flow\Mvc\ActionResponse;
 use Neos\Flow\ObjectManagement\ObjectManagerInterface;
+use Neos\Neos\Domain\Link\Link;
 use PackageFactory\Neos\ComponentEngine\NeosContext;
 use Psr\Http\Message\UploadedFileInterface;
 use Sitegeist\PaperTiger\CPX\Domain\Action\ConfigurableActionInterface;
@@ -93,7 +94,13 @@ final class FormSubmissionActionExecutor
 
     private function readRedirectUri(NeosContext $context): ?string
     {
-        return $context->nodes->getStringValue($context->node, 'redirectAction');
+        $value = $context->node->getProperty('redirectAction');
+
+        return match (true) {
+            $value instanceof Link => $value->href->__toString(),
+            is_string($value) => $value,
+            default => null,
+        };
     }
 
     private function readActionType(NeosContext $context): ActionType

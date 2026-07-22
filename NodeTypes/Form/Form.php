@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Sitegeist\PaperTiger\CPX\NodeTypes\Form;
 
 use Neos\Flow\Annotations as Flow;
+use Neos\Neos\Domain\Link\Link;
 use Neos\Neos\NodeTypes\Content;
 use Neos\Neos\NodeTypes\ContentCollection;
 use PackageFactory\OPGM\Domain\NodeType\NodeTypeConstraintsDeclaration;
@@ -14,6 +15,7 @@ use PackageFactory\OPGM\NeosAdapter\NodeTypeDeclaration\NodeTypeUiConfiguration;
 use PackageFactory\OPGM\NeosAdapter\PropertyDeclaration\Editor\SelectBoxEditor\EnumSelectBoxEditorConfiguration;
 use PackageFactory\OPGM\NeosAdapter\PropertyDeclaration\InspectorConfiguration;
 use PackageFactory\OPGM\NeosAdapter\PropertyDeclaration\PropertyUiConfiguration;
+use Sitegeist\PaperTiger\CPX\Components\Form\ActionType;
 use Sitegeist\PaperTiger\CPX\Components\Form\FormMode;
 use Sitegeist\PaperTiger\CPX\NodeTypes\Actions\Actions;
 use Sitegeist\PaperTiger\CPX\NodeTypes\Field\FieldConstraint;
@@ -52,6 +54,10 @@ final readonly class Form extends ContentCollection implements Actions
             position: 10,
         )]
         public FormMode $formMode = FormMode::FORM_MODE_STANDARD,
+        public ActionType $actionType = ActionType::MESSAGE,
+        public ?string $message = null,
+        public array $emailAction = [],
+        public ?Link $redirectAction = null,
     ) {
     }
 }
