@@ -10,7 +10,8 @@ use PackageFactory\Neos\ComponentEngine\Integration\ContentRenderer;
 use PackageFactory\Neos\ComponentEngine\Integration\RenderingUseCase;
 use PackageFactory\Neos\ComponentEngine\NeosContext;
 use PackageFactory\Neos\ComponentEngine\Presentation\Component\ContentElementCollectionItems;
-use Sitegeist\PaperTiger\CPX\Components\Fieldset\Fieldset;
+use PackageFactory\OPGM\Domain\ObjectPropertyGraphMapper;
+use Sitegeist\PaperTiger\CPX\Components\Fieldset\Fieldset as FieldsetComponent;
 use Sitegeist\PaperTiger\CPX\Components\Fieldset\FieldsetProps;
 
 final class FieldsetRenderer implements ContentNodeRendererInterface
@@ -22,16 +23,16 @@ final class FieldsetRenderer implements ContentNodeRendererInterface
 
     public function renderAsContent(NeosContext $context): ComponentInterface
     {
-        $items = $this->contentRenderer->renderContentChildren($context, RenderingUseCase::CONTENT);
+        $fieldSet = ObjectPropertyGraphMapper::map($context->node, $context->subgraph, Fieldset::class);
 
-        return Fieldset::create(
+        return FieldsetComponent::create(
             fieldset: FieldsetProps::create(
-                id: 'fieldset_' . $context->node->aggregateId->value,
-                label: $context->nodes->getStringValue($context->node, 'label'),
+                id: 'fieldset_' . $fieldSet->node->aggregateId->value,
+                label: $fieldSet->label,
             ),
             content: ContentElementCollectionItems::create(
                 editable: $context->renderingMode->isEdit,
-                content: $items,
+                content: $this->contentRenderer->renderContentChildren($context, RenderingUseCase::CONTENT),
             ),
         );
     }

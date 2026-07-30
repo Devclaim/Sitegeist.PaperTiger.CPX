@@ -1,3 +1,4 @@
 Sitegeist.PaperTiger.CPX:Field.Dropdown:
   superTypes:
-    'Sitegeist.PaperTiger.CPX:Mixin.Field.Dropdown': true
+    # ¯\_(ツ)_/¯
+    'Sitegeist.PaperTiger.CPX:Mixin.Options': true

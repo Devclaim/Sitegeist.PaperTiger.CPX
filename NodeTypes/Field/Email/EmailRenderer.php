@@ -7,6 +7,7 @@ namespace Sitegeist\PaperTiger\CPX\NodeTypes\Field\Email;
 use PackageFactory\ComponentEngine\ComponentInterface;
 use PackageFactory\Neos\ComponentEngine\Integration\ContentNodeRendererInterface;
 use PackageFactory\Neos\ComponentEngine\NeosContext;
+use PackageFactory\OPGM\Domain\ObjectPropertyGraphMapper;
 use Sitegeist\PaperTiger\CPX\Domain\PaperTigerFormState;
 use Sitegeist\PaperTiger\CPX\Components\Field\InputField\InputFieldProps;
 use Sitegeist\PaperTiger\CPX\Components\FieldContainer\FieldContainerProps;
@@ -23,14 +24,14 @@ final class EmailRenderer implements ContentNodeRendererInterface
 
     public function renderAsContent(NeosContext $context): ComponentInterface
     {
-        $name = $context->nodes->getStringValue($context->node, 'name') ?? $context->node->aggregateId->value;
+        $formField = ObjectPropertyGraphMapper::map($context->node, $context->subgraph, Email::class);
         $formState = PaperTigerFormState::fromRequest($context->request);
         $fieldContainer = FieldContainerProps::create(
-            id: 'fieldcontainer_' . $name,
-            label: $context->nodes->getStringValue($context->node, 'label'),
-            inputId: 'field_' . $name,
-            isRequired: $context->nodes->getBoolValue($context->node, 'isRequired'),
-            hasErrors: $formState?->hasErrorsFor($name),
+            id: 'fieldcontainer_' . $formField->name,
+            label: $formField->label,
+            inputId: 'field_' . $formField->name,
+            isRequired: $formField->isRequired,
+            hasErrors: $formState?->hasErrorsFor($formField->name),
         );
 
         return $this->fieldContainerFactory->create(
@@ -39,16 +40,16 @@ final class EmailRenderer implements ContentNodeRendererInterface
                 field: InputFieldProps::create(
                     fieldContainer: $fieldContainer,
                     type: 'email',
-                    name: $name,
-                    value: $formState?->getStringValue($name),
-                    placeholder: $context->nodes->getStringValue($context->node, 'placeholder'),
-                    isRequired: $context->nodes->getBoolValue($context->node, 'isRequired'),
+                    name: $formField->name,
+                    value: $formState?->getStringValue($formField->name),
+                    placeholder: $formField->placeholder,
+                    isRequired: $formField->isRequired,
                     minimumLength: null,
                     maximumLength: null,
                     regularExpression: null,
                     step: null,
-                    customErrorMessageEnabled: $context->nodes->getBoolValue($context->node, 'customErrorMessageEnabled'),
-                    customErrorMessage: $context->nodes->getStringValue($context->node, 'customErrorMessage'),
+                    customErrorMessageEnabled: $formField->customErrorMessageEnabled,
+                    customErrorMessage: $formField->customErrorMessage,
                 ),
             ),
         );

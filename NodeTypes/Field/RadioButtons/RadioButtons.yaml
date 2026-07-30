@@ -1,3 +1,4 @@
 Sitegeist.PaperTiger.CPX:Field.RadioButtons:
   superTypes:
-    'Sitegeist.PaperTiger.CPX:Mixin.Field.RadioButtons': true
+    #¯\_(ツ)_/¯
+    'Sitegeist.PaperTiger.CPX:Mixin.Options': true

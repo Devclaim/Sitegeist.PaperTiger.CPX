@@ -8,6 +8,7 @@ use PackageFactory\ComponentEngine\ComponentCollection;
 use PackageFactory\ComponentEngine\ComponentInterface;
 use PackageFactory\Neos\ComponentEngine\Integration\ContentNodeRendererInterface;
 use PackageFactory\Neos\ComponentEngine\NeosContext;
+use PackageFactory\OPGM\Domain\ObjectPropertyGraphMapper;
 use Sitegeist\PaperTiger\CPX\Components\Field\AltchaField\AltchaField;
 use Sitegeist\PaperTiger\CPX\Components\Field\AltchaField\AltchaFieldProps;
 use Sitegeist\PaperTiger\CPX\NodeTypes\Field\FieldContainerFactory;
@@ -23,12 +24,14 @@ final class AltchaRenderer implements ContentNodeRendererInterface
 
     public function renderAsContent(NeosContext $context): ComponentInterface
     {
+        $altcha = ObjectPropertyGraphMapper::map($context->node, $context->subgraph, Altcha::class);
+
         return $this->fieldContainerFactory->create(
             $context,
             ComponentCollection::list(
                 AltchaField::create(
                     field: AltchaFieldProps::create(
-                        name: $context->nodes->getStringValue($context->node, 'name'),
+                        name: $altcha->name,
                         challengeUrl: '/altcha',
                     ),
                 ),

@@ -7,6 +7,7 @@ namespace Sitegeist\PaperTiger\CPX\NodeTypes\Field\Text\MultiLine;
 use PackageFactory\ComponentEngine\ComponentInterface;
 use PackageFactory\Neos\ComponentEngine\Integration\ContentNodeRendererInterface;
 use PackageFactory\Neos\ComponentEngine\NeosContext;
+use PackageFactory\OPGM\Domain\ObjectPropertyGraphMapper;
 use Sitegeist\PaperTiger\CPX\Domain\PaperTigerFormState;
 use Sitegeist\PaperTiger\CPX\Components\Field\TextareaField\TextareaFieldProps;
 use Sitegeist\PaperTiger\CPX\Components\FieldContainer\FieldContainerProps;
@@ -23,17 +24,14 @@ final class MultiLineRenderer implements ContentNodeRendererInterface
 
     public function renderAsContent(NeosContext $context): ComponentInterface
     {
-        $name = $context->nodes->getStringValue($context->node, 'name') ?? $context->node->aggregateId->value;
+        $formField = ObjectPropertyGraphMapper::map($context->node, $context->subgraph, MultiLine::class);
         $formState = PaperTigerFormState::fromRequest($context->request);
-        $lineNumber = $context->nodes->getIntValue($context->node, 'lineNumber');
-        $minimumLength = $context->nodes->getIntValue($context->node, 'minimumLength');
-        $maximumLength = $context->nodes->getIntValue($context->node, 'maximumLength');
         $fieldContainer = FieldContainerProps::create(
-            id: 'fieldcontainer_' . $name,
-            label: $context->nodes->getStringValue($context->node, 'label'),
-            inputId: 'field_' . $name,
-            isRequired: $context->nodes->getBoolValue($context->node, 'isRequired'),
-            hasErrors: $formState?->hasErrorsFor($name),
+            id: 'fieldcontainer_' . $formField->name,
+            label: $formField->label,
+            inputId: 'field_' . $formField->name,
+            isRequired: $formField->isRequired,
+            hasErrors: $formState?->hasErrorsFor($formField->name),
         );
 
         return $this->fieldContainerFactory->create(
@@ -41,15 +39,15 @@ final class MultiLineRenderer implements ContentNodeRendererInterface
             $this->fieldComponentFactory->createTextarea(
                 field: TextareaFieldProps::create(
                     fieldContainer: $fieldContainer,
-                    name: $name,
-                    value: $formState?->getStringValue($name),
-                    placeholder: $context->nodes->getStringValue($context->node, 'placeholder'),
-                    isRequired: $context->nodes->getBoolValue($context->node, 'isRequired'),
-                    lineNumber: $lineNumber,
-                    minimumLength: $minimumLength,
-                    maximumLength: $maximumLength,
-                    customErrorMessageEnabled: $context->nodes->getBoolValue($context->node, 'customErrorMessageEnabled'),
-                    customErrorMessage: $context->nodes->getStringValue($context->node, 'customErrorMessage'),
+                    name: $formField->name,
+                    value: $formState?->getStringValue($formField->name),
+                    placeholder: $formField->placeholder,
+                    isRequired: $formField->isRequired,
+                    lineNumber: $formField->lineNumber,
+                    minimumLength: $formField->minimumLength,
+                    maximumLength: $formField->maximumLength,
+                    customErrorMessageEnabled: $formField->customErrorMessageEnabled,
+                    customErrorMessage: $formField->customErrorMessage,
                 ),
             ),
         );

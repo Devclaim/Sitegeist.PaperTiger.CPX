@@ -7,6 +7,7 @@ namespace Sitegeist\PaperTiger\CPX\NodeTypes\Field\Upload;
 use PackageFactory\ComponentEngine\ComponentInterface;
 use PackageFactory\Neos\ComponentEngine\Integration\ContentNodeRendererInterface;
 use PackageFactory\Neos\ComponentEngine\NeosContext;
+use PackageFactory\OPGM\Domain\ObjectPropertyGraphMapper;
 use Sitegeist\PaperTiger\CPX\Domain\PaperTigerFormState;
 use Sitegeist\PaperTiger\CPX\Components\Field\UploadField\UploadFieldProps;
 use Sitegeist\PaperTiger\CPX\Components\FieldContainer\FieldContainerProps;
@@ -23,12 +24,10 @@ final class UploadRenderer implements ContentNodeRendererInterface
 
     public function renderAsContent(NeosContext $context): ComponentInterface
     {
-        $name = $context->nodes->getStringValue($context->node, 'name') ?? $context->node->aggregateId->value;
+        $formField = ObjectPropertyGraphMapper::map($context->node, $context->subgraph, Upload::class);
         $formState = PaperTigerFormState::fromRequest($context->request);
-        $allowedExtensions = $context->node->getProperty('allowedExtensions');
-        $allowedFilesize = $context->nodes->getIntValue($context->node, 'allowedFilesize');
         $accept = null;
-        if (is_array($allowedExtensions) && $allowedExtensions !== []) {
+        if ($formField->allowedExtensions !== []) {
             $extensionToMime = [
                 'jpeg' => 'image/jpeg',
                 'jpg' => 'image/jpeg',
@@ -46,7 +45,7 @@ final class UploadRenderer implements ContentNodeRendererInterface
             ];
 
             $acceptItems = [];
-            foreach ($allowedExtensions as $item) {
+            foreach ($formField->allowedExtensions as $item) {
                 if (!is_string($item) || $item === '') {
                     continue;
                 }
@@ -59,15 +58,13 @@ final class UploadRenderer implements ContentNodeRendererInterface
                 $accept = implode(', ', $acceptItems);
             }
         }
-        $isMultiple = $context->nodes->getBoolValue($context->node, 'isMultiple') ?? false;
-        $fieldName = $isMultiple ? $name . '[]' : $name;
 
         $fieldContainer = FieldContainerProps::create(
-            id: 'fieldcontainer_' . $name,
-            label: $context->nodes->getStringValue($context->node, 'label'),
-            inputId: 'field_' . $name,
-            isRequired: $context->nodes->getBoolValue($context->node, 'isRequired'),
-            hasErrors: $formState?->hasErrorsFor($name),
+            id: 'fieldcontainer_' . $formField->name,
+            label: $formField->label,
+            inputId: 'field_' . $formField->name,
+            isRequired: $formField->isRequired,
+            hasErrors: $formState?->hasErrorsFor($formField->name),
         );
 
         return $this->fieldContainerFactory->create(
@@ -75,14 +72,14 @@ final class UploadRenderer implements ContentNodeRendererInterface
             $this->fieldComponentFactory->createUpload(
                 field: UploadFieldProps::create(
                     fieldContainer: $fieldContainer,
-                    name: $fieldName,
-                    isMultiple: $isMultiple,
-                    isRequired: $context->nodes->getBoolValue($context->node, 'isRequired'),
+                    name: $formField->isMultiple ? $formField->name . '[]' : $formField->name,
+                    isMultiple: $formField->isMultiple,
+                    isRequired: $formField->isRequired,
                     accept: $accept,
-                    allowedExtensions: is_array($allowedExtensions) ? implode(',', $allowedExtensions) : null,
-                    allowedFilesize: $allowedFilesize,
-                    customErrorMessageEnabled: $context->nodes->getBoolValue($context->node, 'customErrorMessageEnabled'),
-                    customErrorMessage: $context->nodes->getStringValue($context->node, 'customErrorMessage'),
+                    allowedExtensions: implode(',', $formField->allowedExtensions),
+                    allowedFilesize: $formField->allowedFilesize,
+                    customErrorMessageEnabled: $formField->customErrorMessageEnabled,
+                    customErrorMessage: $formField->customErrorMessage,
                 ),
             ),
         );

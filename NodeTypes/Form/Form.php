@@ -19,8 +19,13 @@ use Sitegeist\PaperTiger\CPX\Components\Form\ActionType;
 use Sitegeist\PaperTiger\CPX\Components\Form\FormMode;
 use Sitegeist\PaperTiger\CPX\NodeTypes\Actions\Actions;
 use Sitegeist\PaperTiger\CPX\NodeTypes\Field\FieldConstraint;
+use Vendor\WheelInventor\NodeTypes\Content\ContentProperties;
 
-#[NodeTypeDeclaration]
+#[NodeTypeDeclaration(
+    new NodeTypeConstraintsDeclaration(fqns: [
+        FieldConstraint::class => true,
+    ]),
+)]
 #[NodeTypeUiConfiguration(
     label: 'i18n',
     icon: 'wpforms',
@@ -33,13 +38,10 @@ use Sitegeist\PaperTiger\CPX\NodeTypes\Field\FieldConstraint;
     icon: 'wpforms',
     position: '10',
 )]
-#[NodeTypeConstraintsDeclaration(fqns: [
-    FieldConstraint::class => true,
-])]
 #[Flow\Proxy(false)]
-final readonly class Form extends ContentCollection implements Actions
+final readonly class Form extends ContentCollection implements Content, Actions
 {
-    use Content;
+    use ContentProperties;
 
     public function __construct(
         #[EnumSelectBoxEditorConfiguration(

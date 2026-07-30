@@ -8,6 +8,7 @@ use PackageFactory\ComponentEngine\SlotComponent;
 use PackageFactory\ComponentEngine\ComponentInterface;
 use PackageFactory\Neos\ComponentEngine\Integration\ContentNodeRendererInterface;
 use PackageFactory\Neos\ComponentEngine\NeosContext;
+use PackageFactory\OPGM\Domain\ObjectPropertyGraphMapper;
 use Sitegeist\PaperTiger\CPX\Domain\PaperTigerFormState;
 use Sitegeist\PaperTiger\CPX\Components\Field\CheckboxGroupField\CheckboxGroupField;
 use Sitegeist\PaperTiger\CPX\Components\Field\CheckboxGroupField\CheckboxGroupFieldProps;
@@ -26,17 +27,14 @@ final class CheckBoxesRenderer implements ContentNodeRendererInterface
 
     public function renderAsContent(NeosContext $context): ComponentInterface
     {
-        $name = $context->nodes->getStringValue($context->node, 'name') ?? $context->node->aggregateId->value;
+        $checkboxes = ObjectPropertyGraphMapper::map($context->node, $context->subgraph, CheckBoxes::class);
         $formState = PaperTigerFormState::fromRequest($context->request);
-        $isRequired = $context->nodes->getBoolValue($context->node, 'isRequired');
-        $customErrorMessageEnabled = $context->nodes->getBoolValue($context->node, 'customErrorMessageEnabled');
-        $customErrorMessage = $context->nodes->getStringValue($context->node, 'customErrorMessage');
         $fieldContainer = FieldContainerProps::create(
-            id: 'fieldcontainer_' . $name,
+            id: 'fieldcontainer_' . $checkboxes->name,
             label: $context->nodes->getStringValue($context->node, 'label'),
-            inputId: 'field_' . $name,
-            isRequired: $isRequired,
-            hasErrors: $formState?->hasErrorsFor($name),
+            inputId: 'field_' . $checkboxes->name,
+            isRequired: $checkboxes->isRequired,
+            hasErrors: $formState?->hasErrorsFor($checkboxes->name),
         );
 
         return $this->fieldContainerFactory->create(
@@ -44,20 +42,20 @@ final class CheckBoxesRenderer implements ContentNodeRendererInterface
             CheckboxGroupField::create(
                 field: CheckboxGroupFieldProps::create(
                     fieldContainer: $fieldContainer,
-                    name: $name,
-                    isRequired: $isRequired,
-                    customErrorMessageEnabled: $customErrorMessageEnabled,
-                    customErrorMessage: $customErrorMessage,
+                    name: $checkboxes->name,
+                    isRequired: $checkboxes->isRequired,
+                    customErrorMessageEnabled: $checkboxes->customErrorMessageEnabled,
+                    customErrorMessage: $checkboxes->customErrorMessage,
                 ),
                 content: $this->renderCheckboxOptions(
                     $this->normalizeOptions(
                         $context->node->getProperty('options'),
                     ),
-                    $name,
-                    $formState?->getStringValues($name) ?? [],
-                    $isRequired,
-                    $customErrorMessageEnabled,
-                    $customErrorMessage,
+                    $checkboxes->name,
+                    $formState?->getStringValues($checkboxes->name) ?? [],
+                    $checkboxes->isRequired,
+                    $checkboxes->customErrorMessageEnabled,
+                    $checkboxes->customErrorMessage,
                 ),
             ),
         );
@@ -87,8 +85,7 @@ final class CheckBoxesRenderer implements ContentNodeRendererInterface
         ?bool $isRequired = null,
         ?bool $customErrorMessageEnabled = null,
         ?string $customErrorMessage = null,
-    ): ComponentInterface|string|null
-    {
+    ): ComponentInterface|string|null {
         $parts = [];
 
         foreach ($options as $option) {

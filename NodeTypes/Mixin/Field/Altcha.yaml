@@ -1,9 +1,0 @@
-Sitegeist.PaperTiger.CPX:Mixin.Field.Altcha:
-  abstract: true
-  ui:
-    label: 'Altcha (Captcha)'
-    icon: 'wrench'
-    group: form.special
-
-  superTypes:
-    'Sitegeist.PaperTiger.CPX:Field': true

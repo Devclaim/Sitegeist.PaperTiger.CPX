@@ -13,6 +13,7 @@ Sitegeist.PaperTiger.CPX:Mixin.Options:
           editorOptions:
             isCollection: true
             isSortable: true
+            # class does not exit ¯\_(ツ)_/¯
             itemType: Sitegeist\PaperTiger\Domain\OptionSpecification
             labels:
               # TODO: Not translatable

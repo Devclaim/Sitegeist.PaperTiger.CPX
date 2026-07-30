@@ -1,3 +1,4 @@
 Sitegeist.PaperTiger.CPX:Field.CheckBoxes:
   superTypes:
-    'Sitegeist.PaperTiger.CPX:Mixin.Field.CheckBoxes': true
+    # ¯\_(ツ)_/¯
+    'Sitegeist.PaperTiger.CPX:Mixin.Options': true

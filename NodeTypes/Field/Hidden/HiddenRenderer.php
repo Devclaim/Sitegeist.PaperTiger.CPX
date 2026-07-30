@@ -7,6 +7,7 @@ namespace Sitegeist\PaperTiger\CPX\NodeTypes\Field\Hidden;
 use PackageFactory\ComponentEngine\ComponentInterface;
 use PackageFactory\Neos\ComponentEngine\Integration\ContentNodeRendererInterface;
 use PackageFactory\Neos\ComponentEngine\NeosContext;
+use PackageFactory\OPGM\Domain\ObjectPropertyGraphMapper;
 use Sitegeist\PaperTiger\CPX\Components\Field\HiddenField\HiddenField;
 use Sitegeist\PaperTiger\CPX\Components\Field\HiddenField\HiddenFieldProps;
 use Sitegeist\PaperTiger\CPX\NodeTypes\Field\FieldContainerFactory;
@@ -20,25 +21,24 @@ final class HiddenRenderer implements ContentNodeRendererInterface
 
     public function renderAsContent(NeosContext $context): ComponentInterface
     {
-        $name = $context->nodes->getStringValue($context->node, 'name') ?? $context->node->aggregateId->value;
-        $isEdit = $context->renderingMode->isEdit;
+        $formField = ObjectPropertyGraphMapper::map($context->node, $context->subgraph, Hidden::class);
 
         $hiddenField = HiddenField::create(
             field: HiddenFieldProps::create(
-                name: $name,
-                value: $context->nodes->getStringValue($context->node, 'value'),
-                inBackend: $isEdit,
+                name: $formField->name,
+                value: $formField->value,
+                inBackend: $context->renderingMode->isEdit,
             ),
         );
 
-        if (!$isEdit) {
+        if (!$context->renderingMode->isEdit) {
             return $hiddenField;
         }
 
         return $this->fieldContainerFactory->create(
-            $context,
-            $hiddenField,
-            label: $name,
+            context: $context,
+            content: $hiddenField,
+            label: $formField->name,
             isRequired: false,
         );
     }
