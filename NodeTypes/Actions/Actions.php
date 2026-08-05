@@ -23,7 +23,6 @@ use PackageFactory\OPGM\NeosAdapter\PropertyDeclaration\PropertyUiConfiguration;
 use Sitegeist\PaperTiger\CPX\Application\EmailActionEditorConfiguration;
 use Sitegeist\PaperTiger\CPX\Application\MessageActionViewConfiguration;
 use Sitegeist\PaperTiger\CPX\Application\PaperTigerFieldTokensConfiguration;
-use Sitegeist\PaperTiger\CPX\Application\VisibilityConfiguration;
 use Sitegeist\PaperTiger\CPX\Components\Form\ActionType;
 
 #[NodeTypeDeclaration]
@@ -97,8 +96,10 @@ interface Actions
         label: 'Sitegeist.PaperTiger.CPX:NodeTypes.Action:builtInTypes.redirect',
         reloadIfChanged: true,
     )]
-    #[InspectorConfiguration(group: 'actions-message')]
-    #[VisibilityConfiguration(hidden: 'ClientEval:node.properties.actionType !== "redirect"')]
+    #[InspectorConfiguration(
+        group: 'actions-message',
+        hidden: 'ClientEval:node.properties.actionType !== "redirect"',
+    )]
     #[LinkEditorConfiguration(
         linkTypes: new LinkTypes(
             web: new WebLinkOptions(enabled: true),
