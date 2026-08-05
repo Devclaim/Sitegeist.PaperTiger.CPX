@@ -7,7 +7,7 @@ namespace Sitegeist\PaperTiger\CPX\NodeTypes\Field\CheckBoxes;
 use Neos\Flow\Annotations as Flow;
 use PackageFactory\OPGM\Domain\NodeType\NodeTypeDeclaration;
 use PackageFactory\OPGM\NeosAdapter\NodeTypeDeclaration\NodeTypeUiConfiguration;
-use Sitegeist\PaperTiger\CPX\NodeTypes\Field\CustomErrorMessageProperties;
+use Sitegeist\PaperTiger\CPX\NodeTypes\Mixin\CustomErrorMessageProperties;
 use Sitegeist\PaperTiger\CPX\NodeTypes\Field\FormField;
 use Sitegeist\PaperTiger\CPX\NodeTypes\Field\FormFieldProperties;
 use Sitegeist\PaperTiger\CPX\NodeTypes\Mixin\CustomErrorMessageProvider;

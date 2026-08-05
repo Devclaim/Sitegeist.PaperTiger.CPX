@@ -10,7 +10,7 @@ namespace Sitegeist\PaperTiger\CPX\NodeTypes\Mixin\Validation;
 trait PatternValidationProperties
 {
     public function __construct(
-        public ?string $regularExpression,
+        public readonly ?string $regularExpression,
         public readonly ?string $patternMessage,
         public readonly bool $patternUseCustomMessage = false,
     ) {

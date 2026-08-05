@@ -2,9 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Sitegeist\PaperTiger\CPX\NodeTypes\Field;
-
-use Sitegeist\PaperTiger\CPX\NodeTypes\Mixin\CustomErrorMessageProvider;
+namespace Sitegeist\PaperTiger\CPX\NodeTypes\Mixin;
 
 /**
  * backing trait for {@see CustomErrorMessageProvider}

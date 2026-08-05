@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Sitegeist\PaperTiger\CPX\NodeTypes\Field;
+namespace Sitegeist\PaperTiger\CPX\NodeTypes\Mixin;
 
 use PackageFactory\OPGM\Domain\NodeType\NodeTypeDeclaration;
 use PackageFactory\OPGM\NeosAdapter\PropertyDeclaration\InspectorConfiguration;
