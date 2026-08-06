@@ -8,11 +8,10 @@ use Neos\Neos\NodeTypes\Content;
 use PackageFactory\OPGM\Domain\NodeType\NodeTypeDeclaration;
 use PackageFactory\OPGM\NeosAdapter\NodeTypeDeclaration\InspectorGroupDeclaration;
 use PackageFactory\OPGM\NeosAdapter\NodeTypeDeclaration\InspectorTabDeclaration;
+use PackageFactory\OPGM\NeosAdapter\NodeTypes\NeosLabelProvider;
 use Sitegeist\PaperTiger\CPX\NodeTypes\Mixin\NameProvider;
 
-#[NodeTypeDeclaration(
-    label: '${(q(node).property("isRequired") ? "*" : "") + Neos.Node.labelForNode(node).properties("label", "name")}'
-)]
+#[NodeTypeDeclaration]
 #[InspectorTabDeclaration(
     name: 'form-validation',
     label: 'Sitegeist.PaperTiger.CPX:Main:validation.tab',
@@ -37,7 +36,7 @@ use Sitegeist\PaperTiger\CPX\NodeTypes\Mixin\NameProvider;
     icon: 'icon-list-alt',
     position: '50'
 )]
-interface FormField extends Content, FieldConstraint, NameProvider
+interface FormField extends Content, FieldConstraint, NameProvider, NeosLabelProvider
 {
 }
 

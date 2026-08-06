@@ -14,4 +14,9 @@ trait FormFieldProperties
     use ContentProperties;
 
     public readonly string $name;
+
+    public function getLabel(): string
+    {
+        return ($this->isRequired ? '*' : '') . ($this->label ?? $this->name);
+    }
 }
