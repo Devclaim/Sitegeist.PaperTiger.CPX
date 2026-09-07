@@ -39,7 +39,7 @@ use Vendor\WheelInventor\NodeTypes\Content\ContentProperties;
     position: '10',
 )]
 #[Flow\Proxy(false)]
-final readonly class Form extends ContentCollection implements Content, Actions
+readonly class Form extends ContentCollection implements Content, Actions
 {
     use ContentProperties;
 
