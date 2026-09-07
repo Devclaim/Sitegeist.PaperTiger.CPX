@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Sitegeist\PaperTiger\CPX\NodeTypes\Field;
 
 use Neos\Neos\NodeTypes\ContentProperties;
+use PackageFactory\OPGM\NeosAdapter\Infrastructure\NodeLabelRenderingAccessInterface;
 
 /**
  * backing trait for {@see FormField}
@@ -18,5 +19,10 @@ trait FormFieldProperties
     public function getLabel(): string
     {
         return ($this->isRequired ? '*' : '') . ($this->label ?? $this->name);
+    }
+
+    public function getNeosLabel(NodeLabelRenderingAccessInterface $nodeLabelRenderingAccess): ?string
+    {
+        return $this->getLabel();
     }
 }
