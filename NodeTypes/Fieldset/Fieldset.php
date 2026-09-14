@@ -6,12 +6,12 @@ namespace Sitegeist\PaperTiger\CPX\NodeTypes\Fieldset;
 
 use Neos\Flow\Annotations as Flow;
 use Neos\Neos\NodeTypes\Content;
+use Neos\Neos\NodeTypes\ContentProperties;
 use PackageFactory\OPGM\Domain\NodeType\NodeTypeDeclaration;
 use PackageFactory\OPGM\NeosAdapter\NodeTypeDeclaration\NodeTypeUiConfiguration;
 use Sitegeist\PaperTiger\CPX\NodeTypes\Field\FieldCollection;
 use Sitegeist\PaperTiger\CPX\NodeTypes\Field\FieldConstraint;
 use Sitegeist\PaperTiger\CPX\NodeTypes\Mixin\LabelProvider;
-use Vendor\WheelInventor\NodeTypes\Content\ContentProperties;
 
 #[NodeTypeDeclaration]
 #[NodeTypeUiConfiguration(
