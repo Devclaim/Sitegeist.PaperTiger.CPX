@@ -5,12 +5,12 @@ declare(strict_types=1);
 namespace Sitegeist\PaperTiger\CPX\NodeTypes\Field\Button;
 
 use Neos\Flow\Annotations as Flow;
+use Neos\Neos\NodeTypes\Content;
+use Neos\Neos\NodeTypes\ContentProperties;
 use PackageFactory\OPGM\Domain\NodeType\NodeTypeDeclaration;
 use PackageFactory\OPGM\NeosAdapter\NodeTypeDeclaration\NodeTypeUiConfiguration;
 use Sitegeist\PaperTiger\CPX\NodeTypes\Field\FieldConstraint;
 use Sitegeist\PaperTiger\CPX\NodeTypes\Mixin\LabelProvider;
-use Vendor\WheelInventor\NodeTypes\Content\Content;
-use Vendor\WheelInventor\NodeTypes\Content\ContentProperties;
 
 #[NodeTypeDeclaration]
 #[NodeTypeUiConfiguration(
