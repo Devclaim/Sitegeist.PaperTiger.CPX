@@ -8,6 +8,7 @@ use Neos\Flow\Annotations as Flow;
 use Neos\Neos\Domain\Link\Link;
 use Neos\Neos\NodeTypes\Content;
 use Neos\Neos\NodeTypes\ContentCollection;
+use Neos\Neos\NodeTypes\ContentProperties;
 use PackageFactory\OPGM\Domain\NodeType\NodeTypeConstraintsDeclaration;
 use PackageFactory\OPGM\Domain\NodeType\NodeTypeDeclaration;
 use PackageFactory\OPGM\NeosAdapter\NodeTypeDeclaration\InspectorGroupDeclaration;
@@ -19,7 +20,6 @@ use Sitegeist\PaperTiger\CPX\Components\Form\ActionType;
 use Sitegeist\PaperTiger\CPX\Components\Form\FormMode;
 use Sitegeist\PaperTiger\CPX\NodeTypes\Actions\Actions;
 use Sitegeist\PaperTiger\CPX\NodeTypes\Field\FieldConstraint;
-use Vendor\WheelInventor\NodeTypes\Content\ContentProperties;
 
 #[NodeTypeDeclaration(
     new NodeTypeConstraintsDeclaration(fqns: [
