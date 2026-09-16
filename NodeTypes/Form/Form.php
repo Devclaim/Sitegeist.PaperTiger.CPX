@@ -25,7 +25,6 @@ use Sitegeist\PaperTiger\CPX\NodeTypes\Field\FieldCollection;
 use Sitegeist\PaperTiger\CPX\NodeTypes\Field\FieldConstraint;
 use Sitegeist\PaperTiger\CPX\NodeTypes\Field\FormField;
 use Sitegeist\PaperTiger\CPX\NodeTypes\Field\FormFields;
-use Vendor\WheelInventor\NodeTypes\Content\ContentProperties;
 
 #[NodeTypeDeclaration(
     new NodeTypeConstraintsDeclaration(fqns: [

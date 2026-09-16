@@ -25,7 +25,6 @@ interface DropdownProvider extends FormField
     )]
     #[InspectorConfiguration(
         group: 'form',
-        position: 'before options',
     )]
     public bool $emptyOptionEnabled {get;}
 
