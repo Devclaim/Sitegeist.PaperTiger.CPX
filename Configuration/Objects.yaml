@@ -1,0 +1,4 @@
+Sitegeist\PaperTiger\CPX\Infrastructure\AltchaService:
+  arguments:
+    1:
+      setting: 'Sitegeist.PaperTiger.CPX.Altcha.secret'

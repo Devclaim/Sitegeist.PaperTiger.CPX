@@ -13,7 +13,7 @@ final class RedirectAction extends AbstractAction
     #[Flow\Inject]
     protected UriFactoryInterface $uriFactory;
 
-    public function perform(): ?ActionResponse
+    public function perform(): ActionResponse
     {
         $uri = $this->options['uri'] ?? null;
         if (!is_string($uri) || $uri === '') {

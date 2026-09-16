@@ -33,7 +33,7 @@ use Sitegeist\PaperTiger\CPX\Components\Message\MessageProps;
 final class FieldComponentFactory
 {
     /**
-     * @param array{
+     * @var array{
      *   fieldContainer?: class-string<ComponentInterface>,
      *   label?: class-string<ComponentInterface>,
      *   error?: class-string<ComponentInterface>,

@@ -4,21 +4,21 @@ declare(strict_types=1);
 
 namespace Sitegeist\PaperTiger\CPX\Domain;
 
-use Neos\ContentRepository\Core\Projection\ContentGraph\Filter\FindChildNodesFilter;
-use Neos\ContentRepository\Core\Projection\ContentGraph\Node;
 use Neos\Error\Messages\Error;
 use Neos\Flow\Mvc\ActionRequest;
 use PackageFactory\Neos\ComponentEngine\NeosContext;
-use Sitegeist\PaperTiger\CPX\Domain\Validation\Schema\FieldSchemaProviderResolver;
+use Sitegeist\PaperTiger\CPX\Domain\Validation\FieldSchemaResolver;
 use Sitegeist\PaperTiger\CPX\Domain\Validation\ValidationError;
 use Sitegeist\PaperTiger\CPX\Dto\FormSubmissionValidationError;
 use Sitegeist\PaperTiger\CPX\Dto\FormSubmissionValidationErrorCollection;
+use Sitegeist\PaperTiger\CPX\NodeTypes\Field\FormField;
+use Sitegeist\PaperTiger\CPX\NodeTypes\Mixin\CustomErrorMessageProvider;
 
 final class FormSubmissionValidator
 {
     public function __construct(
         private readonly FormSubmissionContextResolver $formSubmissionContextResolver,
-        private readonly FieldSchemaProviderResolver $fieldSchemaProviderResolver,
+        private readonly FieldSchemaResolver $fieldSchemaProviderResolver,
     ) {
     }
 
@@ -41,8 +41,8 @@ final class FormSubmissionValidator
             );
         }
 
-        foreach ($this->resolveFieldNodes($context) as $fieldNode) {
-            [$fieldErrors, $convertedValue, $fieldName] = $this->validateField($context, $fieldNode, $validatedArguments);
+        foreach ($context->current->findFieldsRecursively() as $formField) {
+            [$fieldErrors, $convertedValue, $fieldName] = $this->validateField($formField, $validatedArguments);
             $errors = [...$errors, ...$fieldErrors];
 
             if ($fieldName !== null) {
@@ -57,91 +57,38 @@ final class FormSubmissionValidator
     }
 
     /**
-     * @return array<int, Node>
-     */
-    private function resolveFieldNodes(NeosContext $context): array
-    {
-        return $this->collectFieldNodes($context, $context->node);
-    }
-
-    /**
-     * @return array<int, Node>
-     */
-    private function collectFieldNodes(NeosContext $context, Node $collectionNode): array
-    {
-        $fieldNodes = [];
-
-        foreach ($context->subgraph->findChildNodes($collectionNode->aggregateId, FindChildNodesFilter::create()) as $childNode) {
-            $nodeType = $context->nodes->tryGetNodeType($childNode);
-
-            if ($nodeType?->isOfType('Sitegeist.PaperTiger.CPX:Fieldset')) {
-                $fieldNodes = [...$fieldNodes, ...$this->collectFieldNodes($context, $childNode)];
-                continue;
-            }
-
-            if ($nodeType?->isOfType('Sitegeist.PaperTiger.CPX:Field')) {
-                $fieldNodes[] = $childNode;
-            }
-        }
-
-        return $fieldNodes;
-    }
-
-    /**
      * @param array<string, mixed> $arguments
      * @return array{0: array<int, FormSubmissionValidationError>, 1: mixed, 2: ?string}
      */
-    private function validateField(NeosContext $context, Node $fieldNode, array $arguments): array
+    private function validateField(FormField $field, array $arguments): array
     {
-        $nodeType = $context->nodes->tryGetNodeType($fieldNode);
-        if ($nodeType === null) {
-            return [[], null, null];
-        }
+        $rawValue = $arguments[$field->name] ?? null;
 
-        $fieldName = $this->readString($context, $fieldNode, 'name') ?? $fieldNode->aggregateId->value;
-        $rawValue = $arguments[$fieldName] ?? null;
-
-        $schema = $this->fieldSchemaProviderResolver->resolve($context, $fieldNode);
-        if ($schema === null) {
-            return [[], $rawValue, $fieldName];
-        }
+        $schema = $this->fieldSchemaProviderResolver->resolve($field);
 
         $convertedValue = $schema->convert($rawValue);
         $effectiveValue = $convertedValue ?? $rawValue;
         $result = $schema->validate($effectiveValue);
 
         if (!$result->hasErrors()) {
-            return [[], $effectiveValue, $fieldName];
+            return [[], $effectiveValue, $field->name];
         }
 
-        $customErrorMessageEnabled = $this->readBool($context, $fieldNode, 'customErrorMessageEnabled') ?? false;
-        $customErrorMessage = $this->readString($context, $fieldNode, 'customErrorMessage');
-
-        if ($customErrorMessageEnabled && is_string($customErrorMessage) && $customErrorMessage !== '') {
-            return [[new FormSubmissionValidationError($fieldName, $customErrorMessage)], $effectiveValue, $fieldName];
+        if ($field instanceof CustomErrorMessageProvider && $field->customErrorMessageEnabled && $field->customErrorMessage) {
+            return [[new FormSubmissionValidationError($field->name, $field->customErrorMessage)], $effectiveValue, $field->name];
         }
 
         return [
             array_map(
                 static fn (Error $error): FormSubmissionValidationError => new FormSubmissionValidationError(
-                    fieldName: $fieldName,
+                    fieldName: $field->name,
                     message: $error->render(),
                     validationId: $error instanceof ValidationError ? $error->validationId : null,
                 ),
                 $result->getErrors(),
             ),
             $effectiveValue,
-            $fieldName,
+            $field->name,
         ];
-    }
-
-    private function readString(NeosContext $context, Node $node, string $propertyName): ?string
-    {
-        return $context->nodes->getStringValue($node, $propertyName);
-    }
-
-    private function readBool(NeosContext $context, Node $node, string $propertyName): ?bool
-    {
-        return $context->nodes->getBoolValue($node, $propertyName);
     }
 }

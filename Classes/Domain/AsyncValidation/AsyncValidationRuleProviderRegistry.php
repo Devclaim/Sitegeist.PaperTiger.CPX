@@ -31,7 +31,7 @@ final class AsyncValidationRuleProviderRegistry
             return $this->providers;
         }
 
-        /** @var array<string> $configured */
+        /** @var array<mixed> $configured */
         $configured = $this->configurationManager->getConfiguration(
             ConfigurationManager::CONFIGURATION_TYPE_SETTINGS,
             'Sitegeist.PaperTiger.CPX.asyncValidation.ruleProviders'

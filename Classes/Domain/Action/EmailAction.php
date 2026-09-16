@@ -57,7 +57,6 @@ final class EmailAction extends AbstractAction
         $this->applyBody($mail);
         $this->addAttachments($mail);
 
-        /** @phpstan-ignore-next-line */
         $this->objectManager->get($mailerServiceClassName)->getMailer()->send($mail);
 
         return null;

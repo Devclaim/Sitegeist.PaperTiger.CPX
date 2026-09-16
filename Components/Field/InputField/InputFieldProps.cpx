@@ -7,10 +7,12 @@ export struct InputFieldProps {
   value: ?string
   placeholder: ?string
   isRequired: ?boolean
+  /** @todo this is rather minimumValue */
   minimumLength: ?string
+  /** @todo this is rather maximumValue */
   maximumLength: ?string
   regularExpression: ?string
-  step: ?string
+  step: ?integer
   customErrorMessageEnabled: ?boolean
   customErrorMessage: ?string
 }

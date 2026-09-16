@@ -26,8 +26,9 @@ final readonly class Fieldset implements _\ComponentInterface
         );
     }
 
+    #[\Override]
     public function render(): string
     {
-        return '<fieldset' . (($temp = $this->fieldset->id) === null ? '' : ' id="' . _\Util::escapeAttributeValue($temp) . '"') . ' class="papertiger-fieldset"><legend class="papertiger-fieldset__legend">' . (($temp = $this->fieldset->label) === null ? '' : _\Util::escapeRenderValue($temp)) . '</legend>' . (($temp = $this->content) === null ? '' : $temp->render()) . '</fieldset>';
+        return '<fieldset' . ((($temp = $this->fieldset->id) === null) ? '' : ' id="' . _\Util::escapeAttributeValue($temp) . '"') . ' class="papertiger-fieldset"><legend class="papertiger-fieldset__legend">' . ((($temp = $this->fieldset->label) === null) ? '' : _\Util::escapeText($temp)) . '</legend>' . ((($temp = $this->content) === null) ? '' : $temp->render()) . '</fieldset>';
     }
 }

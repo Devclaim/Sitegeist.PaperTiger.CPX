@@ -25,8 +25,9 @@ final readonly class FieldNames implements _\ComponentInterface
         );
     }
 
+    #[\Override]
     public function render(): string
     {
-        return '<div class="papertiger-fieldnames"><span class="papertiger-fieldnames__describtion">' . _\Util::escapeRenderValue($this->description) . '</span><div class="papertiger-fieldnames__content">' . (($temp = $this->content) === null ? '' : $temp->render()) . '</div></div>';
+        return '<div class="papertiger-fieldnames"><span class="papertiger-fieldnames__describtion">' . _\Util::escapeText($this->description) . '</span><div class="papertiger-fieldnames__content">' . ((($temp = $this->content) === null) ? '' : $temp->render()) . '</div></div>';
     }
 }

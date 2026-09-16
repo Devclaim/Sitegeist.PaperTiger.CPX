@@ -8,6 +8,7 @@ use PackageFactory\OPGM\Domain\NodeType\NodeTypeDeclaration;
 use PackageFactory\OPGM\NeosAdapter\NodeTypeDeclaration\NodeTypeUiConfiguration;
 use PackageFactory\OPGM\NeosAdapter\PropertyDeclaration\InspectorConfiguration;
 use PackageFactory\OPGM\NeosAdapter\PropertyDeclaration\PropertyUiConfiguration;
+use Sitegeist\PaperTiger\CPX\NodeTypes\Field\FormField;
 
 #[NodeTypeDeclaration]
 #[NodeTypeUiConfiguration(
@@ -16,7 +17,7 @@ use PackageFactory\OPGM\NeosAdapter\PropertyDeclaration\PropertyUiConfiguration;
     group: 'form.elements',
     position: 600,
 )]
-interface DropdownProvider
+interface DropdownProvider extends FormField
 {
     #[PropertyUiConfiguration(
         label: 'i18n',

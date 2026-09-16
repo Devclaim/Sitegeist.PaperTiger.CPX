@@ -23,8 +23,9 @@ final readonly class Label implements _\ComponentInterface
         );
     }
 
+    #[\Override]
     public function render(): string
     {
-        return '<label' . (($temp = $this->label->inputId) === null ? '' : ' for="' . _\Util::escapeAttributeValue($temp) . '"') . ' class="papertiger-field__label">' . (($temp = $this->label->label) === null ? '' : _\Util::escapeRenderValue($temp)) . '' . ($this->label->isRequired ? '<span class="papertiger-field__required">*</span>' : '') . '</label>';
+        return '<label' . ((($temp = $this->label->inputId) === null) ? '' : ' for="' . _\Util::escapeAttributeValue($temp) . '"') . ' class="papertiger-field__label">' . ((($temp = $this->label->label) === null) ? '' : _\Util::escapeText($temp)) . (((($temp = $this->label->isRequired) === null) ? false : $temp) ? '<span class="papertiger-field__required">*</span>' : '') . '</label>';
     }
 }

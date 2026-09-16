@@ -124,10 +124,10 @@ export const EmailActionDialogContainer: React.FC = () => {
                 onRequestClose={closeEmailActionDialog}
                 actions={[
                     <Button type="button" onClick={closeEmailActionDialog}>
-                        {t('Sitegeist.PaperTiger.CPX:NodeTypes.Action.Email:dialog.discard')}
+                        {t('Sitegeist.PaperTiger.CPX:NodeTypes.Action.EmailFormField:dialog.discard')}
                     </Button>,
                     <Button style="success" type="button" onClick={handleApply} disabled={!dirtyState.isDirty || !emailValidation.isValid}>
-                        {t('Sitegeist.PaperTiger.CPX:NodeTypes.Action.Email:dialog.apply')}
+                        {t('Sitegeist.PaperTiger.CPX:NodeTypes.Action.EmailFormField:dialog.apply')}
                     </Button>
                 ]}
             >

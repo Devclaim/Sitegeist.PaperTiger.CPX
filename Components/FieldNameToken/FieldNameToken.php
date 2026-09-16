@@ -25,8 +25,9 @@ final readonly class FieldNameToken implements _\ComponentInterface
         );
     }
 
+    #[\Override]
     public function render(): string
     {
-        return '<span class="papertiger-fieldnames__item"><span class="papertiger-fieldnames__text">' . _\Util::escapeRenderValue($this->token) . '</span><button type="button" class="papertiger-fieldnames__button" title="' . _\Util::escapeAttributeValue($this->buttonTitle) . '">' . _\Util::escapeRenderValue($this->token) . '</button></span>';
+        return '<span class="papertiger-fieldnames__item"><span class="papertiger-fieldnames__text">' . _\Util::escapeText($this->token) . '</span><button type="button" class="papertiger-fieldnames__button" title="' . _\Util::escapeAttributeValue($this->buttonTitle) . '">' . _\Util::escapeText($this->token) . '</button></span>';
     }
 }

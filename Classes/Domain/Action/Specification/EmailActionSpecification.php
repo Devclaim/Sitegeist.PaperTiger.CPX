@@ -7,7 +7,7 @@ namespace Sitegeist\PaperTiger\CPX\Domain\Action\Specification;
 use Neos\Flow\Annotations as Flow;
 
 /**
- * Mirrors the current Sitegeist.PaperTiger.CPX:Action.Email child node.
+ * Mirrors the current Sitegeist.PaperTiger.CPX:Action.EmailFormField child node.
  *
  * The properties intentionally match the existing child node names so the
  * migration path from child nodes to a form property stays straightforward.

@@ -102,15 +102,15 @@ export const EmailCompatibilityPane = React.memo((props: EmailCompatibilityPaneP
 
     const headerHint = React.useMemo(() => {
         if (isInitialLoading) {
-            return t('Sitegeist.PaperTiger.CPX:NodeTypes.Action.Email:compat.loadingData');
+            return t('Sitegeist.PaperTiger.CPX:NodeTypes.Action.EmailFormField:compat.loadingData');
         }
         if (hasFatalError) {
-            return t('Sitegeist.PaperTiger.CPX:NodeTypes.Action.Email:compat.loadFailed');
+            return t('Sitegeist.PaperTiger.CPX:NodeTypes.Action.EmailFormField:compat.loadFailed');
         }
         if (remote.fetchedAt) {
             return `Datenstand: ${formatFetchedAt(remote.fetchedAt)}`;
         }
-        return t('Sitegeist.PaperTiger.CPX:NodeTypes.Action.Email:compat.dataSource');
+        return t('Sitegeist.PaperTiger.CPX:NodeTypes.Action.EmailFormField:compat.dataSource');
     }, [isInitialLoading, hasFatalError, remote.fetchedAt]);
 
     const {detected, overview} = analysis;
@@ -121,24 +121,24 @@ export const EmailCompatibilityPane = React.memo((props: EmailCompatibilityPaneP
                 <BackToEditorButton
                     type="button"
                     onClick={onBackToEditor}
-                    title={t('Sitegeist.PaperTiger.CPX:NodeTypes.Action.Email:compat.backToEditor')}
-                    aria-label={t('Sitegeist.PaperTiger.CPX:NodeTypes.Action.Email:compat.backToEditor')}
+                    title={t('Sitegeist.PaperTiger.CPX:NodeTypes.Action.EmailFormField:compat.backToEditor')}
+                    aria-label={t('Sitegeist.PaperTiger.CPX:NodeTypes.Action.EmailFormField:compat.backToEditor')}
                 >
                     <Icon icon="arrow-left" />
-                    {t('Sitegeist.PaperTiger.CPX:NodeTypes.Action.Email:compat.backToEditor')}
+                    {t('Sitegeist.PaperTiger.CPX:NodeTypes.Action.EmailFormField:compat.backToEditor')}
                 </BackToEditorButton>
                 <CompatLegend>
                     <CompatLegendItem>
                         <CompatStatusDot status="ok" />
-                        {t('Sitegeist.PaperTiger.CPX:NodeTypes.Action.Email:compat.supported')}
+                        {t('Sitegeist.PaperTiger.CPX:NodeTypes.Action.EmailFormField:compat.supported')}
                     </CompatLegendItem>
                     <CompatLegendItem>
                         <CompatStatusDot status="partial" />
-                        {t('Sitegeist.PaperTiger.CPX:NodeTypes.Action.Email:compat.partiallySupported')}
+                        {t('Sitegeist.PaperTiger.CPX:NodeTypes.Action.EmailFormField:compat.partiallySupported')}
                     </CompatLegendItem>
                     <CompatLegendItem>
                         <CompatStatusDot status="unsupported" />
-                        {t('Sitegeist.PaperTiger.CPX:NodeTypes.Action.Email:compat.notSupported')}
+                        {t('Sitegeist.PaperTiger.CPX:NodeTypes.Action.EmailFormField:compat.notSupported')}
                     </CompatLegendItem>
                 </CompatLegend>
                 <CompatPaneActions>
@@ -147,21 +147,21 @@ export const EmailCompatibilityPane = React.memo((props: EmailCompatibilityPaneP
                         type="button"
                         onClick={remote.refresh}
                         disabled={remote.refreshing || isInitialLoading}
-                        title={t('Sitegeist.PaperTiger.CPX:NodeTypes.Action.Email:compat.refreshData')}
+                        title={t('Sitegeist.PaperTiger.CPX:NodeTypes.Action.EmailFormField:compat.refreshData')}
                     >
-                        {remote.refreshing ? t('Sitegeist.PaperTiger.CPX:NodeTypes.Action.Email:compat.refreshing') : t('Sitegeist.PaperTiger.CPX:NodeTypes.Action.Email:compat.refresh')}
+                        {remote.refreshing ? t('Sitegeist.PaperTiger.CPX:NodeTypes.Action.EmailFormField:compat.refreshing') : t('Sitegeist.PaperTiger.CPX:NodeTypes.Action.EmailFormField:compat.refresh')}
                     </CompatRefreshButton>
                 </CompatPaneActions>
             </CompatPaneHeader>
             <CompatPaneBody>
                 {isInitialLoading ? (
                     <CompatLoading>
-                        {t('Sitegeist.PaperTiger.CPX:NodeTypes.Action.Email:compat.loadingCompatibility')}
+                        {t('Sitegeist.PaperTiger.CPX:NodeTypes.Action.EmailFormField:compat.loadingCompatibility')}
                     </CompatLoading>
                 ) : hasFatalError ? (
                     <CompatErrorBox>
                         <div>
-                            {t('Sitegeist.PaperTiger.CPX:NodeTypes.Action.Email:compat.loadFailed')}
+                            {t('Sitegeist.PaperTiger.CPX:NodeTypes.Action.EmailFormField:compat.loadFailed')}
                             {remote.error ? `: ${remote.error}` : ''}.
                         </div>
                         <CompatErrorActions>
@@ -170,20 +170,20 @@ export const EmailCompatibilityPane = React.memo((props: EmailCompatibilityPaneP
                                 onClick={remote.refresh}
                                 disabled={remote.refreshing}
                             >
-                                {remote.refreshing ? t('Sitegeist.PaperTiger.CPX:NodeTypes.Action.Email:compat.retrying') : t('Sitegeist.PaperTiger.CPX:NodeTypes.Action.Email:compat.retry')}
+                                {remote.refreshing ? t('Sitegeist.PaperTiger.CPX:NodeTypes.Action.EmailFormField:compat.retrying') : t('Sitegeist.PaperTiger.CPX:NodeTypes.Action.EmailFormField:compat.retry')}
                             </CompatRefreshButton>
                         </CompatErrorActions>
                     </CompatErrorBox>
                 ) : trimmedHtml.length === 0 ? (
                     <CompatEmpty>
-                        {t('Sitegeist.PaperTiger.CPX:NodeTypes.Action.Email:compat.noHtml')}
+                        {t('Sitegeist.PaperTiger.CPX:NodeTypes.Action.EmailFormField:compat.noHtml')}
                     </CompatEmpty>
                 ) : (
                     <>
                         {remote.status === 'ready' && remote.error && (
                             <CompatErrorBox>
                                 <div>
-                                    {t('Sitegeist.PaperTiger.CPX:NodeTypes.Action.Email:compat.refreshFailed')}: {remote.error}. {t('Sitegeist.PaperTiger.CPX:NodeTypes.Action.Email:compat.cachedDataShown')}
+                                    {t('Sitegeist.PaperTiger.CPX:NodeTypes.Action.EmailFormField:compat.refreshFailed')}: {remote.error}. {t('Sitegeist.PaperTiger.CPX:NodeTypes.Action.EmailFormField:compat.cachedDataShown')}
                                 </div>
                             </CompatErrorBox>
                         )}
@@ -207,11 +207,11 @@ export const EmailCompatibilityPane = React.memo((props: EmailCompatibilityPaneP
                             </CompatOverviewRow>
                         )}
                         <CompatSectionHeading>
-                            {t('Sitegeist.PaperTiger.CPX:NodeTypes.Action.Email:compat.features')} ({detected.length})
+                            {t('Sitegeist.PaperTiger.CPX:NodeTypes.Action.EmailFormField:compat.features')} ({detected.length})
                         </CompatSectionHeading>
                         {detected.length === 0 ? (
                             <CompatEmpty>
-                                {t('Sitegeist.PaperTiger.CPX:NodeTypes.Action.Email:compat.noFeaturesDetected')}
+                                {t('Sitegeist.PaperTiger.CPX:NodeTypes.Action.EmailFormField:compat.noFeaturesDetected')}
                             </CompatEmpty>
                         ) : (
                             <CompatFeatureList>
@@ -260,7 +260,7 @@ const FeatureRow: React.FC<FeatureRowProps> = ({feature, expanded, onToggle}) =>
     }, [feature.notesByNum, feature.versionIssues]);
 
     const showSlug = feature.title !== feature.slug;
-    const barTitle = `${supportedPct}% ${t('Sitegeist.PaperTiger.CPX:NodeTypes.Action.Email:compat.supported')} · ${partialPct}% ${t('Sitegeist.PaperTiger.CPX:NodeTypes.Action.Email:compat.legend.partial')} · ${unsupportedPct}% ${t('Sitegeist.PaperTiger.CPX:NodeTypes.Action.Email:compat.notSupported')}`;
+    const barTitle = `${supportedPct}% ${t('Sitegeist.PaperTiger.CPX:NodeTypes.Action.EmailFormField:compat.supported')} · ${partialPct}% ${t('Sitegeist.PaperTiger.CPX:NodeTypes.Action.EmailFormField:compat.legend.partial')} · ${unsupportedPct}% ${t('Sitegeist.PaperTiger.CPX:NodeTypes.Action.EmailFormField:compat.notSupported')}`;
 
     return (
         <CompatFeatureRow>
@@ -309,7 +309,7 @@ const FeatureRow: React.FC<FeatureRowProps> = ({feature, expanded, onToggle}) =>
                     {feature.versionIssues.length > 0 && (
                         <>
                             <CompatDetailHeading>
-                                {t('Sitegeist.PaperTiger.CPX:NodeTypes.Action.Email:compat.limitedClients')}
+                                {t('Sitegeist.PaperTiger.CPX:NodeTypes.Action.EmailFormField:compat.limitedClients')}
                             </CompatDetailHeading>
                             <CompatVersionList>
                                 {feature.versionIssues.map((issue, index) => (
@@ -330,7 +330,7 @@ const FeatureRow: React.FC<FeatureRowProps> = ({feature, expanded, onToggle}) =>
                     )}
                     {referencedNotes.length > 0 && (
                         <>
-                            <CompatDetailHeading>{t('Sitegeist.PaperTiger.CPX:NodeTypes.Action.Email:compat.notes')}</CompatDetailHeading>
+                            <CompatDetailHeading>{t('Sitegeist.PaperTiger.CPX:NodeTypes.Action.EmailFormField:compat.notes')}</CompatDetailHeading>
                             <CompatNotesList>
                                 {referencedNotes.map((num) => (
                                     <CompatNoteItem key={num}>
@@ -351,7 +351,7 @@ const FeatureRow: React.FC<FeatureRowProps> = ({feature, expanded, onToggle}) =>
                         target="_blank"
                         rel="noopener noreferrer"
                     >
-                        {t('Sitegeist.PaperTiger.CPX:NodeTypes.Action.Email:compat.onlineReference')} ↗
+                        {t('Sitegeist.PaperTiger.CPX:NodeTypes.Action.EmailFormField:compat.onlineReference')} ↗
                     </CompatReferenceLink>
                 </CompatFeatureDetails>
             )}

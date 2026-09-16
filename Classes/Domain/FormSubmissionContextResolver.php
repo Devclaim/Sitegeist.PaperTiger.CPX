@@ -8,34 +8,34 @@ use Neos\ContentRepository\Core\SharedModel\Node\NodeAddress;
 use Neos\Flow\Mvc\ActionRequest;
 use Neos\Flow\ObjectManagement\ObjectManagerInterface;
 use Neos\Neos\Domain\Model\RenderingMode;
+use Neos\Neos\NodeTypes\Document;
+use Neos\Neos\NodeTypes\Site;
 use PackageFactory\Neos\ComponentEngine\NeosContext;
+use Neos\Neos\Domain\NodeMapping\NodeMapperInterface;
 use PackageFactory\Neos\ComponentView\FrontendNeosContextProvider;
+use Sitegeist\PaperTiger\CPX\NodeTypes\Form\Form;
 
 final class FormSubmissionContextResolver
 {
     public function __construct(
         private readonly ObjectManagerInterface $objectManager,
+        private readonly NodeMapperInterface $nodeMapper,
     ) {
     }
 
     /**
      * @param array<string,mixed> $arguments
+     * @return NeosContext<Form,Document,Site>|null
      */
     public function resolveFormContext(ActionRequest $request, array $arguments): ?NeosContext
     {
         return $this->resolveContext($request, $arguments, 'paperTigerDocument', 'paperTigerNode');
     }
 
-    /**
-     * @param array<string,mixed> $arguments
-     */
-    public function resolveDocumentContext(ActionRequest $request, array $arguments): ?NeosContext
-    {
-        return $this->resolveContext($request, $arguments, 'paperTigerDocument');
-    }
 
     /**
      * @param array<string,mixed> $arguments
+     * @return NeosContext<Form,Document,Site>|null
      */
     private function resolveContext(ActionRequest $request, array $arguments, string $documentFieldName, ?string $targetFieldName = null): ?NeosContext
     {
@@ -59,13 +59,14 @@ final class FormSubmissionContextResolver
         );
 
         try {
+            /** @var NeosContext<Document,Document,Site> $context */
             $context = $contextProvider->provideContext();
         } catch (\Throwable) {
             return null;
         }
 
         if ($targetFieldName === null) {
-            return $context;
+            return null;
         }
 
         $serializedTargetNodeAddress = $arguments[$targetFieldName] ?? null;
@@ -83,7 +84,13 @@ final class FormSubmissionContextResolver
         if ($targetNode === null) {
             return null;
         }
+        $form = $this->nodeMapper->map($targetNode, $context->subgraph);
+        if (!$form instanceof Form) {
+            return null;
+        }
 
-        return $context->with(node: $targetNode);
+        return $context->with(
+            current: $form
+        );
     }
 }

@@ -16,15 +16,13 @@ use AltchaOrg\Altcha\VerifySolutionOptions;
 
 class AltchaService
 {
-    #[Flow\InjectConfiguration(path: 'Altcha.secret', package: 'Sitegeist.PaperTiger.CPX')]
-    protected string $secret;
-
     private readonly Altcha $altchaClient;
     private readonly Pbkdf2 $algorithm;
 
-    public function initializeObject(): void
-    {
-        $this->altchaClient = new Altcha($this->secret);
+    public function __construct(
+        string $secret,
+    ) {
+        $this->altchaClient = new Altcha($secret);
         $this->algorithm = new Pbkdf2();
     }
 
@@ -36,7 +34,7 @@ class AltchaService
         $options = new CreateChallengeOptions(
             algorithm: $this->algorithm,
             cost: $cost,
-            expiresAt: (new \DateTimeImmutable())->add($expires),
+            expiresAt: new \DateTimeImmutable()->add($expires),
         );
 
         return $this->altchaClient->createChallenge($options);

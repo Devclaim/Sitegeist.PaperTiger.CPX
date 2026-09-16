@@ -96,7 +96,7 @@ const ActionButtons = styled.div`
         width: 100%;
         font-size: 12px;
     }
-    
+
     .btn--action svg {
         margin-right: 8px;
     }
@@ -233,32 +233,32 @@ const EmailActionEditorComponent: React.FC<any> = (props) => {
                     <ActionRow key={index} dirty={isRowChanged}>
                         <ActionSummary>
                             <ActionLabel changed={isSubjectChanged}>
-                                {t('Sitegeist.PaperTiger.CPX:NodeTypes.Action.Email:editor.subject')}
+                                {t('Sitegeist.PaperTiger.CPX:NodeTypes.Action.EmailFormField:editor.subject')}
                             </ActionLabel>
                             <ActionValue changed={isSubjectChanged}>
-                                {formatInlineValue(entry.subject, t('Sitegeist.PaperTiger.CPX:NodeTypes.Action.Email:editor.notSet'))}
+                                {formatInlineValue(entry.subject, t('Sitegeist.PaperTiger.CPX:NodeTypes.Action.EmailFormField:editor.notSet'))}
                             </ActionValue>
                         </ActionSummary>
                         <ActionSummary>
-                            <ActionLabel changed={isSenderChanged}>{t('Sitegeist.PaperTiger.CPX:NodeTypes.Action.Email:editor.sender')}</ActionLabel>
+                            <ActionLabel changed={isSenderChanged}>{t('Sitegeist.PaperTiger.CPX:NodeTypes.Action.EmailFormField:editor.sender')}</ActionLabel>
                             <ActionValue changed={isSenderChanged}>
-                                {formatInlineValue(entry.senderAddress, t('Sitegeist.PaperTiger.CPX:NodeTypes.Action.Email:editor.notSet'))}
+                                {formatInlineValue(entry.senderAddress, t('Sitegeist.PaperTiger.CPX:NodeTypes.Action.EmailFormField:editor.notSet'))}
                             </ActionValue>
                         </ActionSummary>
                         <ActionSummary>
-                           <ActionLabel changed={isRecipientChanged}>{t('Sitegeist.PaperTiger.CPX:NodeTypes.Action.Email:editor.recipient')}</ActionLabel>
+                           <ActionLabel changed={isRecipientChanged}>{t('Sitegeist.PaperTiger.CPX:NodeTypes.Action.EmailFormField:editor.recipient')}</ActionLabel>
                             <ActionValue changed={isRecipientChanged}>
-                                {formatInlineValue(entry.recipientAddress, t('Sitegeist.PaperTiger.CPX:NodeTypes.Action.Email:editor.notSet'))}
+                                {formatInlineValue(entry.recipientAddress, t('Sitegeist.PaperTiger.CPX:NodeTypes.Action.EmailFormField:editor.notSet'))}
                             </ActionValue>
                         </ActionSummary>
                         <ActionButtons>
-                            <Button className='btn--action' onClick={() => handleEdit(index)} aria-label={t('Sitegeist.PaperTiger.CPX:NodeTypes.Action.Email:editor.edit')}>
+                            <Button className='btn--action' onClick={() => handleEdit(index)} aria-label={t('Sitegeist.PaperTiger.CPX:NodeTypes.Action.EmailFormField:editor.edit')}>
                                 <Icon icon="pencil" />
-                                {t('Sitegeist.PaperTiger.CPX:NodeTypes.Action.Email:editor.edit')}
+                                {t('Sitegeist.PaperTiger.CPX:NodeTypes.Action.EmailFormField:editor.edit')}
                             </Button>
-                            <Button className='btn--action' style='error' hoverStyle='error' onClick={() => handleDelete(index)} aria-label={t('Sitegeist.PaperTiger.CPX:NodeTypes.Action.Email:editor.delete')}>
+                            <Button className='btn--action' style='error' hoverStyle='error' onClick={() => handleDelete(index)} aria-label={t('Sitegeist.PaperTiger.CPX:NodeTypes.Action.EmailFormField:editor.delete')}>
                                 <Icon icon="trash" />
-                                {t('Sitegeist.PaperTiger.CPX:NodeTypes.Action.Email:editor.delete')}
+                                {t('Sitegeist.PaperTiger.CPX:NodeTypes.Action.EmailFormField:editor.delete')}
                             </Button>
                         </ActionButtons>
                     </ActionRow>
@@ -266,7 +266,7 @@ const EmailActionEditorComponent: React.FC<any> = (props) => {
             </ActionsList>
             <AddButton type="button" onClick={handleAdd}>
                 <Icon icon="plus" />
-                {t('Sitegeist.PaperTiger.CPX:NodeTypes.Action.Email:editor.addEmail')}
+                {t('Sitegeist.PaperTiger.CPX:NodeTypes.Action.EmailFormField:editor.addEmail')}
             </AddButton>
         </Container>
     );

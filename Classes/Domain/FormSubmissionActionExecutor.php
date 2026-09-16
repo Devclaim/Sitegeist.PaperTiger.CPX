@@ -4,11 +4,9 @@ declare(strict_types=1);
 
 namespace Sitegeist\PaperTiger\CPX\Domain;
 
-use Neos\ContentRepository\Core\SharedModel\Node\NodeAggregateId;
 use Neos\Flow\Mvc\ActionRequest;
 use Neos\Flow\Mvc\ActionResponse;
 use Neos\Flow\ObjectManagement\ObjectManagerInterface;
-use Neos\Neos\Domain\Link\Link;
 use PackageFactory\Neos\ComponentEngine\NeosContext;
 use Psr\Http\Message\UploadedFileInterface;
 use Sitegeist\PaperTiger\CPX\Domain\Action\ConfigurableActionInterface;
@@ -41,16 +39,15 @@ final class FormSubmissionActionExecutor
 
         $response = null;
 
-        $actionType = $this->readActionType($context);
-        if ($actionType === ActionType::MESSAGE) {
+        if ($context->current->actionType === ActionType::MESSAGE) {
             $message = $this->replaceTokens(
-                $context->nodes->getStringValue($context->node, 'message'),
+                $context->current->message->value,
                 $arguments
             );
             $this->messageAction->perform($request, $message);
         }
 
-        foreach ($this->readEmailActionSpecifications($context) as $emailAction) {
+        foreach ($context->current->emailAction as $emailAction) {
             $actionResponse = $this->performAction(
                 EmailAction::class,
                 $this->buildEmailActionOptionsFromSpecification($emailAction, $arguments),
@@ -60,11 +57,10 @@ final class FormSubmissionActionExecutor
             }
         }
 
-        $redirectUri = $this->readRedirectUri($context);
-        if ($actionType === ActionType::REDIRECT && is_string($redirectUri) && $redirectUri !== '') {
+        if ($context->current->actionType === ActionType::REDIRECT && $context->current->redirectAction) {
             $actionResponse = $this->performAction(
                 RedirectAction::class,
-                $this->buildRedirectActionOptions($context, $redirectUri, $arguments),
+                $this->buildRedirectActionOptions($context, (string)$context->current->redirectAction->href, $arguments),
             );
             if ($actionResponse instanceof ActionResponse) {
                 $response = $actionResponse;
@@ -72,41 +68,6 @@ final class FormSubmissionActionExecutor
         }
 
         return $response;
-    }
-
-    /**
-     * @return array<int, EmailActionSpecification>
-     */
-    private function readEmailActionSpecifications(NeosContext $context): array
-    {
-        $value = $context->node->getProperty('emailAction');
-        if (!is_array($value)) {
-            return [];
-        }
-
-        return array_values(array_filter(array_map(
-            static fn (mixed $entry): ?EmailActionSpecification => is_array($entry)
-                ? EmailActionSpecification::fromArray($entry)
-                : null,
-            $value,
-        )));
-    }
-
-    private function readRedirectUri(NeosContext $context): ?string
-    {
-        $value = $context->node->getProperty('redirectAction');
-
-        return match (true) {
-            $value instanceof Link => $value->href->__toString(),
-            is_string($value) => $value,
-            default => null,
-        };
-    }
-
-    private function readActionType(NeosContext $context): ActionType
-    {
-        $actionType = $context->nodes->getStringValue($context->node, 'actionType');
-        return ActionType::tryFrom((string)$actionType) ?? ActionType::MESSAGE;
     }
 
     /**
@@ -222,6 +183,9 @@ final class FormSubmissionActionExecutor
         return $uploads;
     }
 
+    /**
+     * @param array<string,mixed> $arguments
+     */
     private function resolveRedirectUri(NeosContext $context, array $arguments, ?string $uriValue): ?string
     {
         $uri = $this->replaceTokens($uriValue, $arguments);

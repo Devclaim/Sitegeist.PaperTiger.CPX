@@ -125,8 +125,8 @@ export const AddressBar: React.FC<AddressBarProps> = ({
                     value={getStringValue(entry.subject)}
                     onChange={(value: string) => onSetFieldValue('subject', value)}
                     onFocus={onFocusSubject}
-                    placeholder={t('Sitegeist.PaperTiger.CPX:NodeTypes.Action.Email:properties.subject')}
-                    aria-label={t('Sitegeist.PaperTiger.CPX:NodeTypes.Action.Email:properties.subject')}
+                    placeholder={t('Sitegeist.PaperTiger.CPX:NodeTypes.Action.EmailFormField:properties.subject')}
+                    aria-label={t('Sitegeist.PaperTiger.CPX:NodeTypes.Action.EmailFormField:properties.subject')}
                 />
             </AddressInputSlot>
             <AddressDivider aria-hidden="true" />
@@ -138,8 +138,8 @@ export const AddressBar: React.FC<AddressBarProps> = ({
                     )}
                     value={getStringValue(entry.senderAddress)}
                     onChange={(value: string) => onSetFieldValue('senderAddress', value)}
-                    placeholder={t('Sitegeist.PaperTiger.CPX:NodeTypes.Action.Email:editor.sender')}
-                    aria-label={t('Sitegeist.PaperTiger.CPX:NodeTypes.Action.Email:editor.sender')}
+                    placeholder={t('Sitegeist.PaperTiger.CPX:NodeTypes.Action.EmailFormField:editor.sender')}
+                    aria-label={t('Sitegeist.PaperTiger.CPX:NodeTypes.Action.EmailFormField:editor.sender')}
                 />
                 {fieldWarnings.senderAddress ? (
                     <span className="papertiger-inline-warning">
@@ -160,8 +160,8 @@ export const AddressBar: React.FC<AddressBarProps> = ({
                     )}
                     value={getStringValue(entry.recipientAddress)}
                     onChange={(value: string) => onSetFieldValue('recipientAddress', value)}
-                    placeholder={t('Sitegeist.PaperTiger.CPX:NodeTypes.Action.Email:editor.recipient')}
-                    aria-label={t('Sitegeist.PaperTiger.CPX:NodeTypes.Action.Email:editor.recipient')}
+                    placeholder={t('Sitegeist.PaperTiger.CPX:NodeTypes.Action.EmailFormField:editor.recipient')}
+                    aria-label={t('Sitegeist.PaperTiger.CPX:NodeTypes.Action.EmailFormField:editor.recipient')}
                 />
                 {fieldWarnings.recipientAddress ? (
                     <span className="papertiger-inline-warning">
@@ -174,8 +174,8 @@ export const AddressBar: React.FC<AddressBarProps> = ({
                     <IconButton
                         icon="ellipsis-h"
                         onClick={() => setPopoverOpen((open) => !open)}
-                        title={t('Sitegeist.PaperTiger.CPX:NodeTypes.Action.Email:editor.advancedSenderData')}
-                        aria-label={t('Sitegeist.PaperTiger.CPX:NodeTypes.Action.Email:editor.advancedSenderData')}
+                        title={t('Sitegeist.PaperTiger.CPX:NodeTypes.Action.EmailFormField:editor.advancedSenderData')}
+                        aria-label={t('Sitegeist.PaperTiger.CPX:NodeTypes.Action.EmailFormField:editor.advancedSenderData')}
                         aria-expanded={popoverOpen}
                         isActive={false}
                         style="lighter"
@@ -183,16 +183,16 @@ export const AddressBar: React.FC<AddressBarProps> = ({
                     />
                 </AddressPopoverToggle>
                 {popoverOpen && (
-                    <AddressPopover role="dialog" aria-label={t('Sitegeist.PaperTiger.CPX:NodeTypes.Action.Email:editor.advancedSenderData')}>
+                    <AddressPopover role="dialog" aria-label={t('Sitegeist.PaperTiger.CPX:NodeTypes.Action.EmailFormField:editor.advancedSenderData')}>
                         <AddressPopoverHeader>
                             <AddressPopoverTitle>
-                                {t('Sitegeist.PaperTiger.CPX:NodeTypes.Action.Email:editor.advancedSenderData')}
+                                {t('Sitegeist.PaperTiger.CPX:NodeTypes.Action.EmailFormField:editor.advancedSenderData')}
                             </AddressPopoverTitle>
                         </AddressPopoverHeader>
                         <AddressPopoverGrid>
                             <AddressPopoverField>
                                 <AddressPopoverFieldLabel>
-                                    {t('Sitegeist.PaperTiger.CPX:NodeTypes.Action.Email:properties.recipientName')}
+                                    {t('Sitegeist.PaperTiger.CPX:NodeTypes.Action.EmailFormField:properties.recipientName')}
                                 </AddressPopoverFieldLabel>
                                 <TextInput
                                     className={getInputClassName(
@@ -207,7 +207,7 @@ export const AddressBar: React.FC<AddressBarProps> = ({
                             </AddressPopoverField>
                             <AddressPopoverField>
                                 <AddressPopoverFieldLabel>
-                                    {t('Sitegeist.PaperTiger.CPX:NodeTypes.Action.Email:properties.senderName')}
+                                    {t('Sitegeist.PaperTiger.CPX:NodeTypes.Action.EmailFormField:properties.senderName')}
                                 </AddressPopoverFieldLabel>
                                 <TextInput
                                     className={getInputClassName(
@@ -295,7 +295,7 @@ export const AddressBar: React.FC<AddressBarProps> = ({
                                         'Attach uploads',
                                         {},
                                         'Sitegeist.PaperTiger.CPX',
-                                        'NodeTypes.Action.Email'
+                                        'NodeTypes.Action.EmailFormField'
                                     )}
                                 </CheckboxLabel>
                             </AddressPopoverField>

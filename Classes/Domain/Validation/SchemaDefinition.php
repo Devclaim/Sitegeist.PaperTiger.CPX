@@ -30,6 +30,10 @@ class SchemaDefinition implements SchemaInterface
      */
     protected array $errorMessageOverrides = [];
 
+    /**
+     * @param array<int, array{id: ?string, type: string, options: array<string, mixed>|null}> $validators
+     * @param array<int, array{class: string, option: string, value: mixed}> $typeConverterOptions
+     */
     public function __construct(
         protected readonly PropertyMapper $propertyMapper,
         protected readonly PropertyMappingConfiguration $propertyMappingConfiguration,
@@ -76,7 +80,7 @@ class SchemaDefinition implements SchemaInterface
     /**
      * Used by async validation descriptor generation.
      *
-     * @return list<array{id: ?string, type: string, options: array<string, mixed>|null}>
+     * @return array<int, array{id: ?string, type: string, options: array<string, mixed>|null}>
      */
     public function getValidators(): array
     {
@@ -124,9 +128,7 @@ class SchemaDefinition implements SchemaInterface
     public function overrideErrorMessages(array $codes, string $message): static
     {
         foreach ($codes as $code) {
-            if (is_int($code)) {
-                $this->overrideErrorMessage($code, $message);
-            }
+            $this->overrideErrorMessage($code, $message);
         }
         return $this;
     }

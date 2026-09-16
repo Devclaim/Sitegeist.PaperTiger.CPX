@@ -29,8 +29,9 @@ final readonly class Form implements _\ComponentInterface
         );
     }
 
+    #[\Override]
     public function render(): string
     {
-        return '<form id="' . _\Util::escapeAttributeValue($this->form->id) . '" class="papertiger-form__element"' . (($temp = $this->form->formMode) === null ? '' : ' data-form-mode="' . _\Util::escapeAttributeValue($temp->value) . '"') . '' . (($temp = $this->form->action) === null ? '' : ' action="' . _\Util::escapeAttributeValue($temp) . '"') . '' . (($temp = $this->form->method) === null ? '' : ' method="' . _\Util::escapeAttributeValue($temp) . '"') . '' . (($temp = $this->form->noValidate) === null ? '' : ($temp ? ' novalidate' : '')) . ' enctype="multipart/form-data" data-__neos-insertion-anchor>' . (($temp = $this->error) === null ? '' : $temp->render()) . '' . (($temp = $this->content) === null ? '' : $temp->render()) . '</form>';
+        return '<form id="' . _\Util::escapeAttributeValue($this->form->id) . '" class="papertiger-form__element"' . ((($temp = $this->form->formMode) === null) ? '' : ' data-form-mode="' . $temp->asAttributeValue() . '"') . ((($temp = $this->form->action) === null) ? '' : ' action="' . _\Util::escapeAttributeValue($temp) . '"') . ((($temp = $this->form->method) === null) ? '' : ' method="' . _\Util::escapeAttributeValue($temp) . '"') . ((($temp = $this->form->noValidate) === null) ? '' : ($temp ? ' novalidate' : '')) . ' enctype="multipart/form-data" data-__neos-insertion-anchor>' . ((($temp = $this->error) === null) ? '' : $temp->render()) . ((($temp = $this->content) === null) ? '' : $temp->render()) . '</form>';
     }
 }

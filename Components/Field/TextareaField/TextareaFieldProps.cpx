@@ -6,9 +6,9 @@ export struct TextareaFieldProps {
   value: ?string
   placeholder: ?string
   isRequired: ?boolean
-  lineNumber: ?number
-  minimumLength: ?number
-  maximumLength: ?number
+  lineNumber: ?integer
+  minimumLength: ?integer
+  maximumLength: ?integer
   customErrorMessageEnabled: ?boolean
   customErrorMessage: ?string
 }

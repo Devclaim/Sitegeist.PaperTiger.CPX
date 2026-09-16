@@ -25,8 +25,9 @@ final readonly class MessageActionPreview implements _\ComponentInterface
         );
     }
 
+    #[\Override]
     public function render(): string
     {
-        return '<div data-message-action-preview="' . _\Util::escapeAttributeValue($this->formId) . '" hidden>' . (($temp = $this->content) === null ? '' : $temp->render()) . '</div>';
+        return '<div data-message-action-preview="' . _\Util::escapeAttributeValue($this->formId) . '" hidden>' . ((($temp = $this->content) === null) ? '' : $temp->render()) . '</div>';
     }
 }

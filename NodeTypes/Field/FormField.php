@@ -9,6 +9,7 @@ use PackageFactory\OPGM\Domain\NodeType\NodeTypeDeclaration;
 use PackageFactory\OPGM\NeosAdapter\NodeTypeDeclaration\InspectorGroupDeclaration;
 use PackageFactory\OPGM\NeosAdapter\NodeTypeDeclaration\InspectorTabDeclaration;
 use PackageFactory\OPGM\NeosAdapter\NodeTypes\NeosLabelProvider;
+use Sitegeist\PaperTiger\CPX\Domain\Validation\SchemaDefinition;
 use Sitegeist\PaperTiger\CPX\NodeTypes\Mixin\NameProvider;
 
 #[NodeTypeDeclaration]
@@ -38,5 +39,10 @@ use Sitegeist\PaperTiger\CPX\NodeTypes\Mixin\NameProvider;
 )]
 interface FormField extends Content, FieldConstraint, NameProvider, NeosLabelProvider
 {
+    public function getSchemaTargetType(): string;
+
+    public function requiresArrayOfSchema(): bool;
+
+    public function applyToSchema(SchemaDefinition $schema): SchemaDefinition;
 }
 

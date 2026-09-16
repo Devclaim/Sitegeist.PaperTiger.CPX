@@ -24,8 +24,9 @@ final readonly class RadioGroupField implements _\ComponentInterface
         );
     }
 
+    #[\Override]
     public function render(): string
     {
-        return '<div class="papertiger-field__options papertiger-field__options--radios">' . (($temp = $this->content) === null ? '' : $temp->render()) . '</div>';
+        return '<div class="papertiger-field__options papertiger-field__options--radios">' . ((($temp = $this->content) === null) ? '' : $temp->render()) . '</div>';
     }
 }

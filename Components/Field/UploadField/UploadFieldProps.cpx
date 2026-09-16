@@ -7,7 +7,7 @@ export struct UploadFieldProps {
   isRequired: ?boolean
   accept: ?string
   allowedExtensions: ?string
-  allowedFilesize: ?number
+  allowedFilesize: ?integer
   customErrorMessageEnabled: ?boolean
   customErrorMessage: ?string
 }

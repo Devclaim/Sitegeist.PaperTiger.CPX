@@ -20,7 +20,7 @@ final readonly class InputFieldProps
         public ?string $minimumLength,
         public ?string $maximumLength,
         public ?string $regularExpression,
-        public ?string $step,
+        public ?int $step,
         public ?bool $customErrorMessageEnabled,
         public ?string $customErrorMessage,
     ) {
@@ -36,7 +36,7 @@ final readonly class InputFieldProps
         ?string $minimumLength,
         ?string $maximumLength,
         ?string $regularExpression,
-        ?string $step,
+        ?int $step,
         ?bool $customErrorMessageEnabled,
         ?string $customErrorMessage,
     ): self {

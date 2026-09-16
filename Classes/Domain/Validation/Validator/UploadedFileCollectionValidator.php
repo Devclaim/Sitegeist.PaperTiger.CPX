@@ -46,7 +46,7 @@ final class UploadedFileCollectionValidator extends AbstractValidator
             $result = $validator->validate($item);
             if ($result->hasErrors()) {
                 foreach ($result->getErrors() as $error) {
-                    $this->result->forProperty((string)$index)->addError($error);
+                    $this->getResult()?->forProperty((string)$index)->addError($error);
                 }
             }
         }

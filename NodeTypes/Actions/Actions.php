@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Sitegeist\PaperTiger\CPX\NodeTypes\Actions;
 
 use Neos\Neos\Domain\Link\Link;
+use Neos\Neos\Domain\Property\EditableText;
 use PackageFactory\OPGM\Domain\NodeType\NodeTypeDeclaration;
 use PackageFactory\OPGM\NeosAdapter\NodeTypeDeclaration\InspectorGroupDeclaration;
 use PackageFactory\OPGM\NeosAdapter\PropertyDeclaration\Editor\AssetLinkOptions;
@@ -83,14 +84,14 @@ interface Actions
         )
     )]
     #[PaperTigerFieldTokensConfiguration]
-    public ?string $message {get;}
+    public EditableText $message {get;}
     #[PropertyUiConfiguration(
         label: 'Sitegeist.PaperTiger.CPX:NodeTypes.Action:builtInTypes.email',
         reloadIfChanged: true,
     )]
     #[InspectorConfiguration(group: 'actions-email', position: 10)]
     #[EmailActionEditorConfiguration]
-    /** @var Sitegeist\PaperTiger\CPX\Domain\Action\Specification\EmailActionSpecification[] */
+    /** @var \Sitegeist\PaperTiger\CPX\Domain\Action\Specification\EmailActionSpecification[] $emailAction */
     public array $emailAction {get;}
     #[PropertyUiConfiguration(
         label: 'Sitegeist.PaperTiger.CPX:NodeTypes.Action:builtInTypes.redirect',

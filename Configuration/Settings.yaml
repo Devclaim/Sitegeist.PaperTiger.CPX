@@ -4,21 +4,6 @@ Sitegeist:
       components: { }
       asyncValidation:
         ruleProviders: [ ]
-      validation:
-        schemaProviders:
-          'Sitegeist.PaperTiger.CPX:Field.Email': 'Sitegeist\PaperTiger\CPX\Domain\Validation\Schema\EmailFieldSchemaProvider'
-          'Sitegeist.PaperTiger.CPX:Field.Number': 'Sitegeist\PaperTiger\CPX\Domain\Validation\Schema\NumberFieldSchemaProvider'
-          'Sitegeist.PaperTiger.CPX:Field.Slider': 'Sitegeist\PaperTiger\CPX\Domain\Validation\Schema\SliderFieldSchemaProvider'
-          'Sitegeist.PaperTiger.CPX:Field.Date': 'Sitegeist\PaperTiger\CPX\Domain\Validation\Schema\DateFieldSchemaProvider'
-          'Sitegeist.PaperTiger.CPX:Field.Dropdown': 'Sitegeist\PaperTiger\CPX\Domain\Validation\Schema\DropdownFieldSchemaProvider'
-          'Sitegeist.PaperTiger.CPX:Field.CheckBoxes': 'Sitegeist\PaperTiger\CPX\Domain\Validation\Schema\CheckBoxesFieldSchemaProvider'
-          'Sitegeist.PaperTiger.CPX:Field.RadioButtons': 'Sitegeist\PaperTiger\CPX\Domain\Validation\Schema\RadioButtonsFieldSchemaProvider'
-          'Sitegeist.PaperTiger.CPX:Field.Text.SingleLine': 'Sitegeist\PaperTiger\CPX\Domain\Validation\Schema\TextSingleLineFieldSchemaProvider'
-          'Sitegeist.PaperTiger.CPX:Field.Text.MultiLine': 'Sitegeist\PaperTiger\CPX\Domain\Validation\Schema\TextMultiLineFieldSchemaProvider'
-          'Sitegeist.PaperTiger.CPX:Field.TelephoneNumber': 'Sitegeist\PaperTiger\CPX\Domain\Validation\Schema\TelephoneNumberFieldSchemaProvider'
-          'Sitegeist.PaperTiger.CPX:Field.Hidden': 'Sitegeist\PaperTiger\CPX\Domain\Validation\Schema\HiddenFieldSchemaProvider'
-          'Sitegeist.PaperTiger.CPX:Field.Upload': 'Sitegeist\PaperTiger\CPX\Domain\Validation\Schema\UploadFieldSchemaProvider'
-          'Sitegeist.PaperTiger.CPX:Field.Altcha': 'Sitegeist\PaperTiger\CPX\Domain\Validation\Schema\AltchaFieldSchemaProvider'
       Altcha:
         secret: ''
   SchemeOnYou:

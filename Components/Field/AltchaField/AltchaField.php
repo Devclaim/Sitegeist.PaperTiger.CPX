@@ -23,8 +23,9 @@ final readonly class AltchaField implements _\ComponentInterface
         );
     }
 
+    #[\Override]
     public function render(): string
     {
-        return '<altcha-widget class="papertiger-field__control--altcha" auto="onfocus" display="standard"' . (($temp = $this->field->challengeUrl) === null ? '' : ' challenge="' . _\Util::escapeAttributeValue($temp) . '"') . '' . (($temp = $this->field->name) === null ? '' : ' name="' . _\Util::escapeAttributeValue($temp) . '"') . '></altcha-widget>';
+        return '<altcha-widget class="papertiger-field__control--altcha" auto="onfocus" display="standard"' . ((($temp = $this->field->challengeUrl) === null) ? '' : ' challenge="' . _\Util::escapeAttributeValue($temp) . '"') . ((($temp = $this->field->name) === null) ? '' : ' name="' . _\Util::escapeAttributeValue($temp) . '"') . '></altcha-widget>';
     }
 }

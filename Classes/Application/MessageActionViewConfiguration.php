@@ -18,12 +18,12 @@ final readonly class MessageActionViewConfiguration implements NodeTypeConfigura
             'ui' => [
                 'inspector' => [
                     'views' => [
-                        'messageActionEditor' => array_filter([
+                        'messageActionEditor' => [
                             'label' => 'Sitegeist.PaperTiger.CPX:NodeTypes.Action.Message:views.messageActionEditor.label',
                             'group' => 'actions-message',
                             'position' => 'end',
                             'view' => 'Sitegeist.PaperTiger.CPX/Inspector/Views/MessageActionEditor',
-                        ])
+                        ]
                     ]
                 ]
             ]

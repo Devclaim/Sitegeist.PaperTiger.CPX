@@ -156,14 +156,14 @@ export const PreviewPane = React.memo((props: PreviewPaneProps) => {
         <Pane>
             <PaneHeader>
                 <PaneHeaderGroup>
-                    <PaneTitle>{t('Sitegeist.PaperTiger.CPX:NodeTypes.Action.Email:preview.title')}</PaneTitle>
+                    <PaneTitle>{t('Sitegeist.PaperTiger.CPX:NodeTypes.Action.EmailFormField:preview.title')}</PaneTitle>
                     {showCompatBadge && (
                         <CompatBadge
                             type="button"
                             status={statusFromScore(compatibilityScore as number)}
                             onClick={onShowCompatibility}
-                            title={t('Sitegeist.PaperTiger.CPX:NodeTypes.Action.Email:preview.showCompatibility')}
-                            aria-label={t('Sitegeist.PaperTiger.CPX:NodeTypes.Action.Email:preview.showCompatibility')}
+                            title={t('Sitegeist.PaperTiger.CPX:NodeTypes.Action.EmailFormField:preview.showCompatibility')}
+                            aria-label={t('Sitegeist.PaperTiger.CPX:NodeTypes.Action.EmailFormField:preview.showCompatibility')}
                         >
                             {compatibilityScore}%
                         </CompatBadge>
@@ -190,7 +190,7 @@ export const PreviewPane = React.memo((props: PreviewPaneProps) => {
                         <DeviceToggle
                             $activeIndex={Math.max(0, DEVICE_ORDER.indexOf(device))}
                             role="group"
-                            aria-label={t('Sitegeist.PaperTiger.CPX:NodeTypes.Action.Email:preview.device')}
+                            aria-label={t('Sitegeist.PaperTiger.CPX:NodeTypes.Action.EmailFormField:preview.device')}
                         >
                             {DEVICE_ORDER.map((mode) => (
                                 <DeviceToggleButton
@@ -257,7 +257,7 @@ export const PreviewPane = React.memo((props: PreviewPaneProps) => {
             {format === 'html' ? (
                 <PreviewFrameStage>
                     <PreviewFrame
-                        title={t('Sitegeist.PaperTiger.CPX:NodeTypes.Action.Email:preview.htmlFrameTitle')}
+                        title={t('Sitegeist.PaperTiger.CPX:NodeTypes.Action.EmailFormField:preview.htmlFrameTitle')}
                         srcDoc={transformedMarkup}
                         $maxWidth={DEVICE_MAX_WIDTH[device]}
                     />

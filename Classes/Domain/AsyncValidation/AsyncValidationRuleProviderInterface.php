@@ -4,8 +4,7 @@ declare(strict_types=1);
 
 namespace Sitegeist\PaperTiger\CPX\Domain\AsyncValidation;
 
-use Neos\ContentRepository\Core\Projection\ContentGraph\Node;
-use PackageFactory\Neos\ComponentEngine\NeosContext;
+use Sitegeist\PaperTiger\CPX\NodeTypes\Field\FormField;
 
 interface AsyncValidationRuleProviderInterface
 {
@@ -16,6 +15,6 @@ interface AsyncValidationRuleProviderInterface
      *
      * @return list<array<string, mixed>>
      */
-    public function forField(NeosContext $context, Node $fieldNode): array;
+    public function forField(FormField $field): array;
 }
 

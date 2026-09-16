@@ -23,8 +23,9 @@ final readonly class Error implements _\ComponentInterface
         );
     }
 
+    #[\Override]
     public function render(): string
     {
-        return '<p class="papertiger-error">' . _\Util::escapeRenderValue($this->error->message) . '</p>';
+        return '<p class="papertiger-error">' . _\Util::escapeText($this->error->message) . '</p>';
     }
 }
