@@ -128,6 +128,42 @@
       <trans-unit id="validationError.uploadSize" xml:space="preserve">
         <source>The selected file is too large.</source>
       </trans-unit>
+      <trans-unit id="validation.numberRange.group" xml:space="preserve">
+        <source>Validation - Number range</source>
+      </trans-unit>
+      <trans-unit id="validation.numberRange.minimum" xml:space="preserve">
+        <source>Minimum value</source>
+      </trans-unit>
+      <trans-unit id="validation.numberRange.maximum" xml:space="preserve">
+        <source>Maximum value</source>
+      </trans-unit>
+      <trans-unit id="text" xml:space="preserve">
+        <source>Text</source>
+      </trans-unit>
+      <trans-unit id="html" xml:space="preserve">
+        <source>HTML</source>
+      </trans-unit>
+      <trans-unit id="option.addItem" xml:space="preserve">
+        <source>Create option</source>
+      </trans-unit>
+      <trans-unit id="option.label" xml:space="preserve">
+        <source>Label</source>
+      </trans-unit>
+      <trans-unit id="option.value" xml:space="preserve">
+        <source>Value</source>
+      </trans-unit>
+      <trans-unit id="option.labelRequired" xml:space="preserve">
+        <source>Label is required</source>
+      </trans-unit>
+      <trans-unit id="option.valueRequired" xml:space="preserve">
+        <source>Value is required</source>
+      </trans-unit>
+      <trans-unit id="email.addressRequired" xml:space="preserve">
+        <source>Required email address.</source>
+      </trans-unit>
+      <trans-unit id="email.addressInvalid" xml:space="preserve">
+        <source>Invalid email address.</source>
+      </trans-unit>
     </body>
   </file>
 </xliff>

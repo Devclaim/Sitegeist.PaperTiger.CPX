@@ -73,6 +73,12 @@ const DEVICE_ICON: Record<DeviceMode, string> = {
 
 const DEVICE_ORDER: readonly DeviceMode[] = ['phone', 'tablet', 'desktop'];
 
+const DEVICE_FALLBACK_LABEL: Record<DeviceMode, string> = {
+    phone: 'Phone',
+    tablet: 'Tablet',
+    desktop: 'Desktop'
+};
+
 const THEME_ORDER: readonly PreviewTheme[] = ['light', 'dark'];
 
 const THEME_FALLBACK_LABEL: Record<PreviewTheme, string> = {
@@ -190,7 +196,10 @@ export const PreviewPane = React.memo((props: PreviewPaneProps) => {
                         <DeviceToggle
                             $activeIndex={Math.max(0, DEVICE_ORDER.indexOf(device))}
                             role="group"
-                            aria-label={t('Sitegeist.PaperTiger.CPX:NodeTypes.Action.EmailFormField:preview.device')}
+                            aria-label={t(
+                                'Sitegeist.PaperTiger.CPX:NodeTypes.Action.EmailFormField:preview.device',
+                                'Preview device'
+                            )}
                         >
                             {DEVICE_ORDER.map((mode) => (
                                 <DeviceToggleButton
@@ -198,10 +207,12 @@ export const PreviewPane = React.memo((props: PreviewPaneProps) => {
                                     type="button"
                                     onClick={() => setDevice(mode)}
                                     title={t(
-                                        `Sitegeist.PaperTiger.CPX:NodeTypes.Action.Email:preview.device.${mode}`
+                                        `Sitegeist.PaperTiger.CPX:NodeTypes.Action.EmailFormField:preview.device.${mode}`,
+                                        DEVICE_FALLBACK_LABEL[mode]
                                     )}
                                     aria-label={t(
-                                        `Sitegeist.PaperTiger.CPX:NodeTypes.Action.Email:preview.device.${mode}`
+                                        `Sitegeist.PaperTiger.CPX:NodeTypes.Action.EmailFormField:preview.device.${mode}`,
+                                        DEVICE_FALLBACK_LABEL[mode]
                                     )}
                                     aria-pressed={device === mode}
                                 >
@@ -215,11 +226,8 @@ export const PreviewPane = React.memo((props: PreviewPaneProps) => {
                             $activeIndex={Math.max(0, THEME_ORDER.indexOf(theme))}
                             role="group"
                             aria-label={t(
-                                'theme',
-                                'Theme',
-                                {},
-                                'Sitegeist.PaperTiger.CPX',
-                                'Main'
+                                'Sitegeist.PaperTiger.CPX:NodeTypes.Action.EmailFormField:preview.theme',
+                                'Theme'
                             )}
                         >
                             {THEME_ORDER.map((mode) => (
@@ -232,18 +240,12 @@ export const PreviewPane = React.memo((props: PreviewPaneProps) => {
                                         )
                                     }
                                     title={t(
-                                        mode,
-                                        THEME_FALLBACK_LABEL[mode],
-                                        {},
-                                        'Sitegeist.PaperTiger.CPX',
-                                        'Main'
+                                        `Sitegeist.PaperTiger.CPX:NodeTypes.Action.EmailFormField:preview.${mode}`,
+                                        THEME_FALLBACK_LABEL[mode]
                                     )}
                                     aria-label={t(
-                                        mode,
-                                        THEME_FALLBACK_LABEL[mode],
-                                        {},
-                                        'Sitegeist.PaperTiger.CPX',
-                                        'Main'
+                                        `Sitegeist.PaperTiger.CPX:NodeTypes.Action.EmailFormField:preview.${mode}`,
+                                        THEME_FALLBACK_LABEL[mode]
                                     )}
                                     aria-pressed={theme === mode}
                                 >

@@ -8,6 +8,15 @@
       <trans-unit id="groups.form" xml:space="preserve">
         <source>Form</source>
       </trans-unit>
+      <trans-unit id="properties.formMode" xml:space="preserve">
+        <source>Form mode</source>
+      </trans-unit>
+      <trans-unit id="properties.formMode.selectBoxEditor.values.standard" xml:space="preserve">
+        <source>Standard (page reload)</source>
+      </trans-unit>
+      <trans-unit id="properties.formMode.selectBoxEditor.values.async" xml:space="preserve">
+        <source>Asynchronous (no page reload)</source>
+      </trans-unit>
     </body>
   </file>
 </xliff>

@@ -51,7 +51,7 @@
         <target>Eigene Fehlermeldung verwenden</target>
       </trans-unit>
       <trans-unit id="validation.required.group" xml:space="preserve">
-        <source>Required</source>
+        <source>Validation - Required</source>
         <target>Validierung - Pflichtfeld</target>
       </trans-unit>
       <trans-unit id="validation.required.isRequired" xml:space="preserve">
@@ -63,7 +63,7 @@
         <target>Pflichtfeld-Fehlermeldung</target>
       </trans-unit>
       <trans-unit id="validation.length.group" xml:space="preserve">
-        <source>Length</source>
+        <source>Validation - Length</source>
         <target>Validierung - Länge</target>
       </trans-unit>
       <trans-unit id="validation.length.minimum" xml:space="preserve">
@@ -79,7 +79,7 @@
         <target>Längen-Fehlermeldung</target>
       </trans-unit>
       <trans-unit id="validation.pattern.group" xml:space="preserve">
-        <source>Pattern</source>
+        <source>Validation - Pattern</source>
         <target>Validierung - Muster</target>
       </trans-unit>
       <trans-unit id="validation.pattern.regularExpression" xml:space="preserve">
@@ -91,15 +91,15 @@
         <target>Muster-Fehlermeldung</target>
       </trans-unit>
       <trans-unit id="validation.popup.group" xml:space="preserve">
-        <source>Validation - Browser popup</source>
+        <source>Error popup</source>
         <target>Natives Error-Popup</target>
       </trans-unit>
       <trans-unit id="validation.popup.useCustomMessage" xml:space="preserve">
-        <source>Use custom browser popup message</source>
+        <source>Use custom error popup message</source>
         <target>Eigene Fehlermeldung im Popup verwenden</target>
       </trans-unit>
       <trans-unit id="validation.popup.message" xml:space="preserve">
-        <source>Browser popup message</source>
+        <source>Error popup message</source>
         <target>Fehlermeldung im Popup</target>
       </trans-unit>
       <trans-unit id="validation.upload.allowedExtensions" xml:space="preserve">
@@ -169,6 +169,54 @@
       <trans-unit id="validationError.uploadSize" xml:space="preserve">
         <source>The selected file is too large.</source>
         <target>Die ausgewaehlte Datei ist zu gross.</target>
+      </trans-unit>
+      <trans-unit id="validation.numberRange.group" xml:space="preserve">
+        <source>Validation - Number range</source>
+        <target>Validierung - Zahlenbereich</target>
+      </trans-unit>
+      <trans-unit id="validation.numberRange.minimum" xml:space="preserve">
+        <source>Minimum value</source>
+        <target>Minimaler Wert</target>
+      </trans-unit>
+      <trans-unit id="validation.numberRange.maximum" xml:space="preserve">
+        <source>Maximum value</source>
+        <target>Maximaler Wert</target>
+      </trans-unit>
+      <trans-unit id="text" xml:space="preserve">
+        <source>Text</source>
+        <target>Text</target>
+      </trans-unit>
+      <trans-unit id="html" xml:space="preserve">
+        <source>HTML</source>
+        <target>HTML</target>
+      </trans-unit>
+      <trans-unit id="option.addItem" xml:space="preserve">
+        <source>Create option</source>
+        <target>Option anlegen</target>
+      </trans-unit>
+      <trans-unit id="option.label" xml:space="preserve">
+        <source>Label</source>
+        <target>Beschriftung</target>
+      </trans-unit>
+      <trans-unit id="option.value" xml:space="preserve">
+        <source>Value</source>
+        <target>Wert</target>
+      </trans-unit>
+      <trans-unit id="option.labelRequired" xml:space="preserve">
+        <source>Label is required</source>
+        <target>Beschriftung ist erforderlich</target>
+      </trans-unit>
+      <trans-unit id="option.valueRequired" xml:space="preserve">
+        <source>Value is required</source>
+        <target>Wert ist erforderlich</target>
+      </trans-unit>
+      <trans-unit id="email.addressRequired" xml:space="preserve">
+        <source>Required email address.</source>
+        <target>E-Mail-Adresse erforderlich.</target>
+      </trans-unit>
+      <trans-unit id="email.addressInvalid" xml:space="preserve">
+        <source>Invalid email address.</source>
+        <target>Ungültige E-Mail-Adresse.</target>
       </trans-unit>
     </body>
   </file>

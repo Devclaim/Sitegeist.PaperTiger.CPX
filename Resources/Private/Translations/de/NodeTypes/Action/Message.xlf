@@ -7,7 +7,7 @@
         <target>Nachricht anzeigen</target>
       </trans-unit>
       <trans-unit id="views.messageActionEditor.label" xml:space="preserve">
-        <source>Switch between form and message.</source>
+        <source>Switch between form and message to edit the message.</source>
         <target>Zum Bearbeiten der Nachricht zwischen Formular und Nachricht wechseln.</target>
       </trans-unit>
       <trans-unit id="properties.messagePlaceholder" xml:space="preserve">

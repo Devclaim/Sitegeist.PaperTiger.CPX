@@ -143,7 +143,7 @@ export const AddressBar: React.FC<AddressBarProps> = ({
                 />
                 {fieldWarnings.senderAddress ? (
                     <span className="papertiger-inline-warning">
-                        <Tooltip renderInline asWarning>{fieldWarnings.senderAddress}</Tooltip>
+                        <Tooltip renderInline asWarning>{t(fieldWarnings.senderAddress)}</Tooltip>
                     </span>
                 ) : null}
             </AddressInputSlot>
@@ -165,7 +165,7 @@ export const AddressBar: React.FC<AddressBarProps> = ({
                 />
                 {fieldWarnings.recipientAddress ? (
                     <span className="papertiger-inline-warning">
-                        <Tooltip renderInline asWarning>{fieldWarnings.recipientAddress}</Tooltip>
+                        <Tooltip renderInline asWarning>{t(fieldWarnings.recipientAddress)}</Tooltip>
                     </span>
                 ) : null}
             </AddressInputSlot>
@@ -234,7 +234,7 @@ export const AddressBar: React.FC<AddressBarProps> = ({
                                 />
                                 {fieldWarnings.replyToAddress ? (
                                     <span className="papertiger-inline-warning">
-                                        <Tooltip renderInline asWarning>{fieldWarnings.replyToAddress}</Tooltip>
+                                        <Tooltip renderInline asWarning>{t(fieldWarnings.replyToAddress)}</Tooltip>
                                     </span>
                                 ) : null}
                             </AddressPopoverField>
@@ -252,7 +252,7 @@ export const AddressBar: React.FC<AddressBarProps> = ({
                                 />
                                 {fieldWarnings.carbonCopyAddress ? (
                                     <span className="papertiger-inline-warning">
-                                        <Tooltip renderInline asWarning>{fieldWarnings.carbonCopyAddress}</Tooltip>
+                                        <Tooltip renderInline asWarning>{t(fieldWarnings.carbonCopyAddress)}</Tooltip>
                                     </span>
                                 ) : null}
                             </AddressPopoverField>
@@ -273,7 +273,7 @@ export const AddressBar: React.FC<AddressBarProps> = ({
                                 />
                                 {fieldWarnings.blindCarbonCopyAddress ? (
                                     <span className="papertiger-inline-warning">
-                                        <Tooltip renderInline asWarning>{fieldWarnings.blindCarbonCopyAddress}</Tooltip>
+                                        <Tooltip renderInline asWarning>{t(fieldWarnings.blindCarbonCopyAddress)}</Tooltip>
                                     </span>
                                 ) : null}
                             </AddressPopoverField>

@@ -20,7 +20,7 @@ use Sitegeist\PaperTiger\CPX\NodeTypes\Field\FormFieldProperties;
     ]),
 )]
 #[NodeTypeUiConfiguration(
-    label: 'Altcha (Captcha)',
+    label: 'i18n',
     icon: 'wrench',
     group: 'form.special',
     position: 10,

@@ -3,7 +3,10 @@
   <file original="" product-name="Sitegeist.PaperTiger.CPX" source-language="en" datatype="plaintext">
     <body>
       <trans-unit id="ui.label" xml:space="preserve">
-        <source>Button</source>
+        <source>Text (multiline)</source>
+      </trans-unit>
+      <trans-unit id="properties.lineNumber" xml:space="preserve">
+        <source>Number of lines</source>
       </trans-unit>
     </body>
   </file>

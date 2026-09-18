@@ -6,6 +6,7 @@ namespace Sitegeist\PaperTiger\CPX\NodeTypes\Field\RadioButtonsFormField;
 
 use Neos\Flow\Annotations as Flow;
 use PackageFactory\OPGM\Domain\NodeType\NodeTypeDeclaration;
+use PackageFactory\OPGM\NeosAdapter\NodeTypeDeclaration\NodeTypeUiConfiguration;
 use Sitegeist\PaperTiger\CPX\Domain\Validation\SchemaDefinition;
 use Sitegeist\PaperTiger\CPX\NodeTypes\Mixin\CustomErrorMessageProperties;
 use Sitegeist\PaperTiger\CPX\NodeTypes\Field\FormField;
@@ -16,6 +17,12 @@ use Sitegeist\PaperTiger\CPX\NodeTypes\Mixin\Validation\RequiredValidationProper
 use Sitegeist\PaperTiger\CPX\NodeTypes\Mixin\Validation\RequiredValidationProvider;
 
 #[NodeTypeDeclaration]
+#[NodeTypeUiConfiguration(
+    label: 'i18n',
+    icon: 'icon-dot-circle',
+    group: 'form.elements',
+    position: 800,
+)]
 #[Flow\Proxy(false)]
 readonly class RadioButtonsFormField implements
     FormField,

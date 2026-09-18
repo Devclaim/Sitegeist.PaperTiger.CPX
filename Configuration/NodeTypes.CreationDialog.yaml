@@ -1,0 +1,254 @@
+#
+# Trim the node creation dialogs for the form node types down to the fields that
+# actually need editor input (name / label / value).
+#
+# PackageFactory.OPGM's RequiredPropertyUiPropertyConfigurationEnhancer flags every
+# non-nullable property without a default value with `ui.showInCreationDialog: true`.
+# For properties whose default is reachable through DefaultPropertyValuesExtractor
+# (own or trait constructor defaults) ObjectPropertyGraphMapper substitutes that default
+# instead of null, so the dialog entry is redundant and can be suppressed.
+#
+# Properties WITHOUT a reachable default - name, label, value - deliberately keep their
+# dialog entry: without it the mapper receives null and the constructor throws a TypeError.
+#
+# Loaded after NodeTypes/ and after the reflection-derived configuration, so it wins.
+#
+'Sitegeist.PaperTiger.CPX:Actions':
+  properties:
+    actionType:
+      ui:
+        showInCreationDialog: false
+
+'Sitegeist.PaperTiger.CPX:Field.CheckBoxesFormField':
+  properties:
+    customErrorMessageEnabled:
+      ui:
+        showInCreationDialog: false
+    isRequired:
+      ui:
+        showInCreationDialog: false
+    requiredUseCustomMessage:
+      ui:
+        showInCreationDialog: false
+
+'Sitegeist.PaperTiger.CPX:Field.DateFormField':
+  properties:
+    customErrorMessageEnabled:
+      ui:
+        showInCreationDialog: false
+    dateRangeUseCustomMessage:
+      ui:
+        showInCreationDialog: false
+    isRequired:
+      ui:
+        showInCreationDialog: false
+    requiredUseCustomMessage:
+      ui:
+        showInCreationDialog: false
+
+'Sitegeist.PaperTiger.CPX:Field.DropdownFormField':
+  properties:
+    customErrorMessageEnabled:
+      ui:
+        showInCreationDialog: false
+    emptyOptionEnabled:
+      ui:
+        showInCreationDialog: false
+    isMultiple:
+      ui:
+        showInCreationDialog: false
+    isRequired:
+      ui:
+        showInCreationDialog: false
+    requiredUseCustomMessage:
+      ui:
+        showInCreationDialog: false
+
+'Sitegeist.PaperTiger.CPX:Field.EmailFormField':
+  properties:
+    customErrorMessageEnabled:
+      ui:
+        showInCreationDialog: false
+    isMultiple:
+      ui:
+        showInCreationDialog: false
+    isRequired:
+      ui:
+        showInCreationDialog: false
+    requiredUseCustomMessage:
+      ui:
+        showInCreationDialog: false
+
+'Sitegeist.PaperTiger.CPX:Field.NumberFormField':
+  properties:
+    customErrorMessageEnabled:
+      ui:
+        showInCreationDialog: false
+    isRequired:
+      ui:
+        showInCreationDialog: false
+    requiredUseCustomMessage:
+      ui:
+        showInCreationDialog: false
+
+'Sitegeist.PaperTiger.CPX:Field.RadioButtonsFormField':
+  properties:
+    customErrorMessageEnabled:
+      ui:
+        showInCreationDialog: false
+    isRequired:
+      ui:
+        showInCreationDialog: false
+    requiredUseCustomMessage:
+      ui:
+        showInCreationDialog: false
+
+'Sitegeist.PaperTiger.CPX:Field.SliderFormField':
+  properties:
+    customErrorMessageEnabled:
+      ui:
+        showInCreationDialog: false
+    isRequired:
+      ui:
+        showInCreationDialog: false
+    requiredUseCustomMessage:
+      ui:
+        showInCreationDialog: false
+    stepValue:
+      ui:
+        showInCreationDialog: false
+
+'Sitegeist.PaperTiger.CPX:Field.TelephoneFormField':
+  properties:
+    customErrorMessageEnabled:
+      ui:
+        showInCreationDialog: false
+    isRequired:
+      ui:
+        showInCreationDialog: false
+    patternUseCustomMessage:
+      ui:
+        showInCreationDialog: false
+    requiredUseCustomMessage:
+      ui:
+        showInCreationDialog: false
+
+'Sitegeist.PaperTiger.CPX:Field.Text.MultiLineTextFormField':
+  properties:
+    customErrorMessageEnabled:
+      ui:
+        showInCreationDialog: false
+    isRequired:
+      ui:
+        showInCreationDialog: false
+    lengthUseCustomMessage:
+      ui:
+        showInCreationDialog: false
+    requiredUseCustomMessage:
+      ui:
+        showInCreationDialog: false
+
+'Sitegeist.PaperTiger.CPX:Field.Text.SingleLineTextFormField':
+  properties:
+    customErrorMessageEnabled:
+      ui:
+        showInCreationDialog: false
+    isRequired:
+      ui:
+        showInCreationDialog: false
+    lengthUseCustomMessage:
+      ui:
+        showInCreationDialog: false
+    patternUseCustomMessage:
+      ui:
+        showInCreationDialog: false
+    requiredUseCustomMessage:
+      ui:
+        showInCreationDialog: false
+
+'Sitegeist.PaperTiger.CPX:Field.UploadFormField':
+  properties:
+    customErrorMessageEnabled:
+      ui:
+        showInCreationDialog: false
+    isMultiple:
+      ui:
+        showInCreationDialog: false
+    isRequired:
+      ui:
+        showInCreationDialog: false
+    requiredUseCustomMessage:
+      ui:
+        showInCreationDialog: false
+    uploadSizeUseCustomMessage:
+      ui:
+        showInCreationDialog: false
+    uploadTypeUseCustomMessage:
+      ui:
+        showInCreationDialog: false
+
+'Sitegeist.PaperTiger.CPX:Form':
+  properties:
+    actionType:
+      ui:
+        showInCreationDialog: false
+
+'Sitegeist.PaperTiger.CPX:Mixin.CustomErrorMessageProvider':
+  properties:
+    customErrorMessageEnabled:
+      ui:
+        showInCreationDialog: false
+
+'Sitegeist.PaperTiger.CPX:Mixin.Field.DropdownProvider':
+  properties:
+    emptyOptionEnabled:
+      ui:
+        showInCreationDialog: false
+
+'Sitegeist.PaperTiger.CPX:Mixin.Field.SliderConfigurationProvider':
+  properties:
+    stepValue:
+      ui:
+        showInCreationDialog: false
+
+'Sitegeist.PaperTiger.CPX:Mixin.IsMultipleProvider':
+  properties:
+    isMultiple:
+      ui:
+        showInCreationDialog: false
+
+'Sitegeist.PaperTiger.CPX:Mixin.Validation.DateRangeValidationProvider':
+  properties:
+    dateRangeUseCustomMessage:
+      ui:
+        showInCreationDialog: false
+
+'Sitegeist.PaperTiger.CPX:Mixin.Validation.PatternValidationProvider':
+  properties:
+    patternUseCustomMessage:
+      ui:
+        showInCreationDialog: false
+
+'Sitegeist.PaperTiger.CPX:Mixin.Validation.RequiredValidationProvider':
+  properties:
+    isRequired:
+      ui:
+        showInCreationDialog: false
+    requiredUseCustomMessage:
+      ui:
+        showInCreationDialog: false
+
+'Sitegeist.PaperTiger.CPX:Mixin.Validation.StringLengthValidationProvider':
+  properties:
+    lengthUseCustomMessage:
+      ui:
+        showInCreationDialog: false
+
+'Sitegeist.PaperTiger.CPX:Mixin.Validation.UploadValidationProvider':
+  properties:
+    uploadSizeUseCustomMessage:
+      ui:
+        showInCreationDialog: false
+    uploadTypeUseCustomMessage:
+      ui:
+        showInCreationDialog: false

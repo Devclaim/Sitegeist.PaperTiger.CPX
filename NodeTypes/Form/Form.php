@@ -56,7 +56,7 @@ readonly class Form extends ContentCollection implements Content, Actions
             internationalize: true,
         )]
         #[PropertyUiConfiguration(
-            label: 'Form mode',
+            label: 'i18n',
             reloadIfChanged: true,
         )]
         #[InspectorConfiguration(

@@ -10,6 +10,18 @@
         <source>Form</source>
         <target>Formular</target>
       </trans-unit>
+      <trans-unit id="properties.formMode" xml:space="preserve">
+        <source>Form mode</source>
+        <target>Formular-Modus</target>
+      </trans-unit>
+      <trans-unit id="properties.formMode.selectBoxEditor.values.standard" xml:space="preserve">
+        <source>Standard (page reload)</source>
+        <target>Standard (Seitenneuladen)</target>
+      </trans-unit>
+      <trans-unit id="properties.formMode.selectBoxEditor.values.async" xml:space="preserve">
+        <source>Asynchronous (no page reload)</source>
+        <target>Asynchron (ohne Seitenneuladen)</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

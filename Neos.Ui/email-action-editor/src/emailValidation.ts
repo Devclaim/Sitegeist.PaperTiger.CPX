@@ -1,5 +1,6 @@
 export type EmailValidationResult = {
     isValid: boolean;
+    /** values are translation ids, not display strings */
     fieldWarnings: Record<string, string | undefined>;
 };
 
@@ -7,6 +8,12 @@ const EMAIL_FIELDS_REQUIRED = ['senderAddress', 'recipientAddress'] as const;
 const EMAIL_FIELDS_OPTIONAL = ['replyToAddress', 'carbonCopyAddress', 'blindCarbonCopyAddress'] as const;
 
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+/**
+ * Translation ids - resolved where the warning is rendered.
+ */
+export const EMAIL_ADDRESS_REQUIRED = 'Sitegeist.PaperTiger.CPX:Main:email.addressRequired';
+export const EMAIL_ADDRESS_INVALID = 'Sitegeist.PaperTiger.CPX:Main:email.addressInvalid';
 
 const splitEmails = (value: string): string[] =>
     value
@@ -23,11 +30,11 @@ export const validateEmailEntry = (entry: Record<string, unknown>): EmailValidat
     for (const field of EMAIL_FIELDS_REQUIRED) {
         const value = typeof entry[field] === 'string' ? entry[field].trim() : '';
         if (!value) {
-            fieldWarnings[field] = 'Required email address.';
+            fieldWarnings[field] = EMAIL_ADDRESS_REQUIRED;
             continue;
         }
         if (hasInvalidEmails(value)) {
-            fieldWarnings[field] = 'Invalid email address.';
+            fieldWarnings[field] = EMAIL_ADDRESS_INVALID;
         }
     }
 
@@ -37,7 +44,7 @@ export const validateEmailEntry = (entry: Record<string, unknown>): EmailValidat
             continue;
         }
         if (hasInvalidEmails(value)) {
-            fieldWarnings[field] = 'Invalid email address.';
+            fieldWarnings[field] = EMAIL_ADDRESS_INVALID;
         }
     }
 

@@ -6,7 +6,7 @@ Sitegeist.PaperTiger.CPX:Mixin.Options:
       ui:
         label: i18n
         reloadIfChanged: true
-        showInCreationDialog: true
+        showInCreationDialog: false
         inspector:
           group: form
           editor: Sitegeist.InspectorGadget/Inspector/Editor
@@ -16,5 +16,4 @@ Sitegeist.PaperTiger.CPX:Mixin.Options:
             # class does not exit ¯\_(ツ)_/¯
             itemType: Sitegeist\PaperTiger\Domain\OptionSpecification
             labels:
-              # TODO: Not translatable
-              addItem: 'Create option'
+              addItem: 'Sitegeist.PaperTiger.CPX:Main:option.addItem'

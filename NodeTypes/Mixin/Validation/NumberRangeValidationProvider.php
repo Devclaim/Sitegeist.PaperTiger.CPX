@@ -20,12 +20,12 @@ use PackageFactory\OPGM\NeosAdapter\PropertyDeclaration\PropertyUiConfiguration;
 interface NumberRangeValidationProvider
 {
     #[PropertyUiConfiguration(
-        label: 'Sitegeist.PaperTiger.CPX:Main:validation.dateRange.earliestDate',
+        label: 'Sitegeist.PaperTiger.CPX:Main:validation.numberRange.minimum',
     )]
     #[InspectorConfiguration(group: 'form-validation-number-range')]
     public ?int $minimumValue {get;}
 
-    #[PropertyUiConfiguration(label: 'i18n')]
+    #[PropertyUiConfiguration(label: 'Sitegeist.PaperTiger.CPX:Main:validation.numberRange.maximum')]
     #[InspectorConfiguration(group: 'form-validation-number-range')]
     public ?int $maximumValue {get;}
 }
