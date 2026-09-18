@@ -5,6 +5,48 @@
       <trans-unit id="ui.label" xml:space="preserve">
         <source>Altcha (Captcha)</source>
       </trans-unit>
+      <trans-unit id="properties.display" xml:space="preserve">
+        <source>Display mode</source>
+      </trans-unit>
+      <trans-unit id="properties.display.selectBoxEditor.values.standard" xml:space="preserve">
+        <source>Standard (inline)</source>
+      </trans-unit>
+      <trans-unit id="properties.display.selectBoxEditor.values.invisible" xml:space="preserve">
+        <source>Invisible</source>
+      </trans-unit>
+      <trans-unit id="properties.auto" xml:space="preserve">
+        <source>Verify automatically</source>
+      </trans-unit>
+      <trans-unit id="properties.auto.selectBoxEditor.values.off" xml:space="preserve">
+        <source>Off (on interaction)</source>
+      </trans-unit>
+      <trans-unit id="properties.auto.selectBoxEditor.values.onfocus" xml:space="preserve">
+        <source>When the form is focused</source>
+      </trans-unit>
+      <trans-unit id="properties.auto.selectBoxEditor.values.onload" xml:space="preserve">
+        <source>On page load</source>
+      </trans-unit>
+      <trans-unit id="properties.auto.selectBoxEditor.values.onsubmit" xml:space="preserve">
+        <source>On submit</source>
+      </trans-unit>
+      <trans-unit id="properties.type" xml:space="preserve">
+        <source>Interaction element</source>
+      </trans-unit>
+      <trans-unit id="properties.type.selectBoxEditor.values.native" xml:space="preserve">
+        <source>Native checkbox</source>
+      </trans-unit>
+      <trans-unit id="properties.type.selectBoxEditor.values.checkbox" xml:space="preserve">
+        <source>Styled checkbox</source>
+      </trans-unit>
+      <trans-unit id="properties.type.selectBoxEditor.values.switch" xml:space="preserve">
+        <source>Switch</source>
+      </trans-unit>
+      <trans-unit id="properties.hideFooter" xml:space="preserve">
+        <source>Hide the ALTCHA footer</source>
+      </trans-unit>
+      <trans-unit id="properties.hideLogo" xml:space="preserve">
+        <source>Hide the ALTCHA logo</source>
+      </trans-unit>
     </body>
   </file>
 </xliff>

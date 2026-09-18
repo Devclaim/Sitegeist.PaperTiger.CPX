@@ -6,6 +6,62 @@
         <source>Altcha (Captcha)</source>
         <target>Altcha (Captcha)</target>
       </trans-unit>
+      <trans-unit id="properties.display" xml:space="preserve">
+        <source>Display mode</source>
+        <target>Darstellung</target>
+      </trans-unit>
+      <trans-unit id="properties.display.selectBoxEditor.values.standard" xml:space="preserve">
+        <source>Standard (inline)</source>
+        <target>Standard (inline)</target>
+      </trans-unit>
+      <trans-unit id="properties.display.selectBoxEditor.values.invisible" xml:space="preserve">
+        <source>Invisible</source>
+        <target>Unsichtbar</target>
+      </trans-unit>
+      <trans-unit id="properties.auto" xml:space="preserve">
+        <source>Verify automatically</source>
+        <target>Automatisch verifizieren</target>
+      </trans-unit>
+      <trans-unit id="properties.auto.selectBoxEditor.values.off" xml:space="preserve">
+        <source>Off (on interaction)</source>
+        <target>Aus (bei Interaktion)</target>
+      </trans-unit>
+      <trans-unit id="properties.auto.selectBoxEditor.values.onfocus" xml:space="preserve">
+        <source>When the form is focused</source>
+        <target>Beim Fokussieren des Formulars</target>
+      </trans-unit>
+      <trans-unit id="properties.auto.selectBoxEditor.values.onload" xml:space="preserve">
+        <source>On page load</source>
+        <target>Beim Laden der Seite</target>
+      </trans-unit>
+      <trans-unit id="properties.auto.selectBoxEditor.values.onsubmit" xml:space="preserve">
+        <source>On submit</source>
+        <target>Beim Absenden</target>
+      </trans-unit>
+      <trans-unit id="properties.type" xml:space="preserve">
+        <source>Interaction element</source>
+        <target>Interaktionselement</target>
+      </trans-unit>
+      <trans-unit id="properties.type.selectBoxEditor.values.native" xml:space="preserve">
+        <source>Native checkbox</source>
+        <target>Native Checkbox</target>
+      </trans-unit>
+      <trans-unit id="properties.type.selectBoxEditor.values.checkbox" xml:space="preserve">
+        <source>Styled checkbox</source>
+        <target>Gestaltete Checkbox</target>
+      </trans-unit>
+      <trans-unit id="properties.type.selectBoxEditor.values.switch" xml:space="preserve">
+        <source>Switch</source>
+        <target>Schalter</target>
+      </trans-unit>
+      <trans-unit id="properties.hideFooter" xml:space="preserve">
+        <source>Hide the ALTCHA footer</source>
+        <target>ALTCHA-Fußzeile ausblenden</target>
+      </trans-unit>
+      <trans-unit id="properties.hideLogo" xml:space="preserve">
+        <source>Hide the ALTCHA logo</source>
+        <target>ALTCHA-Logo ausblenden</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

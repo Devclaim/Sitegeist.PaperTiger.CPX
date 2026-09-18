@@ -26,6 +26,23 @@ final class AltchaFormFieldRenderer implements ContentNodeRendererInterface
     ) {
     }
 
+    /**
+     * ALTCHA options that are not element attributes travel in the widget's JSON
+     * `configuration` attribute. Returns null when there is nothing to configure, so the
+     * attribute is left out of the markup entirely.
+     */
+    private function buildConfiguration(AltchaFormField $field): ?string
+    {
+        $configuration = array_filter([
+            'hideFooter' => $field->hideFooter,
+            'hideLogo' => $field->hideLogo,
+        ]);
+
+        return $configuration === []
+            ? null
+            : json_encode($configuration, JSON_THROW_ON_ERROR);
+    }
+
     public function renderAsContent(NeosContext $context): ComponentInterface
     {
         return $this->fieldContainerFactory->create(
@@ -36,6 +53,10 @@ final class AltchaFormFieldRenderer implements ContentNodeRendererInterface
                         name: $context->current->name,
                         /** @todo actually resolve URI */
                         challengeUrl: '/altcha',
+                        auto: $context->current->auto->value,
+                        display: $context->current->display->value,
+                        type: $context->current->type->value,
+                        configuration: $this->buildConfiguration($context->current),
                     ),
                 ),
                 $this->resourceFactory->publicScriptTag(

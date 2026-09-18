@@ -15,7 +15,7 @@ use PackageFactory\OPGM\Domain\NodeType\NodeTypeConstraintsDeclaration;
 use PackageFactory\OPGM\Domain\NodeType\NodeTypeDeclaration;
 use PackageFactory\OPGM\NeosAdapter\NodeTypeDeclaration\InspectorGroupDeclaration;
 use PackageFactory\OPGM\NeosAdapter\NodeTypeDeclaration\NodeTypeUiConfiguration;
-use PackageFactory\OPGM\NeosAdapter\PropertyDeclaration\Editor\SelectBoxEditor\EnumSelectBoxEditorConfiguration;
+use PackageFactory\OPGM\NeosAdapter\PropertyDeclaration\Editor\SelectBoxEditor\SelectBoxEditorConfiguration;
 use PackageFactory\OPGM\NeosAdapter\PropertyDeclaration\HelpOptions;
 use PackageFactory\OPGM\NeosAdapter\PropertyDeclaration\InspectorConfiguration;
 use PackageFactory\OPGM\NeosAdapter\PropertyDeclaration\PropertyUiConfiguration;
@@ -53,8 +53,15 @@ readonly class Form extends ContentCollection implements Content, Actions
         #[ChildRelationDeclaration]
         public FormFields $fields,
         public EditableText $message,
-        #[EnumSelectBoxEditorConfiguration(
-            labelMethod: 'getSelectBoxEditorLabel',
+        #[SelectBoxEditorConfiguration(
+            values: [
+                'standard' => [
+                    'label' => 'Sitegeist.PaperTiger.CPX:NodeTypes.Form:properties.formMode.selectBoxEditor.values.standard',
+                ],
+                'async' => [
+                    'label' => 'Sitegeist.PaperTiger.CPX:NodeTypes.Form:properties.formMode.selectBoxEditor.values.async',
+                ],
+            ],
         )]
         #[PropertyUiConfiguration(
             label: 'Sitegeist.PaperTiger.CPX:NodeTypes.Form:properties.formMode',

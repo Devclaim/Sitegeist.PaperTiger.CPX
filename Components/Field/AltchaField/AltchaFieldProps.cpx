@@ -1,4 +1,8 @@
 export struct AltchaFieldProps {
   name: ?string
   challengeUrl: ?string
+  auto: ?string
+  display: ?string
+  type: ?string
+  configuration: ?string
 }

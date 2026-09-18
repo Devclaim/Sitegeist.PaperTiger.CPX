@@ -5,8 +5,10 @@ export component AltchaField {
 
   render <altcha-widget
     class="papertiger-field__control--altcha"
-    auto="onfocus"
-    display="standard"
+    auto={field.auto}
+    display={field.display}
+    type={field.type}
+    configuration={field.configuration}
     challenge={field.challengeUrl}
     name={field.name}
   ></altcha-widget>
