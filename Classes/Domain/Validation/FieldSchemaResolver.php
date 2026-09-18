@@ -38,6 +38,8 @@ final class FieldSchemaResolver
             $field->getSchemaTargetType(),
         );
 
+        $schema = $field->applyToSchema($schema);
+
         $schema = $field->requiresArrayOfSchema()
             ? new ArrayOfSchemaDefinition(
                 $this->propertyMapper,

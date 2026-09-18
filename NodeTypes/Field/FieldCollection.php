@@ -32,7 +32,7 @@ readonly class FieldCollection extends ContentCollection
     public function findFieldsRecursively(): array
     {
         $result = [];
-        foreach ($this->fields as $field) {
+        foreach (FormFields::fromNodeChildren($this->node, $this->subgraph) as $field) {
             if ($field instanceof FormField) {
                 $result[] = $field;
             }
