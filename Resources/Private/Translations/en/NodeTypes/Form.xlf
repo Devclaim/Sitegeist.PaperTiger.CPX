@@ -12,10 +12,13 @@
         <source>Form mode</source>
       </trans-unit>
       <trans-unit id="properties.formMode.selectBoxEditor.values.standard" xml:space="preserve">
-        <source>Standard (page reload)</source>
+        <source>Standard</source>
       </trans-unit>
       <trans-unit id="properties.formMode.selectBoxEditor.values.async" xml:space="preserve">
-        <source>Asynchronous (no page reload)</source>
+        <source>Asynchronous</source>
+      </trans-unit>
+      <trans-unit id="properties.formMode.ui.help.message" xml:space="preserve">
+        <source>Standard submits the form with a regular page reload. Asynchronous submits it in the background: validation errors and the confirmation message appear without reloading the page.</source>
       </trans-unit>
     </body>
   </file>

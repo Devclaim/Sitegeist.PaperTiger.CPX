@@ -15,12 +15,16 @@
         <target>Formular-Modus</target>
       </trans-unit>
       <trans-unit id="properties.formMode.selectBoxEditor.values.standard" xml:space="preserve">
-        <source>Standard (page reload)</source>
-        <target>Standard (Seitenneuladen)</target>
+        <source>Standard</source>
+        <target>Standard</target>
       </trans-unit>
       <trans-unit id="properties.formMode.selectBoxEditor.values.async" xml:space="preserve">
-        <source>Asynchronous (no page reload)</source>
-        <target>Asynchron (ohne Seitenneuladen)</target>
+        <source>Asynchronous</source>
+        <target>Asynchron</target>
+      </trans-unit>
+      <trans-unit id="properties.formMode.ui.help.message" xml:space="preserve">
+        <source>Standard submits the form with a regular page reload. Asynchronous submits it in the background: validation errors and the confirmation message appear without reloading the page.</source>
+        <target>Standard versendet das Formular mit einem regulären Seitenneuladen. Asynchron versendet es im Hintergrund: Validierungsfehler und die Bestätigungsmeldung erscheinen ohne Neuladen der Seite.</target>
       </trans-unit>
     </body>
   </file>
