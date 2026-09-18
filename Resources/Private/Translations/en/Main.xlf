@@ -164,6 +164,9 @@
       <trans-unit id="email.addressInvalid" xml:space="preserve">
         <source>Invalid email address.</source>
       </trans-unit>
+      <trans-unit id="email.subjectRequired" xml:space="preserve">
+        <source>A subject is required.</source>
+      </trans-unit>
     </body>
   </file>
 </xliff>

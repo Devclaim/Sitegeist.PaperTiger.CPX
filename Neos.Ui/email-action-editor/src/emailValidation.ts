@@ -5,6 +5,7 @@ export type EmailValidationResult = {
 };
 
 const EMAIL_FIELDS_REQUIRED = ['senderAddress', 'recipientAddress'] as const;
+const TEXT_FIELDS_REQUIRED = ['subject'] as const;
 const EMAIL_FIELDS_OPTIONAL = ['replyToAddress', 'carbonCopyAddress', 'blindCarbonCopyAddress'] as const;
 
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -14,6 +15,7 @@ const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
  */
 export const EMAIL_ADDRESS_REQUIRED = 'Sitegeist.PaperTiger.CPX:Main:email.addressRequired';
 export const EMAIL_ADDRESS_INVALID = 'Sitegeist.PaperTiger.CPX:Main:email.addressInvalid';
+export const EMAIL_SUBJECT_REQUIRED = 'Sitegeist.PaperTiger.CPX:Main:email.subjectRequired';
 
 const splitEmails = (value: string): string[] =>
     value
@@ -26,6 +28,13 @@ const hasInvalidEmails = (value: string): boolean =>
 
 export const validateEmailEntry = (entry: Record<string, unknown>): EmailValidationResult => {
     const fieldWarnings: Record<string, string | undefined> = {};
+
+    for (const field of TEXT_FIELDS_REQUIRED) {
+        const value = typeof entry[field] === 'string' ? entry[field].trim() : '';
+        if (!value) {
+            fieldWarnings[field] = EMAIL_SUBJECT_REQUIRED;
+        }
+    }
 
     for (const field of EMAIL_FIELDS_REQUIRED) {
         const value = typeof entry[field] === 'string' ? entry[field].trim() : '';

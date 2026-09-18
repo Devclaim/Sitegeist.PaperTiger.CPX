@@ -218,6 +218,10 @@
         <source>Invalid email address.</source>
         <target>Ungültige E-Mail-Adresse.</target>
       </trans-unit>
+      <trans-unit id="email.subjectRequired" xml:space="preserve">
+        <source>A subject is required.</source>
+        <target>Ein Betreff ist erforderlich.</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

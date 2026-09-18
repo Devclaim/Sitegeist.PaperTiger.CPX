@@ -122,12 +122,21 @@ export const AddressBar: React.FC<AddressBarProps> = ({
             </AddressIcon>
             <AddressInputSlot $grow={1.6} $dirty={dirtyFields.subject === true || neosFieldHighlights.subject === true} ref={subjectSlotRef}>
                 <TextInput
+                    className={getInputClassName(
+                        dirtyFields.subject === true || neosFieldHighlights.subject === true,
+                        Boolean(fieldWarnings.subject)
+                    )}
                     value={getStringValue(entry.subject)}
                     onChange={(value: string) => onSetFieldValue('subject', value)}
                     onFocus={onFocusSubject}
                     placeholder={t('Sitegeist.PaperTiger.CPX:NodeTypes.Action.EmailFormField:properties.subject')}
                     aria-label={t('Sitegeist.PaperTiger.CPX:NodeTypes.Action.EmailFormField:properties.subject')}
                 />
+                {fieldWarnings.subject ? (
+                    <span className="papertiger-inline-warning">
+                        <Tooltip renderInline asWarning>{t(fieldWarnings.subject)}</Tooltip>
+                    </span>
+                ) : null}
             </AddressInputSlot>
             <AddressDivider aria-hidden="true" />
             <AddressInputSlot $dirty={dirtyFields.senderAddress === true || neosFieldHighlights.senderAddress === true}>
