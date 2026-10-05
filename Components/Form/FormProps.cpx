@@ -2,8 +2,8 @@ from "./FormMode.cpx" import { FormMode }
 
 export struct FormProps {
   id: string
-  action: ?string
-  method: ?string
-  noValidate: ?boolean
-  formMode: ?FormMode
+  action?: string
+  method?: string
+  noValidate?: boolean
+  formMode?: FormMode
 }

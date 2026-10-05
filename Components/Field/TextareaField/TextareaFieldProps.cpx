@@ -3,12 +3,12 @@ from "../../FieldContainer/FieldContainerProps.cpx" import { FieldContainerProps
 export struct TextareaFieldProps {
   fieldContainer: FieldContainerProps
   name: string
-  value: ?string
-  placeholder: ?string
-  isRequired: ?boolean
-  lineNumber: ?integer
-  minimumLength: ?integer
-  maximumLength: ?integer
-  customErrorMessageEnabled: ?boolean
-  customErrorMessage: ?string
+  value?: string
+  placeholder?: string
+  isRequired?: boolean
+  lineNumber?: integer
+  minimumLength?: integer
+  maximumLength?: integer
+  customErrorMessageEnabled?: boolean
+  customErrorMessage?: string
 }

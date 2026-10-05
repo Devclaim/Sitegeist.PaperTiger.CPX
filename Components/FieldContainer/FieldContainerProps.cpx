@@ -1,7 +1,7 @@
 export struct FieldContainerProps {
-  id: ?string
-  label: ?string
-  inputId: ?string
-  isRequired: ?boolean
-  hasErrors: ?boolean
+  id?: string
+  label?: string
+  inputId?: string
+  isRequired?: boolean
+  hasErrors?: boolean
 }

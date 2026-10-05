@@ -4,15 +4,15 @@ export struct InputFieldProps {
   fieldContainer: FieldContainerProps
   type: string
   name: string
-  value: ?string
-  placeholder: ?string
-  isRequired: ?boolean
+  value?: string
+  placeholder?: string
+  isRequired?: boolean
   /** @todo this is rather minimumValue */
-  minimumLength: ?string
+  minimumLength?: string
   /** @todo this is rather maximumValue */
-  maximumLength: ?string
-  regularExpression: ?string
-  step: ?integer
-  customErrorMessageEnabled: ?boolean
-  customErrorMessage: ?string
+  maximumLength?: string
+  regularExpression?: string
+  step?: integer
+  customErrorMessageEnabled?: boolean
+  customErrorMessage?: string
 }

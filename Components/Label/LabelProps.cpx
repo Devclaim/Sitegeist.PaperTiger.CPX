@@ -1,5 +1,5 @@
 export struct LabelProps {
-  inputId: ?string
-  label: ?string
-  isRequired: ?boolean
+  inputId?: string
+  label?: string
+  isRequired?: boolean
 }

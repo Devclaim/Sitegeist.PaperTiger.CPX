@@ -1,5 +1,5 @@
 export struct HiddenFieldProps {
   name: string
-  value: ?string
+  value?: string
   inBackend: boolean
 }
