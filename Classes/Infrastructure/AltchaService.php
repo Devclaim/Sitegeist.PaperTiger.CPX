@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace Sitegeist\PaperTiger\CPX\Infrastructure;
 
+use Neos\Cache\Frontend\StringFrontend;
 use Neos\Flow\Annotations as Flow;
+use Neos\Flow\Utility\Environment;
 use AltchaOrg\Altcha\Algorithm\Pbkdf2;
 use AltchaOrg\Altcha\Altcha;
 use AltchaOrg\Altcha\Challenge;
@@ -16,11 +18,21 @@ use AltchaOrg\Altcha\VerifySolutionOptions;
 
 class AltchaService
 {
+    /** challenges without expiry (not created by this service) are remembered this long */
+    private const DEFAULT_LIFETIME = 300;
+
     private readonly Altcha $altchaClient;
     private readonly Pbkdf2 $algorithm;
 
+    #[Flow\Inject]
+    protected Environment $environment;
+
+    /**
+     * @param StringFrontend $usedSolutions the signatures of solved challenges, see Caches.yaml
+     */
     public function __construct(
         string $secret,
+        private readonly StringFrontend $usedSolutions,
     ) {
         $this->altchaClient = new Altcha($secret);
         $this->algorithm = new Pbkdf2();
@@ -40,6 +52,10 @@ class AltchaService
         return $this->altchaClient->createChallenge($options);
     }
 
+    /**
+     * A valid solution of a challenge of this service, used for the first time: a solved challenge can be sent only
+     * once (otherwise one solution would let a bot send a form again and again until the challenge expires)
+     */
     public function verify(string $solution): bool
     {
         try {
@@ -50,10 +66,41 @@ class AltchaService
                     algorithm: $this->algorithm,
                 ),
             );
-
-            return $result->verified;
         } catch (\Throwable) {
             return false;
+        }
+
+        $signature = $payload->challenge->signature;
+        if (!$result->verified || $signature === null) {
+            return false;
+        }
+
+        return $this->markAsUsed($signature, $payload->challenge->parameters->expiresAt);
+    }
+
+    /**
+     * Remembers the signature until the challenge expires; false if it was used before. Checking and remembering
+     * happen under a lock, so of two requests with the same solution (on different PHP workers) only one gets it in.
+     */
+    private function markAsUsed(string $signature, int|float|null $expiresAt): bool
+    {
+        $identifier = sha1($signature);
+        $lifetime = $expiresAt !== null ? max(1, (int)ceil($expiresAt - time())) : self::DEFAULT_LIFETIME;
+
+        $lock = fopen($this->environment->getPathToTemporaryDirectory() . 'Sitegeist_PaperTiger_CPX_Altcha.lock', 'c');
+        if ($lock === false || !flock($lock, LOCK_EX)) {
+            return false;
+        }
+        try {
+            if ($this->usedSolutions->has($identifier)) {
+                return false;
+            }
+            $this->usedSolutions->set($identifier, '1', [], $lifetime);
+
+            return true;
+        } finally {
+            flock($lock, LOCK_UN);
+            fclose($lock);
         }
     }
 

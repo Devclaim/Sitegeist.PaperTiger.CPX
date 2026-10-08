@@ -1,0 +1,5 @@
+# The signatures of solved Altcha challenges until they expire: a solution is accepted only once
+# (AltchaService::verify). Shared by all PHP workers; with several servers use a shared backend (e.g. Redis).
+Sitegeist_PaperTiger_CPX_AltchaSolutions:
+  frontend: Neos\Cache\Frontend\StringFrontend
+  backend: Neos\Cache\Backend\FileBackend

@@ -2,3 +2,10 @@ Sitegeist\PaperTiger\CPX\Infrastructure\AltchaService:
   arguments:
     1:
       setting: 'Sitegeist.PaperTiger.CPX.Altcha.secret'
+    2:
+      object:
+        factoryObjectName: Neos\Flow\Cache\CacheManager
+        factoryMethodName: getCache
+        arguments:
+          1:
+            value: Sitegeist_PaperTiger_CPX_AltchaSolutions
